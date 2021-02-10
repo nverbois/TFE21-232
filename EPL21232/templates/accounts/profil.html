@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block content %}
+
+    <h1>
+        {{ user.get_full_name }} (@{{user.username}})
+    </h1>
+
+    {% with profil=user.profil %}
+        {% if profil %}
+            <h2>
+                {{ profil.persona|default:"" }}
+            </h2>
+            <div>
+                {{ profil.bio|default:"" }}
+            </div>
+            <div>
+                Other stuff
+            </div>
+            <br/>
+            <div>
+                Stations:
+                {% for station in profil.stations.all %}
+                    <span>
+                        {{ station.name }}{% if not forloop.last %}, {% endif %} 
+                    </span>
+                    {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+{% endblock %}
