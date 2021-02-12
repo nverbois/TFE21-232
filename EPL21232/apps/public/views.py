@@ -10,5 +10,5 @@ def about(request: HttpRequest) -> HttpResponse:
     return render(request, "àpropos.html")
 
 
-def données(request: HttpRequest) -> HttpResponse:
-    return render(request, "données.html")
+def data(request: HttpRequest) -> HttpResponse:
+    return render(request, "data.html")

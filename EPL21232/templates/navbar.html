@@ -1,21 +1,21 @@
 {% url 'public:index' as index_url %}
-{% url 'public:données' as données_url %}
+{% url 'public:data' as data_url %}
 {% url 'public:about' as about_url %} 
 <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="{{ index_url }}">Pluviométrie en Haïti</a>
-        <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold hs-bg-primary text-white rounded" href="main.css" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger {% if request.path == index_url %}active{% endif %}" href="{{ index_url }}">Accueil</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger {% if request.path == index_url %}active{% endif %}" href="{{ index_url }}">Accueil</a></li>
+
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger {% if request.path == data_url %}active{% endif %}" href="{{ data_url }}">Données et Statistiques</a></li>
                 
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger {% if request.path == données_url %}active{% endif %}" href="{{ données_url }}">Données et Statistiques</a></li>
-                
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger {% if request.path == about_url %}active{% endif %}" href="{{ about_url }}">A propos</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger {% if request.path == about_url %}active{% endif %}" href="{{ about_url }}">A propos</a></li>
             </ul>
         </div>
     </div>

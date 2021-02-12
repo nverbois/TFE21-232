@@ -7,3 +7,28 @@
       padding-top: calc(104px);
     }
 }
+
+.hs-bg-primary {
+  background-color:darkgray;
+}
+
+#mainNav .navbar-nav li.nav-item a.nav-link {
+  border-bottom: 2px solid transparent;
+  transition: border-bottom .2s, color .2s;
+}
+
+#mainNav .navbar-nav li.nav-item a.nav-link:hover {
+  color: #fff;
+  border-color: darkgray;
+}
+
+#mainNav .navbar-nav li.nav-item a.nav-link.active {
+  background: none;
+  color: #fff;
+  border-color: darkgray;
+}
+
+#mainNav .navbar-nav li.nav-item a.nav-link.active:hover {
+  color: darkgray;
+  background: none;
+}
