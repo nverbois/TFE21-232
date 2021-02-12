@@ -9,7 +9,7 @@
 }
 
 .hs-bg-primary {
-  background-color:darkgray;
+  background-color:rgb(201, 198, 198);
 }
 
 #mainNav .navbar-nav li.nav-item a.nav-link {
@@ -18,7 +18,7 @@
 }
 
 #mainNav .navbar-nav li.nav-item a.nav-link:hover {
-  color: #fff;
+  color: darkgray;
   border-color: darkgray;
 }
 
@@ -32,3 +32,49 @@
   color: darkgray;
   background: none;
 }
+
+
+.masthead {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+/* .masthead {
+  background-image: url("../img/");
+  background-repeat: no-repeat;
+  background-size: cover;
+} */
+
+.masthead .masthead-heading {
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+}
+
+.masthead .masthead-avatar {
+    width: 270px;
+    height: 270px;
+}
+
+@media (min-width: 992px) {
+  .masthead {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+  .masthead .masthead-heading {
+    font-size: 1.75rem;
+    line-height: 1.5rem;
+  }
+}
+
+.float-container {
+  border: 3px solid #fff;
+  padding: 20px;
+}
+
+.float-child {
+  width: 50%;
+  float: left;
+  padding: 20px;
+  text-align: justify;
+  /* border: 2px solid red; */
+}  

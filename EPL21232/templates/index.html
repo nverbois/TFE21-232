@@ -4,7 +4,41 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1>
-    Template page d'accueil
-</h1>
+
+<!-- Masthead-->
+<header class="masthead hs-bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <!-- Masthead Avatar Image-->
+        <img class="masthead-avatar mb-5" src="{% static 'img/logo.jpg' %}" alt="" />
+        <!-- Masthead Heading-->
+        <h1 class="masthead-heading text-uppercase mb-0">Annuaires des données et statistiques pluviométriques du pays</h1>
+    </div>
+</header>
+
+
+<div class="float-container">
+
+    <div class="float-child">
+      <div class="green">
+          <h5>
+          Bienvenue sur cette application web destinée à la gestion des données pluviométriques en Haïti. 
+          Sur ce site web, vous pourrez accéder aux différentes données et statistiques de pluie récoltées 
+          par les multiples stations pluviométriques dispersées à travers le pays. 
+          </h5>
+      </div>
+    </div>
+    
+    <div class="float-child">
+      <div class="blue">
+          <h5> 
+              Vous pouvez alors consulter l'onglet intitulé "Données et Statistiques" afin d'y retrouver 
+              toutes les informations que vous pourriez rechercher en matière de pluie. Il vous suffira 
+              simplement de sélectionner une région, pour ensuite pouvoir par exemple consulter les données
+              récoltées par certaines stations en particulier.
+          </h5>
+      </div>
+    </div>
+    
+</div>
+
 {% endblock %}
