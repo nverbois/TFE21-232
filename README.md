@@ -14,4 +14,4 @@ Pour démarrer le site web :
 
 FrontEnd : bootstrap with https://startbootstrap.com/theme/sb-admin-2
 
-Utilisation de Chart.js pour les graphes
+Utilisation de Chart.js pour les graphes en utilisant un CDN 
