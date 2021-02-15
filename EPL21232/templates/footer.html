@@ -1,0 +1,31 @@
+
+<!-- Footer-->
+<footer class="footer text-center">
+    <div class="container">
+        <div class="row">
+            <!-- Footer Location-->
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <h4 class="text-uppercase mb-4">Location</h4>
+                <p class="lead mb-0">
+                    12 rue de l'Hocaille
+                    <br />
+                    Belgique, Louvain-la-Neuve 1348
+                </p>
+            </div>
+            <!-- Empty column-->
+            <div class="col-lg-4">
+                
+            </div>
+            <!-- Footer Contact us-->
+            <div class="col-lg-4">
+                <h4 class="text-uppercase mb-4">Contactez nous</h4>
+                <p class="lead mb-0">
+                    Vous pouvez nous joindre en remplissant un formulaire ci-dessous
+                    {% url 'public:about' as about_url %} 
+                    <a href="{{ about_url }}">Contact</a>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

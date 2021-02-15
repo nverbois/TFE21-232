@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Home{% endblock %}
-
 {% block content %}
 
 <!-- Masthead-->
@@ -15,30 +13,49 @@
     </div>
 </header>
 
-
-<div class="float-container">
-
-    <div class="float-child">
-      <div class="green">
-          <h5>
-          Bienvenue sur cette application web destinée à la gestion des données pluviométriques en Haïti. 
-          Sur ce site web, vous pourrez accéder aux différentes données et statistiques de pluie récoltées 
-          par les multiples stations pluviométriques dispersées à travers le pays. 
-          </h5>
-      </div>
+<!-- Information Section-->
+<section class="page-section bg-primary-2 text-dark mb-0" id="information">
+    <div class="container">
+        <!-- Information Section Content-->
+        <div class="row">
+            <div class="col-lg-4 ml-auto"><p class="lead">Bienvenue sur cette application web destinée à la gestion des données pluviométriques en Haïti. 
+                Sur ce site web, vous pourrez accéder aux différentes données et statistiques de pluie récoltées 
+                par les multiples stations pluviométriques dispersées à travers le pays. </p></div>
+            <div class="col-lg-4 mr-auto"><p class="lead">Vous pouvez alors consulter l'onglet intitulé "Données et Statistiques" afin d'y retrouver 
+                toutes les informations que vous pourriez rechercher en matière de pluie. Il vous suffira 
+                simplement de sélectionner une région, pour ensuite pouvoir par exemple consulter les données
+                récoltées par certaines stations en particulier.</p></div>
+        </div>
     </div>
-    
-    <div class="float-child">
-      <div class="blue">
-          <h5> 
-              Vous pouvez alors consulter l'onglet intitulé "Données et Statistiques" afin d'y retrouver 
-              toutes les informations que vous pourriez rechercher en matière de pluie. Il vous suffira 
-              simplement de sélectionner une région, pour ensuite pouvoir par exemple consulter les données
-              récoltées par certaines stations en particulier.
-          </h5>
-      </div>
+</section>
+
+<!-- Old description 
+<section>
+    <div class="float-container">
+
+        <div class="float-child">
+        <div class="green">
+            <h5>
+            Bienvenue sur cette application web destinée à la gestion des données pluviométriques en Haïti. 
+            Sur ce site web, vous pourrez accéder aux différentes données et statistiques de pluie récoltées 
+            par les multiples stations pluviométriques dispersées à travers le pays. 
+            </h5>
+        </div>
+        </div>
+        
+        <div class="float-child">
+        <div class="blue">
+            <h5> 
+                Vous pouvez alors consulter l'onglet intitulé "Données et Statistiques" afin d'y retrouver 
+                toutes les informations que vous pourriez rechercher en matière de pluie. Il vous suffira 
+                simplement de sélectionner une région, pour ensuite pouvoir par exemple consulter les données
+                récoltées par certaines stations en particulier.
+            </h5>
+        </div>
+        </div>
+        
     </div>
-    
-</div>
+</section>
+-->
 
 {% endblock %}
