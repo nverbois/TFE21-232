@@ -5,7 +5,7 @@ from . import views
 
 app_name="accounts"
 urlpatterns = [
-    path("profil", views.ProfileView.as_view(), name="profil"),
+    path("profile", views.ProfileView.as_view(), name="profile"),
     # Django auth stuff
     path(
         "login",

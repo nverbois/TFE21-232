@@ -15,6 +15,7 @@
 #mainNav .navbar-nav li.nav-item a.nav-link {
   border-bottom: 2px solid transparent;
   transition: border-bottom .2s, color .2s;
+  font-size: 0.8rem;
 }
 
 #mainNav .navbar-nav li.nav-item a.nav-link:hover {
