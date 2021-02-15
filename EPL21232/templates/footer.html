@@ -18,11 +18,11 @@
             </div>
             <!-- Footer Contact us-->
             <div class="col-lg-4">
-                <h4 class="text-uppercase mb-4">Contactez nous</h4>
+                <h4 class="text-uppercase mb-4">Contactez-nous</h4>
                 <p class="lead mb-0">
                     Vous pouvez nous joindre en remplissant un formulaire ci-dessous
-                    {% url 'public:about' as about_url %} 
-                    <a href="{{ about_url }}">Contact</a>
+                    {% url 'contact:contact' as contact_url %} 
+                    <a href="{{ contact_url }}">Contact</a>
                     
                 </p>
             </div>

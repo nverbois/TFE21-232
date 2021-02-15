@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "EPL21232.apps.accounts",
+    "EPL21232.apps.contact",
 ]
 
 MIDDLEWARE = [

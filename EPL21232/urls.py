@@ -22,4 +22,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include('EPL21232.apps.public.urls')),  # root url
     path("accounts/", include('EPL21232.apps.accounts.urls')),
+    path("contact/", include('EPL21232.apps.contact.urls')),
 ]
