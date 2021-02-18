@@ -12,6 +12,6 @@ Pour démarrer le site web :
 - make compose-stop ( quand vous voulez terminer les containers docker qui tournent en fond )
 - make compose-manage-py cmd="createsuperuser" pour créer un super-utilisateur
 
-FrontEnd : bootstrap with https://startbootstrap.com/theme/sb-admin-2
+FrontEnd : bootstrap with https://startbootstrap.com/previews/freelancer
 
 Utilisation de Chart.js pour les graphes en utilisant un CDN 
