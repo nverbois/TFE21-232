@@ -11,6 +11,8 @@ Pour démarrer le site web :
 - make compose-start
 - make compose-stop ( quand vous voulez terminer les containers docker qui tournent en fond )
 - make compose-manage-py cmd="createsuperuser" pour créer un super-utilisateur
+- make compose-manage-py cmd="makemigrations" pour créer les migrations
+- make compose-manage-py cmd="migrate" pour appliquer les migrations
 
 FrontEnd : bootstrap with https://startbootstrap.com/previews/freelancer
 
