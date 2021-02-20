@@ -21,7 +21,13 @@
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger {% if request.path == about_url %}active{% endif %}" href="{{ about_url }}">A propos</a></li>
 
                 {% if user.is_authenticated %}
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger {% if request.path == profile_url %}active{% endif %}" href="{{ profile_url }}">Hi {{user.username}}!</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger {% if request.path == profile_url %}active{% endif %}" href="{{ profile_url }}">
+                        {% with profil=user.profil %}
+                            {% if profil %}
+                                {{ profil.firstname|default:"Utilisateurs" }}
+                            {% endif %}
+                        {% endwith %}
+                    </a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger {% if request.path == logout_url %}active{% endif %}" href="{{ logout_url }}">Logout</a></li>
                 {% else %}
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger {% if request.path == login_url %}active{% endif %}" href="{{ login_url }}">Login</a></li>
