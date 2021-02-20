@@ -17,3 +17,5 @@ Pour démarrer le site web :
 FrontEnd : bootstrap with https://startbootstrap.com/previews/freelancer
 
 Utilisation de Chart.js pour les graphes en utilisant un CDN 
+
+sudo docker-compose exec postgres psql -U postgres to lauch the dbshell
