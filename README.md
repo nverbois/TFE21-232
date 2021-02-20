@@ -19,3 +19,5 @@ FrontEnd : bootstrap with https://startbootstrap.com/previews/freelancer
 Utilisation de Chart.js pour les graphes en utilisant un CDN 
 
 sudo docker-compose exec postgres psql -U postgres to lauch the dbshell
+docker volume ls => list the docker volumes or databases
+docker volume rm "name of the database" to remove the DB
