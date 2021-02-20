@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "EPL21232.apps.contact",
 ]
 
+AUTH_USER_MODEL = 'accounts.User'
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
