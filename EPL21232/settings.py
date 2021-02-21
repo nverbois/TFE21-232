@@ -135,3 +135,6 @@ STATICFILES_DIRS = [
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "public:index"
 LOGOUT_REDIRECT_URL = "public:index"
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FROM_EMAIL = "nicolas.verbois@student.uclouvain.be"
