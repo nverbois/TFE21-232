@@ -1,3 +1,4 @@
 Django==3.1.6
 psycopg2-binary==2.8.6
 #gdal==3.2.1
+#django-easy-maps==1.1.2

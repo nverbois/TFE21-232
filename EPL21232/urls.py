@@ -24,4 +24,5 @@ urlpatterns = [
     path("accounts/", include('EPL21232.apps.accounts.urls')),
     path("contact/", include('EPL21232.apps.contact.urls')),
     path("data/", include('EPL21232.apps.data.urls')),
+    path("maps/", include('EPL21232.apps.maps.urls')),
 ]

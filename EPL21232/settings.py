@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "EPL21232.apps.contact",
     "EPL21232.apps.data",
     #"django.contrib.gis",
+    #'easy_maps',
+    "EPL21232.apps.maps",
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -140,3 +142,7 @@ LOGOUT_REDIRECT_URL = "public:index"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = "nicolas.verbois@student.uclouvain.be"
+
+#EASY_MAPS_GOOGLE_KEY = 'AIzaSyBw5el2x63SzKw4ZJvrKhGtFhpVsWMdThY'
+#EASY_MAPS_GOOGLE_KEY = 'AIzaSyBF0ZtmNCtXxfWcJiDCVJWcn3USNq_7K0s'
+#EASY_MAPS_CENTER = (-41.3, 32)
