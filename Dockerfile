@@ -3,6 +3,9 @@ FROM python:3.9.1-slim as production
 ENV PYTHONUNBUFFERED=1
 WORKDIR /app/ 
 
+# RUN apt-get update && apt-get install --yes libgdal-dev
+# RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal
+# RUN export C_INCLUDE_PATH=/usr/include/gdal
 
 COPY requirements/prod.txt ./requirements/prod.txt
 RUN pip install -r ./requirements/prod.txt

@@ -23,4 +23,5 @@ urlpatterns = [
     path("", include('EPL21232.apps.public.urls')),  # root url
     path("accounts/", include('EPL21232.apps.accounts.urls')),
     path("contact/", include('EPL21232.apps.contact.urls')),
+    path("data/", include('EPL21232.apps.data.urls')),
 ]

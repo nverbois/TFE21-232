@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "EPL21232.apps.accounts",
     "EPL21232.apps.contact",
+    "EPL21232.apps.data",
+    #"django.contrib.gis",
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -84,7 +86,7 @@ POSTGRES_DB = os.environ.get('POSTGRES_DB', default="")
 POSTGRES_USER = os.environ.get('POSTGRES_USER', default="")
 POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', default="")
 
-
+# "ENGINE": "django.contrib.gis.db.backends.postgis",
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
