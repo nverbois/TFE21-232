@@ -17,7 +17,11 @@ Pour démarrer le site web :
 FrontEnd : bootstrap with https://startbootstrap.com/previews/freelancer
 
 Utilisation de Chart.js pour les graphes en utilisant un CDN 
+Utilisation de MapBox et OpenStreetView pour la varte interactive au travers d'un CDN
 
-sudo docker-compose exec postgres psql -U postgres to lauch the dbshell
-docker volume ls => list the docker volumes or databases
-docker volume rm "name of the database" to remove the DB
+- To lauch the DB Shell :
+  sudo docker-compose exec postgres psql -U postgres
+
+- To completely clear the database :
+docker volume ls : list all the docker volumes or databases
+docker volume rm "name of the database" : removes the specified DB ( in our case, tfe21-232_db-data ) 
