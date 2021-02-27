@@ -65,6 +65,10 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
+    class Meta:
+        verbose_name = 'Utilisateur'
+        verbose_name_plural = 'Utilisateurs'
+
     def get_full_name(self):
         # The user is identified by their email address
         return self.email
@@ -109,6 +113,10 @@ class UserStation(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Station pluviométrique'
+        verbose_name_plural = 'Stations pluviométriques'
+
 # Users also have a persona ( technician, system administrators, ... )
 # They will be website generated, the system administrator will generate them, none of the users will be able to 
 class UserRole(models.Model):
@@ -118,6 +126,10 @@ class UserRole(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Rôle d\'utilisateur'
+        verbose_name_plural = 'Rôles des utilisateurs'
 
 # Create your models here.
 # What should a user profile contain ?
@@ -143,3 +155,7 @@ class UserProfile(models.Model):
     # Multiple user profile can point at the same user persona
     role = models.ForeignKey(UserRole, on_delete=models.SET_NULL, blank=True, null=True)
     stations = models.ManyToManyField(UserStation, blank=True)
+
+    class Meta:
+        verbose_name = 'Profil utilisateur'
+        verbose_name_plural = 'Profils des utilisateurs'

@@ -4,6 +4,7 @@
 {% url 'accounts:login' as login_url %}
 {% url 'accounts:logout' as logout_url %}
 {% url 'data:data' as data_url %}
+{% url 'map:map' as map_url %}
 <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="{{ index_url }}">Pluviométrie en Haïti</a>
@@ -16,7 +17,7 @@
                 
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger {% if request.path == index_url %}active{% endif %}" href="{{ index_url }}">Accueil</a></li>
 
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger {% if request.path == data_url %}active{% endif %}" href="{{ data_url }}">Données et Statistiques</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger {% if request.path == map_url %}active{% endif %}" href="{{ map_url }}">Données et Statistiques</a></li>
                 
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger {% if request.path == about_url %}active{% endif %}" href="{{ about_url }}">A propos</a></li>
 

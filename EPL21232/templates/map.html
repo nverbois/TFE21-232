@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+
 {% block head %}
     <title>Interactive maps for Django web apps</title>
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
@@ -7,6 +8,14 @@
 {% endblock %}
 
 {% block content %}
+    <h1>Carte intéractive d'Haiti</h1>
+    
+    <section class="page-section-2 page-section-heading bg-primary-2 text-dark mb-0" id="map_information">
+        Sur cette carte intéractive du pays, vous allez pouvoir survoller les différentes stations indiquées dessus par des marqueurs,
+        et sélectionner celle dont vous souhaitez voir de plus amples informations. Vous pourrez alors être rediriger vers
+        une page vous affichant les différentes données et statistiques pluviométriques associées à cette station.
+    </section>
+
     <div id='map' style='width: 75rem; height: 25rem;'></div>
     <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoibnZlcmJvaXMiLCJhIjoiY2tsbWtkMmtsMGExMjJ2bXVibGVlZDk4NSJ9.QYbY6bF88czsSosuFRi0Zg';

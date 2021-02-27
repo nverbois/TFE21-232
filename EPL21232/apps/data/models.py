@@ -19,6 +19,10 @@ class Station(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Station pluviométrique'
+        verbose_name_plural = 'Stations pluviométriques'
+
 class Data(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # A voir avec le canva que nous allons imposé, au pire deux méthodes de récolte
@@ -31,6 +35,10 @@ class Data(models.Model):
     mm_per_minute = models.DecimalField(max_digits=10,decimal_places=3)
     mm_per_hour = models.DecimalField(max_digits=10,decimal_places=3)
     mm_per_day = models.DecimalField(max_digits=10,decimal_places=3)
+
+    class Meta:
+        verbose_name = 'Donnée pluviométrique'
+        verbose_name_plural = 'Données pluviométriques'
 
 
 
