@@ -1,4 +1,5 @@
 from django.db import models
+from decimal import Decimal
 #from django.contrib.gis.db import models
 #from django.contrib.postgres.operations import CreateExtension
 #from django.db import migrations
@@ -11,10 +12,12 @@ from django.db import models
 #    ]
 
 class Station(models.Model):
-    # POSTGIS ?
+    # Default location of a station is Haiti center
     name = models.CharField(max_length=64, unique=True)
     normalized_name = models.CharField(max_length=64, unique=True)
-    #location = models.CharField(max_length=64)
+    description = models.CharField(max_length=128, blank=True)
+    longitude = models.DecimalField(max_digits=13,decimal_places=8, default=-72.285215)
+    latitude = models.DecimalField(max_digits=13,decimal_places=8, default=18.971187)
 
     def __str__(self):
         return self.name

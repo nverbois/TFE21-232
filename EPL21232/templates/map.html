@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load js %}
 
 {% url 'data:data' as data_url %}
 
@@ -31,7 +32,9 @@
             <div class="col-lg-8 ml-auto"><p class="lead">
 
             <div id="map" ></div>
+            
             <script>
+
                 mapboxgl.accessToken = 'pk.eyJ1IjoibnZlcmJvaXMiLCJhIjoiY2tsbWtkMmtsMGExMjJ2bXVibGVlZDk4NSJ9.QYbY6bF88czsSosuFRi0Zg';
             var map = new mapboxgl.Map({
             container: 'map',
@@ -40,30 +43,19 @@
             zoom: 7.2
             });
 
+            const feature_list = {{ feature_list | js }};
             map.setStyle('mapbox://styles/mapbox/outdoors-v11');
-            
             map.on('load', function () {
                 
                 map.addSource('places', {
                 'type': 'geojson',
                 'data': {
                 'type': 'FeatureCollection',
-                'features': [
-                {
-                'type': 'Feature',
-                'properties': {
-                'description':
-                '<strong>Station exemple</strong><p><a href="{{data_url}}">Données de la station</a> <p>Exemple de description d\'une station pluviométrique</p> </p>',
-                'icon': 'marker'
-                },
-                'geometry': {
-                'type': 'Point',
-                'coordinates': [-73.285215, 18.971187]
-                }
-                }
-                ]
+                'features': feature_list
                 }
                 });
+
+                
 
                 // Add a layer showing the places.
                 map.addLayer({
@@ -112,12 +104,15 @@
             <h3> Carte interactive de Haiti</h3>
             </p>
             <p class="lead">
-                Bienvenue sur cette carte intéractive du pays ! Sur celle-ci, vous allez pouvoir survoller les différentes stations indiquées par des marqueurs ( points noirs),
+                Bienvenue sur cette carte intéractive du pays ! Sur celle-ci, vous allez pouvoir survoller les différentes stations indiquées par des marqueurs (ou points noirs),
                 et sélectionner celle dont vous souhaitez voir de plus amples informations. <br>
                 Vous pourrez alors être rediriger vers une page vous affichant les différentes données et statistiques pluviométriques associées à cette station.
+                
+                {{stations_list}}
+                
             </p>    
         </div>
         </div>
     </div>
 </section>
-{% endblock %}
+{% endblock %}  
