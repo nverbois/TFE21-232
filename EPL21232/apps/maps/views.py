@@ -13,15 +13,19 @@ def default_map(request):
     stations = Station.objects.all()
     #Append everything to a list that will passed to mapbox
 
+
+
     feature_list = []
     for station_elem in stations:
+        data = station_elem.data_set.last()
+
         if station_elem != stations.last:
             feature_list.append(
                     {
                     'type': 'Feature',
                     'properties': {
                     'description':
-                    f'<strong>{station_elem.name}</strong><p><a href="/data">Données de la station</a> <p>{station_elem.description}</p> </p>',
+                    f'<strong>{station_elem.name}</strong><p><a href="/data/{data.id}">Données de la station</a> <p>{station_elem.description}</p> </p>',
                     'icon': 'marker'
                     },
                     'geometry': {
@@ -36,7 +40,7 @@ def default_map(request):
                     'type': 'Feature',
                     'properties': {
                     'description':
-                    '<strong>station_elemn.name</strong><p><a href="/data">Données de la station</a> <p>station_elem.description</p> </p>',
+                    f'<strong>{station_elem.name}</strong><p><a href="/data/{data.id}">Données de la station</a> <p>{station_elem.description}</p> </p>',
                     'icon': 'marker'
                     },
                     'geometry': {
