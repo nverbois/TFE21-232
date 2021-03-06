@@ -9,7 +9,7 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     context = {
         "objects": obj
     }
-    return render(request, "data.html")
+    return render(request, "data-old.html",{ 'id': my_id})
 
 def data(request: HttpRequest) -> HttpResponse:
     return render(request, "data.html")
