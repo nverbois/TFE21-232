@@ -18,6 +18,7 @@ FrontEnd : bootstrap with https://startbootstrap.com/previews/freelancer
 
 Utilisation de Chart.js pour les graphes en utilisant un CDN 
 Utilisation de MapBox et OpenStreetView pour la varte interactive au travers d'un CDN
+Utilisation de DataTables, un plug-in pour la bibliothèque jQuery Javascript. Ajoute toutes sortes de fonctionnalités avancées à n'importe quel tableau HTML.
 
 - To lauch the DB Shell :
   sudo docker-compose exec postgres psql -U postgres
