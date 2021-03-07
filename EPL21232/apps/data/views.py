@@ -4,12 +4,19 @@ from .models import Station,Data
 # Create your views here.
 
     
-def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse: 
-    obj = Data.objects.get(id=my_id)
+def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
+    # The concerned station 
+    station = Station.objects.get(id=my_id)
+    # 10 latests data for the station
+    data = Data.objects.order_by('-tilting_date')[:10][::-1]
+    
+    
     context = {
-        "objects": obj
+        'id': my_id,
+        "data": data,
+        "station": station
     }
-    return render(request, "data-old.html",{ 'id': my_id})
+    return render(request, "data-old.html", context)
 
 def data(request: HttpRequest) -> HttpResponse:
     return render(request, "data.html")

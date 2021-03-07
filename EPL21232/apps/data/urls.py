@@ -6,5 +6,5 @@ from . import views
 app_name="data"
 urlpatterns = [
     path("", views.data, name="data"),
-    path("<int:my_id>", views.dynamic_lookup_view, name="data2"),
+    path("<int:my_id>", views.dynamic_lookup_view, name="station_data"),
 ]
