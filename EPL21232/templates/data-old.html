@@ -25,6 +25,50 @@
 	</style>
 </head>
 
+<p class="lead">
+	<h3>{{objects.station}}</h3>
+</p>
+
+<p class="lead">
+	<h3>Tableau de données de la station</h3>
+</p>
+
+    <section class="page-section bg-primary-2 text-dark mb-0" id="table"> 
+        <table id="table_id" class="display" margin-right="10%" margin-left="10%" style="width:80%">
+            <thead>
+                <tr>
+					<th>Tilting data</th>
+					<th>Tilting time</th>
+                    <th>Tilting number</th>
+                    <th>Tilting millimeter</th>
+                </tr>
+            </thead>
+            <tbody>
+				{% for elem in data %}
+                <tr>
+					<td>{{elem.tilting_date}}</td>
+					<td>{{elem.tilting_time}}</td>
+                    <td>{{elem.tilting_number}}</td>
+                    <td>{{elem.tilting_mm}}</td>
+                </tr>
+				{% endfor %}
+            </tbody>
+        </table> 
+    </section>
+
+<!-- The $.noConflict(); is a quick fix to ensure the jquery.js is loaded before the dataTable.js file-->
+    <script>
+        $(document).ready( function () {
+            $.noConflict();
+            $('#table_id').DataTable();
+        } );
+	</script>
+
+<p class="lead">
+	<h3>Graphes de données de la station</h3>
+</p>
+
+
 <body>
 	<div style="width:75%;">
 		<canvas id="canvas"></canvas>
@@ -170,35 +214,6 @@
 		});
 	</script>
 
-    <section class="page-section bg-primary-2 text-dark mb-0" id="table"> 
-        <table id="table_id" class="display" margin-right="10%" margin-left="10%" style="width:80%">
-            <thead>
-                <tr>
-                    <th>Column 1</th>
-                    <th>Column 2</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Row 1 Data 1</td>
-                    <td>Row 1 Data 2</td>
-                </tr>
-                <tr>
-                    <td>Row 2 Data 1</td>
-                    <td>Row 2 Data 2</td>
-                </tr>
-            </tbody>
-        </table> 
-    </section>
-
-	<section>{{id}}</section>
-<!-- The $.noConflict(); is a quick fix to ensure the jquery.js is loaded before the dataTable.js file-->
-    <script>
-        $(document).ready( function () {
-            $.noConflict();
-            $('#table_id').DataTable();
-        } );
-    </script>
 </body>
 
 
