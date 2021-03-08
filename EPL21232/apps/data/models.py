@@ -44,4 +44,29 @@ class Data(models.Model):
         verbose_name_plural = 'Données pluviométriques'
 
 
+class Mean(models.Model):
+    station = models.ForeignKey(Station, on_delete=models.CASCADE)
+    mean_day = models.DateField()
+    # Nous allons utilisés des nombres décimaux à 10 chiffes maximum et une presicion de 3 après la virgule du nombre.
+    mean_per_day = models.DecimalField(max_digits=10,decimal_places=3)
+    mean_per_week = models.DecimalField(max_digits=10,decimal_places=3)
+    mean_per_year = models.DecimalField(max_digits=10,decimal_places=3)
+
+    class Meta:
+        verbose_name = 'Moyenne pluviométrique'
+        verbose_name_plural = 'Moyennes pluviométriques'
+
+class Intensity(models.Model):
+    station = models.ForeignKey(Station, on_delete=models.CASCADE)
+    intensity_day = models.DateField()
+    duration = models.TimeField()
+    # Nous allons utilisés des nombres décimaux à 10 chiffes maximum et une presicion de 3 après la virgule du nombre.
+    max_amount = models.DecimalField(max_digits=10,decimal_places=3)
+    start_interval = models.DecimalField(max_digits=10,decimal_places=3)
+    end_interval = models.DecimalField(max_digits=10,decimal_places=3)
+    intensity = models.DecimalField(max_digits=10,decimal_places=3)
+
+    class Meta:
+        verbose_name = 'Intensité pluviométrique'
+        verbose_name_plural = 'Intensités pluviométriques'
 

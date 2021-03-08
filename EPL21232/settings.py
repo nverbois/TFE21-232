@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     #"django.contrib.gis",
     #'easy_maps',
     "EPL21232.apps.maps",
+    'import_export',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -147,3 +148,5 @@ DEFAULT_FROM_EMAIL = "nicolas.verbois@student.uclouvain.be"
 #EASY_MAPS_GOOGLE_KEY = 'AIzaSyBw5el2x63SzKw4ZJvrKhGtFhpVsWMdThY'
 #EASY_MAPS_GOOGLE_KEY = 'AIzaSyBF0ZtmNCtXxfWcJiDCVJWcn3USNq_7K0s'
 #EASY_MAPS_CENTER = (-41.3, 32)
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
