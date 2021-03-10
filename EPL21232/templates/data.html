@@ -28,6 +28,7 @@
 	<button id="removeDataset">Remove Dataset</button>
 	<button id="addData">Add Data</button>
 	<button id="removeData">Remove Data</button>
+	<p id="textTest">Test</p>
 	<script>
 		var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 		var config = {
@@ -141,6 +142,8 @@
 				config.data.datasets.forEach(function(dataset) {
 					dataset.data.push(randomScalingFactor());
 				});
+
+				document.getElementById("textTest").innerHTML = randomScalingFactor();
 
 				window.myLine.update();
 			}
