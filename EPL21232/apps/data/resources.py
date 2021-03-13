@@ -23,7 +23,7 @@ class DataResource (resources.ModelResource):
         model = Data
         fields = ('station','tilting_number','tilting_mm', 'tilting_date','tilting_time') #Select the field to import for the resource
         exclude = ('id',)
-        import_id_fields = ('tilting_date', 'station',)
+        import_id_fields = ('tilting_date', 'tilting_time', 'station')
         export_order = ('station','tilting_number','tilting_mm', 'tilting_date','tilting_time')
 
         
