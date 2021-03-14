@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg, Max, Min, Sum 
 from decimal import Decimal
 #from django.contrib.gis.db import models
 #from django.contrib.postgres.operations import CreateExtension
@@ -29,16 +30,22 @@ class Station(models.Model):
 class Data(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # A voir avec le canva que nous allons imposé, au pire deux méthodes de récolte
-    recolt_type = models.BooleanField()
+    # recolt_type = models.BooleanField()
     tilting_number = models.IntegerField()
     tilting_date= models.DateField()
     tilting_time = models.TimeField()
     # Nous allons utilisés des nombres décimaux à 10 chiffes maximum et une presicion de 3 après la virgule du nombre.
     tilting_mm = models.DecimalField(max_digits=10,decimal_places=3)
+<<<<<<< HEAD
     mm_per_minute = models.DecimalField(max_digits=10,decimal_places=3)
     mm_per_hour = models.DecimalField(max_digits=10,decimal_places=3)
     mm_per_day = models.DecimalField(max_digits=10,decimal_places=3)
     
+=======
+    # mm_per_minute = models.DecimalField(max_digits=10,decimal_places=3)
+    # mm_per_hour = models.DecimalField(max_digits=10,decimal_places=3)
+    # mm_per_day = models.DecimalField(max_digits=10,decimal_places=3)
+>>>>>>> edef10c70855b742424894f764e58d9bb5b6de83
 
     class Meta:
         verbose_name = 'Donnée pluviométrique'
@@ -56,6 +63,12 @@ class Mean(models.Model):
     class Meta:
         verbose_name = 'Moyenne pluviométrique'
         verbose_name_plural = 'Moyennes pluviométriques'
+
+    @property
+    def calculate_mean_per_day(self):
+        # for()
+        mpd = Data.objects.filter().aggregate(Avg('tilting_mm'))
+        return mpd
 
 class Intensity(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
