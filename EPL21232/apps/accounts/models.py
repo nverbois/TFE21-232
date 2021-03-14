@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from EPL21232.apps.data.models import Station
 
 # accounts.models.py
 
@@ -154,7 +155,7 @@ class UserProfile(models.Model):
     # Our user profile can point at a User Persona, but they can't modify this.
     # Multiple user profile can point at the same user persona
     role = models.ForeignKey(UserRole, on_delete=models.SET_NULL, blank=True, null=True)
-    stations = models.ManyToManyField(UserStation, blank=True)
+    stations = models.ManyToManyField(Station, blank=True)
 
     class Meta:
         verbose_name = 'Profil utilisateur'
