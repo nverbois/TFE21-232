@@ -30,11 +30,19 @@
 </p>
 
 <p class="lead">
-	<h3>Tableau de données de la station</h3>
+	Informations complémentaires de la station à ajouter ici
+</p>
+
+<p class="lead mt-4">
+	<h3>Tableaux de données de la station</h3>
+</p>
+
+<p class="lead">
+	<h4>Dernières données de la station</h4>
 </p>
 
     <section class="page-section bg-primary-2 text-dark mb-0" id="table"> 
-        <table id="table_id" class="display" margin-right="10%" margin-left="10%" style="width:80%">
+        <table id="table_data" class="display" margin-right="10%" margin-left="10%" style="width:80%">
             <thead>
                 <tr>
 					<th>Tilting data</th>
@@ -60,9 +68,38 @@
     <script>
         $(document).ready( function () {
             $.noConflict();
-            $('#table_id').DataTable();
+			$('#table_data').DataTable();
+            $('#table_mean').DataTable();
         } );
 	</script>
+
+<p class="lead">
+	<h4>Dernières moyennes de la station</h4>
+</p>
+
+<section class="page-section bg-primary-2 text-dark mb-0" id="table"> 
+	<table id="table_mean" class="display" margin-right="10%" margin-left="10%" style="width:80%">
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>mm par jour</th>
+				<th>mm par semaine</th>
+				<th>mm par année</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for elem in mean %}
+			<tr>
+				<td>{{elem.mean_day}}</td>
+				<td>{{elem.mean_per_day}}</td>
+				<td>{{elem.mean_per_week}}</td>
+				<td>{{elem.mean_per_year}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table> 
+</section>
+
 
 <p class="lead">
 	<h3>Graphes de données de la station</h3>
@@ -70,7 +107,7 @@
 
 
 <body>
-	<div style="width:75%;">
+	<div style="margin-right: 10%; margin-left: 10%; width:75%;">
 		<canvas id="canvas"></canvas>
 	</div>
 	<br>

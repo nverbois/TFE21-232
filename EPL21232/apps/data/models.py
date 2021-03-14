@@ -1,6 +1,15 @@
 from django.db import models
 from django.db.models import Avg, Max, Min, Sum 
 from decimal import Decimal
+
+import simplejson as json
+
+from datetime import timedelta, date
+
+def daterange(start_date, end_date):
+    for n in range(int((end_date - start_date).days)):
+        yield start_date + timedelta(n)
+
 #from django.contrib.gis.db import models
 #from django.contrib.postgres.operations import CreateExtension
 #from django.db import migrations
@@ -59,8 +68,19 @@ class Mean(models.Model):
 
     @property
     def calculate_mean_per_day(self):
-        # for()
-        mpd = Data.objects.filter().aggregate(Avg('tilting_mm'))
+        var1 = Data.objects.order_by('-tilting_date')
+        oldest_date = var1.last().tilting_date
+        newest_date = var1.first().tilting_date
+        station = var1.last().station
+        for single_date in daterange(oldest_date, newest_date):
+            mpd = json.dumps(Data.objects.filter(tilting_date=single_date).aggregate(Avg('tilting_mm'))['tilting_mm__avg'], use_decimal=True)
+            mean_object = Mean()
+            mean_object.station = station
+            mean_object.mean_day = single_date
+            mean_object.mean_per_day = mpd
+            mean_object.mean_per_week = 0.45
+            mean_object.mean_per_year = 0.45
+            mean_object.save()
         return mpd
 
 class Intensity(models.Model):
