@@ -38,6 +38,7 @@ class Data(models.Model):
     mm_per_minute = models.DecimalField(max_digits=10,decimal_places=3)
     mm_per_hour = models.DecimalField(max_digits=10,decimal_places=3)
     mm_per_day = models.DecimalField(max_digits=10,decimal_places=3)
+    
 
     class Meta:
         verbose_name = 'Donnée pluviométrique'
