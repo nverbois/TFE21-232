@@ -13,7 +13,13 @@ admin.site.register(Station, StationAdmin)
 
 class DataAdmin(ImportMixin, admin.ModelAdmin):
     resource_class = DataResource
-    list_display = ("tilting_date", "tilting_time", "tilting_number", "tilting_mm")
+    readonly_fields = ["get_c"]
+    fields = ("tilting_date", "tilting_time", "tilting_number", "tilting_mm","get_c")
+    list_display = fields
+    #list_display = ("tilting_date", "tilting_time", "tilting_number", "tilting_mm","get_c")
+
+    def get_c(self, Data):
+        return  1.000
 
     def get_import_form(self):
         print(Mean().calculate_mean_per_day) # Test to see if average works
