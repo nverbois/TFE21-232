@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import UserRole, UserProfile, UserStation
+from .models import UserRole, UserProfile
 
 # accounts.admin.py
 
@@ -52,6 +52,5 @@ class ProfileAdmin(admin.ModelAdmin):
 admin.site.register(UserProfile, ProfileAdmin)
 
 admin.site.register(UserRole)
-admin.site.register(UserStation)
 
 # Register your models here.

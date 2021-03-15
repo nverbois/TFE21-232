@@ -106,17 +106,17 @@ class User(AbstractBaseUser):
         "Is the user active?"
         return self.active
 
-class UserStation(models.Model):
-    name = models.CharField(max_length=64, unique=True)
-    normalized_name = models.CharField(max_length=64, unique=True)
-    location = models.CharField(max_length=64)
+#class UserStation(models.Model):
+#    name = models.CharField(max_length=64, unique=True)
+#    normalized_name = models.CharField(max_length=64, unique=True)
+#    location = models.CharField(max_length=64)
 
-    def __str__(self):
-        return self.name
+#    def __str__(self):
+#        return self.name
 
-    class Meta:
-        verbose_name = 'Station pluviométrique'
-        verbose_name_plural = 'Stations pluviométriques'
+#    class Meta:
+#        verbose_name = 'Station pluviométrique'
+#        verbose_name_plural = 'Stations pluviométriques'
 
 # Users also have a persona ( technician, system administrators, ... )
 # They will be website generated, the system administrator will generate them, none of the users will be able to 
