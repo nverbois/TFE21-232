@@ -83,17 +83,17 @@
 			<tr>
 				<th>Date</th>
 				<th>mm par jour</th>
-				<th>mm par semaine</th>
-				<th>mm par année</th>
+				<!-- <th>mm par semaine</th>
+				<th>mm par année</th> -->
 			</tr>
 		</thead>
 		<tbody>
-			{% for elem in mean %}
+			{% for elem in meandaytable %}
 			<tr>
 				<td>{{elem.mean_day}}</td>
 				<td>{{elem.mean_per_day}}</td>
-				<td>{{elem.mean_per_week}}</td>
-				<td>{{elem.mean_per_year}}</td>
+				<!-- <td>{{elem.mean_per_week}}</td>
+				<td>{{elem.mean_per_year}}</td> -->
 			</tr>
 			{% endfor %}
 		</tbody>

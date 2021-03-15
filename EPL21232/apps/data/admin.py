@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Station, Data, Mean, Intensity
+from .models import Station, Data, MeanDay, MeanWeek, MeanYear, Intensity
 from .forms import CustomConfirmImportForm, CustomImportForm
 from import_export.admin import ImportExportModelAdmin, ImportMixin
 from .resources import DataResource
@@ -16,7 +16,8 @@ class DataAdmin(ImportMixin, admin.ModelAdmin):
     list_display = ("tilting_date", "tilting_time", "tilting_number", "tilting_mm")
 
     def get_import_form(self):
-        print(Mean().calculate_mean_per_day) # Test to see if average works
+        # Uncomment only if data is stored already in the database
+        #print(MeanDay().calculate_mean_per_day) # Test to see if average works
         return CustomImportForm
     
     def get_confirm_import_form(self):
@@ -33,6 +34,8 @@ class DataAdmin(ImportMixin, admin.ModelAdmin):
 
 admin.site.register(Data, DataAdmin)
 
-admin.site.register(Mean)
+admin.site.register(MeanDay)
+admin.site.register(MeanWeek)
+admin.site.register(MeanYear)
 admin.site.register(Intensity)
 

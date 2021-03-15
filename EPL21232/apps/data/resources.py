@@ -1,6 +1,6 @@
 from import_export import fields, resources
 from import_export.widgets import ForeignKeyWidget, TimeWidget, DateWidget
-from .models import Station, Data, Mean, Intensity
+from .models import Station, Data, MeanDay, Intensity
 
 class DataResource (resources.ModelResource):
 

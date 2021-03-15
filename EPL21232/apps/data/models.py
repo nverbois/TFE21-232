@@ -53,18 +53,15 @@ class Data(models.Model):
         verbose_name = 'Donnée pluviométrique'
         verbose_name_plural = 'Données pluviométriques'
 
-
-class Mean(models.Model):
+class MeanDay(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
+    # Date du jour de la moyenne
     mean_day = models.DateField()
-    # Nous allons utilisés des nombres décimaux à 10 chiffes maximum et une presicion de 3 après la virgule du nombre.
-    mean_per_day = models.DecimalField(max_digits=10,decimal_places=3)
-    mean_per_week = models.DecimalField(max_digits=10,decimal_places=3)
-    mean_per_year = models.DecimalField(max_digits=10,decimal_places=3)
-
+    mean_per_day = mean_per_day = models.DecimalField(max_digits=10,decimal_places=3)
+    
     class Meta:
-        verbose_name = 'Moyenne pluviométrique'
-        verbose_name_plural = 'Moyennes pluviométriques'
+        verbose_name = 'Moyenne journalière'
+        verbose_name_plural = 'Moyennes journalières'
 
     @property
     def calculate_mean_per_day(self):
@@ -74,14 +71,34 @@ class Mean(models.Model):
         station = var1.last().station
         for single_date in daterange(oldest_date, newest_date):
             mpd = json.dumps(Data.objects.filter(tilting_date=single_date).aggregate(Avg('tilting_mm'))['tilting_mm__avg'], use_decimal=True)
-            mean_object = Mean()
+            mean_object = MeanDay()
             mean_object.station = station
             mean_object.mean_day = single_date
             mean_object.mean_per_day = mpd
-            mean_object.mean_per_week = 0.45
-            mean_object.mean_per_year = 0.45
             mean_object.save()
         return mpd
+
+class MeanWeek(models.Model):
+    station = models.ForeignKey(Station, on_delete=models.CASCADE)
+    # Date du jour du début de la semaine de la moyenne
+    mean_week = models.DateField()
+    mean_per_week = models.DecimalField(max_digits=10,decimal_places=3)
+
+    class Meta:
+        verbose_name = 'Moyenne hebdomadaire'
+        verbose_name_plural = 'Moyennes hebdomadaires'
+
+class MeanYear(models.Model):
+    station = models.ForeignKey(Station, on_delete=models.CASCADE)
+    # Année de la moyenne
+    mean_year = models.IntegerField()
+    mean_per_year = models.DecimalField(max_digits=10,decimal_places=3)
+
+    class Meta:
+        verbose_name = 'Moyenne annuelle'
+        verbose_name_plural = 'Moyennes annuelles'
+
+    
 
 class Intensity(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
