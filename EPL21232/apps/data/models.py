@@ -56,8 +56,15 @@ class Data(models.Model):
 class MeanDay(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # Date du jour de la moyenne
+    #id_day = models.ForeignKey(Data)
     mean_day = models.DateField()
     mean_per_day = mean_per_day = models.DecimalField(max_digits=10,decimal_places=3)
+    # def __unicode__(self):             
+    #     return self.description
+
+    # @property
+    # def tilting_mm(self):
+    #     return self.id_day.tilting_mm
     
     class Meta:
         verbose_name = 'Moyenne journalière'
@@ -97,6 +104,7 @@ class MeanYear(models.Model):
     class Meta:
         verbose_name = 'Moyenne annuelle'
         verbose_name_plural = 'Moyennes annuelles'
+        
 
     
 

@@ -17,7 +17,7 @@ class DataAdmin(ImportMixin, admin.ModelAdmin):
 
     def get_import_form(self):
         # Uncomment only if data is stored already in the database
-        #print(MeanDay().calculate_mean_per_day) # Test to see if average works
+       # print(MeanDay().calculate_mean_per_day) # Test to see if average works
         return CustomImportForm
     
     def get_confirm_import_form(self):
@@ -32,8 +32,12 @@ class DataAdmin(ImportMixin, admin.ModelAdmin):
                 
         return kwargs 
 
-admin.site.register(Data, DataAdmin)
+class MeanDayAdmin(admin.ModelAdmin):
+    list_display = ["mean_day", "mean_per_day"]
 
+           
+
+admin.site.register(Data, DataAdmin)
 admin.site.register(MeanDay)
 admin.site.register(MeanWeek)
 admin.site.register(MeanYear)
