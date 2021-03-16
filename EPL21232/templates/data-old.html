@@ -5,7 +5,7 @@
 {% block content %}
 
 <head>
-	<title>Line Chart</title>
+	<title>Data page</title>
 	<script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=7rcsZZMPcx8l_7wm0a_wMWveIXnxg4V4mRqQdQgg2D7HFQlZ5FsSUOnXb14eoTIG8gapUSDc1tyCi_CDcq-Ule1QLnHc07YyvgoGw8pXnJg" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 	<script src="../static/js/utils.js"></script>
 
@@ -30,12 +30,14 @@
 </p>
 
 <p class="lead">
-	Informations complémentaires de la station à ajouter ici
+	{{station.description}}
 </p>
 
 <p class="lead mt-4">
 	<h3>Tableaux de données de la station</h3>
 </p>
+
+{% if user.is_authenticated %}
 
 <p class="lead">
 	<h4>Dernières données de la station</h4>
@@ -63,6 +65,8 @@
             </tbody>
         </table> 
     </section>
+
+{% endif %}
 
 <!-- The $.noConflict(); is a quick fix to ensure the jquery.js is loaded before the dataTable.js file-->
     <script>

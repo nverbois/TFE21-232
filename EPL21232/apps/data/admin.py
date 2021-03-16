@@ -13,11 +13,11 @@ admin.site.register(Station, StationAdmin)
 
 class DataAdmin(ImportMixin, admin.ModelAdmin):
     resource_class = DataResource
-    list_display = ("tilting_date", "tilting_time", "tilting_number", "tilting_mm")
+    list_display = ("station", "tilting_date", "tilting_time", "tilting_number", "tilting_mm")
 
     def get_import_form(self):
         # Uncomment only if data is stored already in the database
-       # print(MeanDay().calculate_mean_per_day) # Test to see if average works
+        print(MeanDay().calculate_mean_per_day) # Test to see if average works
         return CustomImportForm
     
     def get_confirm_import_form(self):
