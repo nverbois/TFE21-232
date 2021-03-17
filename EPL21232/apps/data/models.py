@@ -45,13 +45,16 @@ class Data(models.Model):
     tilting_time = models.TimeField()
     # Nous allons utilisés des nombres décimaux à 10 chiffes maximum et une presicion de 3 après la virgule du nombre.
     tilting_mm = models.DecimalField(max_digits=10,decimal_places=3)
-    # mm_per_minute = models.DecimalField(max_digits=10,decimal_places=3)
-    # mm_per_hour = models.DecimalField(max_digits=10,decimal_places=3)
-    # mm_per_day = models.DecimalField(max_digits=10,decimal_places=3)
 
     class Meta:
         verbose_name = 'Donnée pluviométrique'
         verbose_name_plural = 'Données pluviométriques'
+        constraints = [
+            models.UniqueConstraint(fields=['station', 'tilting_date', 'tilting_time'], name='unique data')
+        ]
+
+    def __str__(self):
+        return 'Donnée pour ' + self.station.__str__()
 
 class MeanDay(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)

@@ -19,6 +19,7 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
+    path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
     path("admin/", admin.site.urls),
     path("", include('EPL21232.apps.public.urls')),  # root url
     path("accounts/", include('EPL21232.apps.accounts.urls')),
