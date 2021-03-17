@@ -25,6 +25,8 @@ https://datatables.net/manual/api
 
 Utilisation de django-import-export afin de facilement importer des données pluviométriques aux formats csv, xsl, ... ( https://django-import-export.readthedocs.io/en/latest/installation.html#settings )
 
+Utilisation de django jet afin de rendre la page d'administration du site web plus jolie : https://pypi.org/project/django-3-jet/
+
 - To lauch the DB Shell :
   sudo docker-compose exec postgres psql -U postgres
 
