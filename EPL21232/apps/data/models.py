@@ -45,7 +45,6 @@ class Data(models.Model):
     tilting_time = models.TimeField()
     # Nous allons utilisés des nombres décimaux à 10 chiffes maximum et une presicion de 3 après la virgule du nombre.
     tilting_mm = models.DecimalField(max_digits=10,decimal_places=3)
-<<<<<<< HEAD
     valuetest = models.DecimalField(max_digits=10,decimal_places=3, default = 0)
 
     @property
@@ -54,8 +53,6 @@ class Data(models.Model):
     # mm_per_minute = models.DecimalField(max_digits=10,decimal_places=3)
     # mm_per_hour = models.DecimalField(max_digits=10,decimal_places=3)
     # mm_per_day = models.DecimalField(max_digits=10,decimal_places=3)
-=======
->>>>>>> e3c51030264091347edb7e5ded2af89fc5509598
 
     #def __str__(self):
     #    return self.str(tilting_date)
@@ -74,12 +71,12 @@ class Data(models.Model):
 
 class MeanDay(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
-    #data = models.ForeignKey(Data, on_delete=models.CASCADE, default = 0)
+    data = models.ForeignKey(Data, on_delete=models.CASCADE, default = 0)
 
     mean_day = models.DateField()
     mean_per_day =  models.DecimalField(max_digits=10,decimal_places=3,default = 0)
 
-       
+    
     @property
     def mean_day_real(self):
         return Data.objects.order_by('-tilting_date').first().tilting_date

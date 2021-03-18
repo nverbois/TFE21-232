@@ -19,12 +19,8 @@ class MeanDayInline(admin.StackedInline):
            
 class DataAdmin(ImportMixin, admin.ModelAdmin):
     resource_class = DataResource
-<<<<<<< HEAD
     list_display = ("station", "tilting_date", "tilting_time", "tilting_number", "tilting_mm","valuetest","name")
     readonly_fields=("valuetest",)
-=======
-    list_display = ("station", "tilting_date", "tilting_time", "tilting_number", "tilting_mm")
->>>>>>> e3c51030264091347edb7e5ded2af89fc5509598
 
     def get_import_form(self):
         # Uncomment only if data is stored already in the database
