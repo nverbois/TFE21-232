@@ -5,101 +5,106 @@
 
 {% block head %}
     <meta charset="utf-8">
-    <title>Display a popup on click</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
     <style>
-    #map {width: 100%; height: 30rem;}
+      .map {
+        height: 400px;
+        width: 100%;
+      }
     </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+    <title>OpenLayers example</title>
+
 {% endblock %}
 
 {% block content %}
 
 {% url 'data:data' as data_url %}
 
-<style>
-    .mapboxgl-popup {
-    max-width: 400px;
-    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    }
-</style>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 ml-auto"><p class="lead">
+            <div id="map" class="map"></div>
 
-<section class="page-section bg-primary-2 text-dark mb-0" id="information">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 ml-auto"><p class="lead">
+            <div id="popup" class="ol-popup">
+                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                <div id="popup-content" class="popup-content"></div>
+            </div>
 
-            <div id="map" ></div>
-            
-            <script>
+            <script type="text/javascript">
+                var map = new ol.Map({
+                target: 'map',
+                layers: [
+                    new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                    })
+                ],
+                view: new ol.View({
+                    center: ol.proj.fromLonLat([-73.285215, 18.971187]),
+                    zoom: 8
+                })
+                });
+                
+                var feature_list=[];
+                {% for elem in stations %}
 
-                mapboxgl.accessToken = 'pk.eyJ1IjoibnZlcmJvaXMiLCJhIjoiY2tsbWtkMmtsMGExMjJ2bXVibGVlZDk4NSJ9.QYbY6bF88czsSosuFRi0Zg';
-            var map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [-73.285215, 18.971187],
-            zoom: 7.2
-            });
-            // Do not pay attention to the error below
-            const feature_list = {{ feature_list | js }};
-            map.setStyle('mapbox://styles/mapbox/outdoors-v11');
-            map.on('load', function () {
-                
-                map.addSource('places', {
-                'type': 'geojson',
-                'data': {
-                'type': 'FeatureCollection',
-                'features': feature_list
-                }
+                    feature_list.push(new ol.Feature({
+                                    geometry: new ol.geom.Point(ol.proj.fromLonLat([{{elem.longitude | js}}, {{elem.latitude | js}}])),
+                                    name: 'Vienna',
+                                    description: '<p><a href="/data/{{elem.id}}">{{elem.name}}</a></p>'
+                                }));
+                {% endfor %}
+
+                var layer = new ol.layer.Vector({
+                    source: new ol.source.Vector({
+                        features: feature_list
+                    })
                 });
 
-                
+                map.addLayer(layer);
 
-                // Add a layer showing the places.
-                map.addLayer({
-                'id': 'places',
-                'type': 'symbol',
-                'source': 'places',
-                'layout': {
-                'icon-image': '{icon}-15',
-                'icon-allow-overlap': true
-                }
+                var container = document.getElementById('popup');
+                var content = document.getElementById('popup-content');
+                var closer = document.getElementById('popup-closer');
+
+                var overlay = new ol.Overlay({
+                    element: container,
+                    autoPan: true,
+                    autoPanAnimation: {
+                        duration: 250
+                    }
                 });
-                
-                // When a click event occurs on a feature in the places layer, open a popup at the
-                // location of the feature, with description HTML from its properties.
-                map.on('click', 'places', function (e) {
-                var coordinates = e.features[0].geometry.coordinates.slice();
-                var description = e.features[0].properties.description;
-                
-                // Ensure that if the map is zoomed out such that multiple
-                // copies of the feature are visible, the popup appears
-                // over the copy being pointed to.
-                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                }
-                
-                new mapboxgl.Popup()
-                .setLngLat(coordinates)
-                .setHTML(description)
-                .addTo(map);
+                map.addOverlay(overlay);
+
+                closer.onclick = function() {
+                    overlay.setPosition(undefined);
+                    closer.blur();
+                    return false;
+                };
+
+                map.on('singleclick', function (event) {
+                    if (map.hasFeatureAtPixel(event.pixel) === true) {
+                        var name = map.forEachFeatureAtPixel(event.pixel, function(feature) {
+                            return feature.get('name');
+                        });
+                        var description = map.forEachFeatureAtPixel(event.pixel, function(feature) {
+                            return feature.get('description');
+                        });
+                        var coordinate = event.coordinate;
+
+                        content.innerHTML = description
+                        overlay.setPosition(coordinate);
+                    } else {
+                        overlay.setPosition(undefined);
+                        closer.blur();
+                    }
                 });
-                
-                // Change the cursor to a pointer when the mouse is over the places layer.
-                map.on('mouseenter', 'places', function () {
-                map.getCanvas().style.cursor = 'pointer';
-                });
-                
-                // Change it back to a pointer when it leaves.
-                map.on('mouseleave', 'places', function () {
-                map.getCanvas().style.cursor = '';
-                });
-                });
+
             </script>
+
+
         </p></div>
-        
+
         <div class="col-lg-4 mr-auto"><p class="lead">
             <h3> Carte interactive de Haiti</h3>
             </p>
@@ -108,11 +113,9 @@
                 et sélectionner celle dont vous souhaitez voir de plus amples informations. <br>
                 Vous pourrez alors être rediriger vers une page vous affichant les différentes données et statistiques pluviométriques associées à cette station.
                 
-                {{stations_list}}
-                
             </p>    
-        </div>
-        </div>
-    </div>
-</section>
+</div>
+</div>
+</div>
+
 {% endblock %}  

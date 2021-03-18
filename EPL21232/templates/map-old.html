@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load js %}
+
+{% url 'data:data' as data_url %}
+
+{% block head %}
+    <meta charset="utf-8">
+    <title>Display a popup on click</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+
+    <style>
+    #map {width: 100%; height: 30rem;}
+    </style>
+{% endblock %}
+
+{% block content %}
+
+{% url 'data:data' as data_url %}
+
+<style>
+    .mapboxgl-popup {
+    max-width: 400px;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+</style>
+
+<section class="page-section bg-primary-2 text-dark mb-0" id="information">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 ml-auto"><p class="lead">
+
+            <div id="map" ></div>
+            
+            <script>
+
+                mapboxgl.accessToken = 'pk.eyJ1IjoibnZlcmJvaXMiLCJhIjoiY2tsbWtkMmtsMGExMjJ2bXVibGVlZDk4NSJ9.QYbY6bF88czsSosuFRi0Zg';
+            var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-73.285215, 18.971187],
+            zoom: 7.2
+            });
+            // Do not pay attention to the error below
+            const feature_list = {{ feature_list | js }};
+            map.setStyle('mapbox://styles/mapbox/outdoors-v11');
+            map.on('load', function () {
+                
+                map.addSource('places', {
+                'type': 'geojson',
+                'data': {
+                'type': 'FeatureCollection',
+                'features': feature_list
+                }
+                });
+
+                
+
+                // Add a layer showing the places.
+                map.addLayer({
+                'id': 'places',
+                'type': 'symbol',
+                'source': 'places',
+                'layout': {
+                'icon-image': '{icon}-15',
+                'icon-allow-overlap': true
+                }
+                });
+                
+                // When a click event occurs on a feature in the places layer, open a popup at the
+                // location of the feature, with description HTML from its properties.
+                map.on('click', 'places', function (e) {
+                var coordinates = e.features[0].geometry.coordinates.slice();
+                var description = e.features[0].properties.description;
+                
+                // Ensure that if the map is zoomed out such that multiple
+                // copies of the feature are visible, the popup appears
+                // over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+                
+                new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+                });
+                
+                // Change the cursor to a pointer when the mouse is over the places layer.
+                map.on('mouseenter', 'places', function () {
+                map.getCanvas().style.cursor = 'pointer';
+                });
+                
+                // Change it back to a pointer when it leaves.
+                map.on('mouseleave', 'places', function () {
+                map.getCanvas().style.cursor = '';
+                });
+                });
+            </script>
+        </p></div>
+        
+        <div class="col-lg-4 mr-auto"><p class="lead">
+            <h3> Carte interactive de Haiti</h3>
+            </p>
+            <p class="lead">
+                Bienvenue sur cette carte intéractive du pays ! Sur celle-ci, vous allez pouvoir survoller les différentes stations indiquées par des marqueurs (ou points noirs),
+                et sélectionner celle dont vous souhaitez voir de plus amples informations. <br>
+                Vous pourrez alors être rediriger vers une page vous affichant les différentes données et statistiques pluviométriques associées à cette station.
+                
+                {{stations_list}}
+                
+            </p>    
+        </div>
+        </div>
+    </div>
+</section>
+{% endblock %}  

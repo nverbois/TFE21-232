@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "jet",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -150,3 +151,8 @@ DEFAULT_FROM_EMAIL = "nicolas.verbois@student.uclouvain.be"
 #EASY_MAPS_CENTER = (-41.3, 32)
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+JET_DEFAULT_THEME = 'default'
+
+JET_SIDE_MENU_COMPACT = True
+

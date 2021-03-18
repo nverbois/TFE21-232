@@ -25,7 +25,7 @@ def default_map(request):
                     'type': 'Feature',
                     'properties': {
                     'description':
-                    f'<strong>{station_elem.name}</strong><p><a href="/data/{station_elem.id}">Données de la station</a> <p>{station_elem.description}</p> </p>',
+                    f'<strong class="lead">{station_elem.name}</strong><p><a href="/data/{station_elem.id}">Données de la station</a> <p>{station_elem.description}</p> </p>',
                     'icon': 'marker'
                     },
                     'geometry': {
@@ -40,7 +40,7 @@ def default_map(request):
                     'type': 'Feature',
                     'properties': {
                     'description':
-                    f'<strong>{station_elem.name}</strong><p><a href="/data/{station_elem.id}">Données de la station</a> <p>{station_elem.description}</p> </p>',
+                    f'<strong class="lead">{station_elem.name}</strong><p><a href="/data/{station_elem.id}">Données de la station</a> <p>{station_elem.description}</p> </p>',
                     'icon': 'marker'
                     },
                     'geometry': {
@@ -52,7 +52,7 @@ def default_map(request):
 
 
     mapbox_access_token = 'pk.eyJ1IjoibnZlcmJvaXMiLCJhIjoiY2tsbWtkMmtsMGExMjJ2bXVibGVlZDk4NSJ9.QYbY6bF88czsSosuFRi0Zg'
-    return render(request, 'map.html', { 'mapbox_access_token': mapbox_access_token, 'feature_list':feature_list })
+    return render(request, 'map.html', { 'mapbox_access_token': mapbox_access_token, 'feature_list':feature_list, 'stations': stations })
 
 
 
