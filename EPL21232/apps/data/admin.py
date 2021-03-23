@@ -3,28 +3,29 @@ from .models import Station, Data, MeanDay, MeanWeek, MeanYear, Intensity
 from .forms import CustomConfirmImportForm, CustomImportForm
 from import_export.admin import ImportExportModelAdmin, ImportMixin
 from .resources import DataResource
+from django.dispatch import receiver
+from import_export.signals import post_import
 
 class StationAdmin(admin.ModelAdmin):
     # a list of displayed columns name.
-    list_display = ['name']
+    list_display = ("name","longitude","latitude")
 
 
-admin.site.register(Station, StationAdmin)
-
-class MeanDayInline(admin.StackedInline):
-    model = MeanDay
-    extra = 1
-    readonly_fields=("mean_per_day",)
+# class MeanDayInline(admin.StackedInline):
+#    model = MeanDay
+#    extra = 1
+#    readonly_fields=("mean_per_day",)
 
            
 class DataAdmin(ImportMixin, admin.ModelAdmin):
     resource_class = DataResource
-    list_display = ("station", "tilting_date", "tilting_time", "tilting_number", "tilting_mm","valuetest","name")
-    readonly_fields=("valuetest",)
+    list_display = ("station", "tilting_date", "tilting_time", "tilting_number", "tilting_mm")
+    # readonly_fields=("valuetest",)
 
     def get_import_form(self):
         # Uncomment only if data is stored already in the database
-        MeanDay().calculate_mean_per_day # Test to see if average works
+        # MeanDay().calculate_mean_per_day # Test to see if average works
+        MeanYear().calculate_mean_per_year
         return CustomImportForm
     
     def get_confirm_import_form(self):
@@ -39,18 +40,28 @@ class DataAdmin(ImportMixin, admin.ModelAdmin):
                 
         return kwargs 
     
-    inlines = [MeanDayInline]
-    #print(MeanDay().mean_day_real)
+    # inlines = [MeanDayInline]
 
+@receiver(post_import, dispatch_uid='update_means')
+def _post_import(model, **kwargs):
+    MeanDay().calculate_mean_per_day
 
 class MeanDayAdmin(admin.ModelAdmin):
-    list_display = ("mean_day_real", "mean_per_day_real")
+    list_display = ("station", "mean_day","mean_per_day")
+
+
+class MeanWeekAdmin(admin.ModelAdmin):
+    list_display = ("station", "mean_week","mean_per_week")
+
+
+class MeanYearAdmin(admin.ModelAdmin):
+    list_display = ("station", "mean_year","mean_per_year")
 
            
-
+admin.site.register(Station, StationAdmin)
 admin.site.register(Data, DataAdmin)
 admin.site.register(MeanDay,MeanDayAdmin)
-admin.site.register(MeanWeek)
-admin.site.register(MeanYear)
+admin.site.register(MeanWeek, MeanWeekAdmin)
+admin.site.register(MeanYear, MeanYearAdmin)
 admin.site.register(Intensity)
 

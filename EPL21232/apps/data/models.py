@@ -7,8 +7,12 @@ import simplejson as json
 from datetime import timedelta, date
 
 def daterange(start_date, end_date):
-    for n in range(int((end_date - start_date).days)):
+    for n in range(int((end_date - start_date).days)+1):
         yield start_date + timedelta(n)
+
+def yearrange(start_year, end_year):
+    for n in range(int(end_year - start_year)+1):
+        yield start_year + n
 
 #from django.contrib.gis.db import models
 #from django.contrib.postgres.operations import CreateExtension
@@ -45,23 +49,17 @@ class Data(models.Model):
     tilting_time = models.TimeField()
     # Nous allons utilisés des nombres décimaux à 10 chiffes maximum et une presicion de 3 après la virgule du nombre.
     tilting_mm = models.DecimalField(max_digits=10,decimal_places=3)
-    valuetest = models.DecimalField(max_digits=10,decimal_places=3, default = 0)
+    # valuetest = models.DecimalField(max_digits=10,decimal_places=3, default = 0)
 
     @property
     def name(self):
         return self.tilting_mm
-    # mm_per_minute = models.DecimalField(max_digits=10,decimal_places=3)
-    # mm_per_hour = models.DecimalField(max_digits=10,decimal_places=3)
-    # mm_per_day = models.DecimalField(max_digits=10,decimal_places=3)
-
-    #def __str__(self):
-    #    return self.str(tilting_date)
 
     class Meta:
         verbose_name = 'Donnée pluviométrique'
         verbose_name_plural = 'Données pluviométriques'
         constraints = [
-            models.UniqueConstraint(fields=['station', 'tilting_date', 'tilting_time'], name='unique data')
+            models.UniqueConstraint(fields=['station', 'tilting_date', 'tilting_time'], name='unique data value')
         ]
 
     def __str__(self):
@@ -71,32 +69,23 @@ class Data(models.Model):
 
 class MeanDay(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
-    data = models.ForeignKey(Data, on_delete=models.CASCADE, default = 0)
 
     mean_day = models.DateField()
-    mean_per_day =  models.DecimalField(max_digits=10,decimal_places=3,default = 0)
-
-    
-    @property
-    def mean_day_real(self):
-        return Data.objects.order_by('-tilting_date').first().tilting_date
-
-    @property
-    def mean_per_day_real(self):
-        var1 = Data.objects.order_by('-tilting_date')
-        oldest_date = var1.first().tilting_date
-        station = var1.first().station
-        mpd = json.dumps(Data.objects.filter(tilting_date=oldest_date).aggregate(Avg('tilting_mm'))['tilting_mm__avg'], use_decimal=True)
-        return mpd 
+    mean_per_day =  models.DecimalField(max_digits=10,decimal_places=6,default = 0)
     
     class Meta:
         verbose_name = 'Moyenne journalière'
         verbose_name_plural = 'Moyennes journalières'
+        constraints = [
+            models.UniqueConstraint(fields=['station', 'mean_day'], name='unique mean for a day')
+        ]
 
     @property
     def calculate_mean_per_day(self):
         for station in Station.objects.all():
             var1 = Data.objects.filter(station=station).order_by('-tilting_date')
+            if var1.last() is None:
+                continue
             oldest_date = var1.last().tilting_date
             newest_date = var1.first().tilting_date
             #station = var1.last().station
@@ -108,34 +97,94 @@ class MeanDay(models.Model):
                 if var2 is None: 
                     print("skipped")
                     continue
-                else:
-                    mean_object = MeanDay()
-                    mean_object.station = station
-                    mean_object.mean_day = single_date
-                    mean_object.mean_per_day = mpd
-                    mean_object.save()
+
+                # Will either create the new mean for that year, or update the mean if it already exists
+                mean_object, created = MeanDay.objects.get_or_create(station=station,mean_day=single_date)
+                mean_object.mean_per_day = mpd
+                mean_object.save()
         return "ok"
 
 class MeanWeek(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # Date du jour du début de la semaine de la moyenne
     mean_week = models.DateField()
-    mean_per_week = models.DecimalField(max_digits=10,decimal_places=3,default = 0)
+    mean_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0)
 
     class Meta:
         verbose_name = 'Moyenne hebdomadaire'
         verbose_name_plural = 'Moyennes hebdomadaires'
+        constraints = [
+            models.UniqueConstraint(fields=['station', 'mean_week'], name='unique mean for a week')
+        ]
+
+    @property
+    def calculate_mean_per_week(self):
+        for station in Station.objects.all():
+            var1 = Data.objects.filter(station=station).order_by('-tilting_date')
+            if var1.last() is None:
+                continue
+            oldest_date = var1.last().tilting_date
+            newest_date = var1.first().tilting_date
+            #station = var1.last().station
+            for single_date in daterange(oldest_date, newest_date):
+                var2 = var1.filter(tilting_date=single_date).aggregate(Avg('tilting_mm'))['tilting_mm__avg']
+                mpw = json.dumps(var2, use_decimal=True)
+                print(mpd)
+                print(var2)
+                if var2 is None: 
+                    print("skipped")
+                    continue
+
+                # Will either create the new mean for that year, or update the mean if it already exists
+                mean_object, created = MeanWeek.objects.get_or_create(station=station,mean_week=oldest_date)
+                mean_object.mean_per_week = mpw
+                mean_object.save()
+
+        return "ok"
+
 
 class MeanYear(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # Année de la moyenne
     mean_year = models.IntegerField()
-    mean_per_year = models.DecimalField(max_digits=10,decimal_places=3)
+    mean_per_year = models.DecimalField(max_digits=10,decimal_places=6,default=0)
 
     class Meta:
         verbose_name = 'Moyenne annuelle'
         verbose_name_plural = 'Moyennes annuelles'
+        constraints = [
+            models.UniqueConstraint(fields=['station', 'mean_year'], name='unique mean for a year')
+        ]
         
+    @property
+    def calculate_mean_per_year(self):
+        for station in Station.objects.all():
+            var1 = MeanDay.objects.filter(station=station).order_by('-mean_day')
+            if var1.last() is None:
+                continue
+            oldest_date = var1.last().mean_day
+            newest_date = var1.first().mean_day
+            print(oldest_date.year)
+            print(station)
+            for single_year in yearrange(oldest_date.year,newest_date.year):
+                start_year = date(single_year,1,1)
+                end_year = date(single_year,12,31)
+                var2 = var1.filter(mean_day__range=[start_year, end_year]).aggregate(Avg('mean_per_day'))['mean_per_day__avg']
+                mpy = json.dumps(var2, use_decimal=True)
+                print(mpy)
+                print(var2)
+                if var2 is None: 
+                    print("skipped")
+                    continue
+                
+                # Will either create the new mean for that year, or update the mean if it already exists
+                mean_object, created = MeanYear.objects.get_or_create(station=station,mean_year=single_year)
+                print(mean_object.station)
+                mean_object.mean_per_year = mpy
+                print(mpy)
+                print(mean_object.mean_per_year)
+                mean_object.save()
+        return "ok"
 
     
 
