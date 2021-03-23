@@ -45,6 +45,17 @@ class Data(models.Model):
     tilting_time = models.TimeField()
     # Nous allons utilisés des nombres décimaux à 10 chiffes maximum et une presicion de 3 après la virgule du nombre.
     tilting_mm = models.DecimalField(max_digits=10,decimal_places=3)
+    valuetest = models.DecimalField(max_digits=10,decimal_places=3, default = 0)
+
+    @property
+    def name(self):
+        return self.tilting_mm
+    # mm_per_minute = models.DecimalField(max_digits=10,decimal_places=3)
+    # mm_per_hour = models.DecimalField(max_digits=10,decimal_places=3)
+    # mm_per_day = models.DecimalField(max_digits=10,decimal_places=3)
+
+    #def __str__(self):
+    #    return self.str(tilting_date)
 
     class Meta:
         verbose_name = 'Donnée pluviométrique'
@@ -56,18 +67,27 @@ class Data(models.Model):
     def __str__(self):
         return 'Donnée pour ' + self.station.__str__()
 
+
+
 class MeanDay(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
-    # Date du jour de la moyenne
-    #id_day = models.ForeignKey(Data)
-    mean_day = models.DateField()
-    mean_per_day = mean_per_day = models.DecimalField(max_digits=10,decimal_places=3)
-    # def __unicode__(self):             
-    #     return self.description
+    data = models.ForeignKey(Data, on_delete=models.CASCADE, default = 0)
 
-    # @property
-    # def tilting_mm(self):
-    #     return self.id_day.tilting_mm
+    mean_day = models.DateField()
+    mean_per_day =  models.DecimalField(max_digits=10,decimal_places=3,default = 0)
+
+    
+    @property
+    def mean_day_real(self):
+        return Data.objects.order_by('-tilting_date').first().tilting_date
+
+    @property
+    def mean_per_day_real(self):
+        var1 = Data.objects.order_by('-tilting_date')
+        oldest_date = var1.first().tilting_date
+        station = var1.first().station
+        mpd = json.dumps(Data.objects.filter(tilting_date=oldest_date).aggregate(Avg('tilting_mm'))['tilting_mm__avg'], use_decimal=True)
+        return mpd 
     
     class Meta:
         verbose_name = 'Moyenne journalière'
@@ -100,7 +120,7 @@ class MeanWeek(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # Date du jour du début de la semaine de la moyenne
     mean_week = models.DateField()
-    mean_per_week = models.DecimalField(max_digits=10,decimal_places=3)
+    mean_per_week = models.DecimalField(max_digits=10,decimal_places=3,default = 0)
 
     class Meta:
         verbose_name = 'Moyenne hebdomadaire'
