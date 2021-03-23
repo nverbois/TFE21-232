@@ -14,6 +14,10 @@ def yearrange(start_year, end_year):
     for n in range(int(end_year - start_year)+1):
         yield start_year + n
 
+def weekrange(start_week, end_week):
+    for n in range(0,int((end_week - start_week).days)+1,7):
+        yield start_week + timedelta(n)
+
 #from django.contrib.gis.db import models
 #from django.contrib.postgres.operations import CreateExtension
 #from django.db import migrations
@@ -120,23 +124,27 @@ class MeanWeek(models.Model):
     @property
     def calculate_mean_per_week(self):
         for station in Station.objects.all():
-            var1 = Data.objects.filter(station=station).order_by('-tilting_date')
+            var1 = MeanDay.objects.filter(station=station).order_by('-mean_day')
             if var1.last() is None:
                 continue
-            oldest_date = var1.last().tilting_date
-            newest_date = var1.first().tilting_date
-            #station = var1.last().station
-            for single_date in daterange(oldest_date, newest_date):
-                var2 = var1.filter(tilting_date=single_date).aggregate(Avg('tilting_mm'))['tilting_mm__avg']
+            oldest_date = var1.last().mean_day
+            newest_date = var1.first().mean_day
+
+
+            for single_week in weekrange(oldest_date,newest_date):
+
+                week_span = [single_week, single_week+timedelta(6)]
+
+                var2 = var1.filter(mean_day__range=week_span).aggregate(Avg('mean_per_day'))['mean_per_day__avg']
                 mpw = json.dumps(var2, use_decimal=True)
-                print(mpd)
+                print(mpw)
                 print(var2)
                 if var2 is None: 
                     print("skipped")
                     continue
 
                 # Will either create the new mean for that year, or update the mean if it already exists
-                mean_object, created = MeanWeek.objects.get_or_create(station=station,mean_week=oldest_date)
+                mean_object, created = MeanWeek.objects.get_or_create(station=station,mean_week=single_week)
                 mean_object.mean_per_week = mpw
                 mean_object.save()
 
