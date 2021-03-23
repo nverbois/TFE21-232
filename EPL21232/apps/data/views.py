@@ -10,7 +10,7 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     # 10 latests data for the station
     data = Data.objects.order_by('-tilting_date').filter(station=station)[:10][::-1]
     # 10 latests means for the station (counting per day !!!)
-    meandaytable = MeanDay.objects.order_by('-mean_day')[:10][::-1]
+    meandaytable = MeanDay.objects.filter(station=station).order_by('-mean_day')[:10][::-1]
     
     
     context = {

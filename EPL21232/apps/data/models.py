@@ -75,18 +75,26 @@ class MeanDay(models.Model):
 
     @property
     def calculate_mean_per_day(self):
-        var1 = Data.objects.order_by('-tilting_date')
-        oldest_date = var1.last().tilting_date
-        newest_date = var1.first().tilting_date
-        station = var1.last().station
-        for single_date in daterange(oldest_date, newest_date):
-            mpd = json.dumps(Data.objects.filter(tilting_date=single_date).aggregate(Avg('tilting_mm'))['tilting_mm__avg'], use_decimal=True)
-            mean_object = MeanDay()
-            mean_object.station = station
-            mean_object.mean_day = single_date
-            mean_object.mean_per_day = mpd
-            mean_object.save()
-        return mpd
+        for station in Station.objects.all():
+            var1 = Data.objects.filter(station=station).order_by('-tilting_date')
+            oldest_date = var1.last().tilting_date
+            newest_date = var1.first().tilting_date
+            #station = var1.last().station
+            for single_date in daterange(oldest_date, newest_date):
+                var2 = var1.filter(tilting_date=single_date).aggregate(Avg('tilting_mm'))['tilting_mm__avg']
+                mpd = json.dumps(var2, use_decimal=True)
+                print(mpd)
+                print(var2)
+                if var2 is None: 
+                    print("skipped")
+                    continue
+                else:
+                    mean_object = MeanDay()
+                    mean_object.station = station
+                    mean_object.mean_day = single_date
+                    mean_object.mean_per_day = mpd
+                    mean_object.save()
+        return "ok"
 
 class MeanWeek(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
