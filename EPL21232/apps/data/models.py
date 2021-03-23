@@ -48,11 +48,11 @@ class Data(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # A voir avec le canva que nous allons imposé, au pire deux méthodes de récolte
     # recolt_type = models.BooleanField()
-    tilting_number = models.IntegerField()
-    tilting_date= models.DateField()
-    tilting_time = models.TimeField()
+    tilting_number = models.IntegerField(verbose_name="Nombre de basculement")
+    tilting_date= models.DateField(verbose_name="Date")
+    tilting_time = models.TimeField(verbose_name="Heure")
     # Nous allons utilisés des nombres décimaux à 10 chiffes maximum et une presicion de 3 après la virgule du nombre.
-    tilting_mm = models.DecimalField(max_digits=10,decimal_places=3)
+    tilting_mm = models.DecimalField(max_digits=10,decimal_places=3,verbose_name="Mesure (en mm)")
     # valuetest = models.DecimalField(max_digits=10,decimal_places=3, default = 0)
 
     @property
@@ -74,8 +74,11 @@ class Data(models.Model):
 class MeanDay(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
 
-    mean_day = models.DateField()
-    mean_per_day =  models.DecimalField(max_digits=10,decimal_places=6,default = 0)
+    mean_day = models.DateField(verbose_name="Jour")
+    mean_per_day =  models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Moyenne journalière")
+    max_per_day = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Maximum journalier")
+    min_per_day = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Minimum journalier")
+
     
     class Meta:
         verbose_name = 'Moyenne journalière'
@@ -94,17 +97,26 @@ class MeanDay(models.Model):
             newest_date = var1.first().tilting_date
             #station = var1.last().station
             for single_date in daterange(oldest_date, newest_date):
-                var2 = var1.filter(tilting_date=single_date).aggregate(Avg('tilting_mm'))['tilting_mm__avg']
-                mpd = json.dumps(var2, use_decimal=True)
-                print(mpd)
-                print(var2)
-                if var2 is None: 
+                var2 = var1.filter(tilting_date=single_date)
+                var3 = var2.aggregate(Avg('tilting_mm'))['tilting_mm__avg']
+                day_max = var2.aggregate(Max('tilting_mm'))['tilting_mm__max']
+                day_min = var2.aggregate(Min('tilting_mm'))['tilting_mm__min']
+                meanpd = json.dumps(var3, use_decimal=True)
+                maxpd = json.dumps(day_max, use_decimal=True)
+                minpd = json.dumps(day_min, use_decimal=True)
+                print(meanpd)
+                print(var3)
+                print(maxpd)
+                print(minpd)
+                if var3 is None: 
                     print("skipped")
                     continue
 
                 # Will either create the new mean for that year, or update the mean if it already exists
                 mean_object, created = MeanDay.objects.get_or_create(station=station,mean_day=single_date)
-                mean_object.mean_per_day = mpd
+                mean_object.mean_per_day = meanpd
+                mean_object.max_per_day = maxpd
+                mean_object.min_per_day = minpd
                 mean_object.save()
         return "ok"
 
@@ -112,7 +124,9 @@ class MeanWeek(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # Date du jour du début de la semaine de la moyenne
     mean_week = models.DateField()
-    mean_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0)
+    mean_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Moyenne hebdomadaire")
+    max_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Maximum hebdomadaire")
+    min_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Minimum hebdomadaire")
 
     class Meta:
         verbose_name = 'Moyenne hebdomadaire'
@@ -124,28 +138,38 @@ class MeanWeek(models.Model):
     @property
     def calculate_mean_per_week(self):
         for station in Station.objects.all():
-            var1 = MeanDay.objects.filter(station=station).order_by('-mean_day')
+            #var1 = MeanDay.objects.filter(station=station).order_by('-mean_day')
+            var1 = Data.objects.filter(station=station).order_by('-tilting_date')
             if var1.last() is None:
                 continue
-            oldest_date = var1.last().mean_day
-            newest_date = var1.first().mean_day
+            oldest_date = var1.last().tilting_date
+            newest_date = var1.first().tilting_date
 
 
             for single_week in weekrange(oldest_date,newest_date):
 
                 week_span = [single_week, single_week+timedelta(6)]
 
-                var2 = var1.filter(mean_day__range=week_span).aggregate(Avg('mean_per_day'))['mean_per_day__avg']
-                mpw = json.dumps(var2, use_decimal=True)
-                print(mpw)
+                var2 = var1.filter(tilting_date__range=week_span)
                 print(var2)
-                if var2 is None: 
+                var3 = var2.aggregate(Avg('tilting_mm'))['tilting_mm__avg']
+                week_max = var2.aggregate(Max('tilting_mm'))['tilting_mm__max']
+                print(week_max)
+                week_min = var2.aggregate(Min('tilting_mm'))['tilting_mm__min']
+                meanpw = json.dumps(var3, use_decimal=True)
+                maxpw = json.dumps(week_max, use_decimal=True)
+                minpw = json.dumps(week_min, use_decimal=True)
+                print(meanpw)
+                print(var3)
+                if var3 is None: 
                     print("skipped")
                     continue
 
                 # Will either create the new mean for that year, or update the mean if it already exists
                 mean_object, created = MeanWeek.objects.get_or_create(station=station,mean_week=single_week)
-                mean_object.mean_per_week = mpw
+                mean_object.mean_per_week = meanpw
+                mean_object.max_per_week = maxpw
+                mean_object.min_per_week = minpw
                 mean_object.save()
 
         return "ok"
@@ -155,7 +179,9 @@ class MeanYear(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # Année de la moyenne
     mean_year = models.IntegerField()
-    mean_per_year = models.DecimalField(max_digits=10,decimal_places=6,default=0)
+    mean_per_year = models.DecimalField(max_digits=10,decimal_places=6,default=0,verbose_name="Moyenne annuelle")
+    max_per_year = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Maximum annuel")
+    min_per_year = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Minimum annuel")
 
     class Meta:
         verbose_name = 'Moyenne annuelle'
@@ -167,29 +193,36 @@ class MeanYear(models.Model):
     @property
     def calculate_mean_per_year(self):
         for station in Station.objects.all():
-            var1 = MeanDay.objects.filter(station=station).order_by('-mean_day')
+            var1 = Data.objects.filter(station=station).order_by('-tilting_date')
             if var1.last() is None:
                 continue
-            oldest_date = var1.last().mean_day
-            newest_date = var1.first().mean_day
+            oldest_date = var1.last().tilting_date
+            newest_date = var1.first().tilting_date
             print(oldest_date.year)
             print(station)
             for single_year in yearrange(oldest_date.year,newest_date.year):
                 start_year = date(single_year,1,1)
                 end_year = date(single_year,12,31)
-                var2 = var1.filter(mean_day__range=[start_year, end_year]).aggregate(Avg('mean_per_day'))['mean_per_day__avg']
-                mpy = json.dumps(var2, use_decimal=True)
-                print(mpy)
-                print(var2)
-                if var2 is None: 
+                var2 = var1.filter(tilting_date__range=[start_year, end_year])
+                var3 = var2.aggregate(Avg('tilting_mm'))['tilting_mm__avg']
+                year_max = var2.aggregate(Max('tilting_mm'))['tilting_mm__max']
+                year_min = var2.aggregate(Min('tilting_mm'))['tilting_mm__min']
+                meanpy = json.dumps(var3, use_decimal=True)
+                maxpy = json.dumps(year_max, use_decimal=True)
+                minpy = json.dumps(year_min, use_decimal=True)
+                print(meanpy)
+                print(var3)
+                if var3 is None: 
                     print("skipped")
                     continue
                 
                 # Will either create the new mean for that year, or update the mean if it already exists
                 mean_object, created = MeanYear.objects.get_or_create(station=station,mean_year=single_year)
                 print(mean_object.station)
-                mean_object.mean_per_year = mpy
-                print(mpy)
+                mean_object.mean_per_year = meanpy
+                mean_object.max_per_year = maxpy
+                mean_object.min_per_year = minpy
+                print(meanpy)
                 print(mean_object.mean_per_year)
                 mean_object.save()
         return "ok"

@@ -25,7 +25,7 @@ class DataAdmin(ImportMixin, admin.ModelAdmin):
     def get_import_form(self):
         # Uncomment only if data is stored already in the database
         # MeanDay().calculate_mean_per_day # Test to see if average works
-        MeanWeek().calculate_mean_per_week
+        # MeanYear().calculate_mean_per_year
         return CustomImportForm
     
     def get_confirm_import_form(self):
@@ -45,17 +45,19 @@ class DataAdmin(ImportMixin, admin.ModelAdmin):
 @receiver(post_import, dispatch_uid='update_means')
 def _post_import(model, **kwargs):
     MeanDay().calculate_mean_per_day
+    MeanWeek().calculate_mean_per_week
+    MeanYear().calculate_mean_per_year
 
 class MeanDayAdmin(admin.ModelAdmin):
-    list_display = ("station", "mean_day","mean_per_day")
+    list_display = ("station", "mean_day", "min_per_day","max_per_day", "mean_per_day")
 
 
 class MeanWeekAdmin(admin.ModelAdmin):
-    list_display = ("station", "mean_week","mean_per_week")
+    list_display = ("station", "mean_week", "min_per_week","max_per_week", "mean_per_week")
 
 
 class MeanYearAdmin(admin.ModelAdmin):
-    list_display = ("station", "mean_year","mean_per_year")
+    list_display = ("station", "mean_year", "min_per_year","max_per_year", "mean_per_year")
 
            
 admin.site.register(Station, StationAdmin)
