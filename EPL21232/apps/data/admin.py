@@ -5,74 +5,32 @@ from .models import Station, Data, MeanDay, MeanWeek, MeanYear, Intensity
 from .forms import CustomConfirmImportForm, CustomImportForm
 from import_export.admin import ImportExportModelAdmin, ImportMixin
 from .resources import DataResource
-
-# class StationAdmin(admin.ModelAdmin):
-#     # a list of displayed columns name.
-#     list_display = ['name']
+from django.dispatch import receiver
+from import_export.signals import post_import
 
 
-# admin.site.register(Station, StationAdmin)
 
-# class DataForm(forms.ModelForm):
-#      model = Data
+class StationAdmin(admin.ModelAdmin):
+    # a list of displayed columns name.
+    list_display = ("name","longitude","latitude")
 
-# class MeanDayForm(forms.ModelForm):
-#      model = MeanDay
 
-# class MeanDayInlineFormSet(BaseInlineFormSet):
-#     def clean(self):
-#         super(MeanDayInLineFormSet, self).clean()
-#         self.cleaned_data[0]['mean_per_day'] = 5000
-
-#     # def save_new_objects(self, commit=True):
-#     #     saved_instances = super(MeanDayInlineFormSet, self).save_new_objects(commit)
-#     #     if commit:
-#     #         # create book for press
-#     #     return saved_instances
-
-#     # def save_existing_objects(self, commit=True):
-#     #     saved_instances = super(BookInlineFormSet, self).save_existing_objects(commit)
-#     #     if commit:
-#     #         # update book for press
-#     #   return saved_instances
-
-# class MeanDayInline(admin.TabularInline):
-#     model = MeanDay
-#     form = MeanDayForm
-#     fromset = MeanDayInlineFormSet
-#     extra = 1
-#     readonly_fields=('mean_per_day','mean_day')
-
-#     # def __init__(self):
-#     #     newMeanDay = MeanDay(station = Data.objects.last().station,
-#     #                         mean_day =Data.objects.last().tilting_date,
-#     #                         mean_per_day = mean_per_day_realone)
-        
-#     #     newMeanDay.save()
-   
-#     # def mean_per_day_realone(self):
-#     #     var1 = Data.objects
-#     #     oldest_date = var1.last().tilting_date
-#     #     station = var1.last().station
-#     #     mpd = json.dumps(Data.objects.filter(tilting_date=oldest_date).aggregate(Avg('tilting_mm'))['tilting_mm__avg'], use_decimal=True)
-#     #     return mpd 
-
-    
-
-    
-
+# class MeanDayInline(admin.StackedInline):
+#    model = MeanDay
+#    extra = 1
+#    readonly_fields=("mean_per_day",)
 
            
-# class DataAdmin(ImportMixin, admin.ModelAdmin):
-#     resource_class = DataResource
-#     form = DataForm
-#     list_display = ("station", "tilting_date", "tilting_time", "tilting_number", "tilting_mm","valuetest","name")
-#     readonly_fields=("valuetest",)
+class DataAdmin(ImportMixin, admin.ModelAdmin):
+    resource_class = DataResource
+    list_display = ("station", "tilting_date", "tilting_time", "tilting_number", "tilting_mm")
+    # readonly_fields=("valuetest",)
 
-#     def get_import_form(self):
-#         # Uncomment only if data is stored already in the database
-#         print(MeanDay().calculate_mean_per_day) # Test to see if average works
-#         return CustomImportForm
+    def get_import_form(self):
+        # Uncomment only if data is stored already in the database
+        # MeanDay().calculate_mean_per_day # Test to see if average works
+        # MeanYear().calculate_mean_per_year
+        return CustomImportForm
     
 #     def get_confirm_import_form(self):
 #         return CustomConfirmImportForm
@@ -88,26 +46,30 @@ from .resources import DataResource
     
 #     inlines = [MeanDayInline]
     
+    # inlines = [MeanDayInline]
+
+@receiver(post_import, dispatch_uid='update_means')
+def _post_import(model, **kwargs):
+    MeanDay().calculate_mean_per_day
+    MeanWeek().calculate_mean_per_week
+    MeanYear().calculate_mean_per_year
+
+class MeanDayAdmin(admin.ModelAdmin):
+    list_display = ("station", "mean_day", "min_per_day","max_per_day", "mean_per_day")
 
 
-# class MeanDayAdmin(admin.ModelAdmin):
-#     list_display = ("station","mean_day", "mean_per_day","mean_day_real", "mean_per_day_real")
+class MeanWeekAdmin(admin.ModelAdmin):
+    list_display = ("station", "mean_week", "min_per_week","max_per_week", "mean_per_week")
 
-#     @property
-#     def testover(self):
-#         meanday = MeanDay(station = Data.objects.last().station,
-#                           mean_day = Data.objects.last().tilting_date)
-#         self.mean_day.save()
-#         return mean_day
 
-    
-
+class MeanYearAdmin(admin.ModelAdmin):
+    list_display = ("station", "mean_year", "min_per_year","max_per_year", "mean_per_year")
 
            
-
-# admin.site.register(Data, DataAdmin)
-# admin.site.register(MeanDay,MeanDayAdmin)
-# admin.site.register(MeanWeek)
-# admin.site.register(MeanYear)
-# admin.site.register(Intensity)
+admin.site.register(Station, StationAdmin)
+admin.site.register(Data, DataAdmin)
+admin.site.register(MeanDay,MeanDayAdmin)
+admin.site.register(MeanWeek, MeanWeekAdmin)
+admin.site.register(MeanYear, MeanYearAdmin)
+admin.site.register(Intensity)
 

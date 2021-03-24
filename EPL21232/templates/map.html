@@ -50,7 +50,6 @@
 
                     feature_list.push(new ol.Feature({
                                     geometry: new ol.geom.Point(ol.proj.fromLonLat([{{elem.longitude | js}}, {{elem.latitude | js}}])),
-                                    name: 'Vienna',
                                     description: '<p><a href="/data/{{elem.id}}">{{elem.name}}</a></p>'
                                 }));
                 {% endfor %}
