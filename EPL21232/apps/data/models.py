@@ -270,10 +270,8 @@ class Intensity(models.Model):
                     
 
                     maxvalue = json.dumps(day_max, use_decimal=True)
-                    # first_time = json.dumps(min_time,indent=4, sort_keys=True, default=str)
-                    # last_time = json.dumps(max_time,indent=4, sort_keys=True, default=str)
-                    first_time = json.dumps(min_time)
-                    last_time = json.dumps(max_time)
+                    first_time = json.dumps(min_time,indent=4, sort_keys=True, default=str)
+                    last_time = json.dumps(max_time,indent=4, sort_keys=True, default=str)
                     intensity_val = json.dumps(intensity_value, use_decimal=True)
 
 
@@ -285,11 +283,11 @@ class Intensity(models.Model):
 
                     print("efvydgcbushinzokpzouiybugvygubhinjokplokijuybu")
                     print(max_time)
-                    intensity_object, created = Intensity.objects.get_or_create(station=station,intensity_day =single_date,duration =actual_duration)
-                    intensity_object.mean_per_day = max_amount
-                    intensity_object.start_interval = first_time
-                    intensity_object.end_interval = last_time
-                    intensity_object.intensity = intensity_val
-                    intensity_object.save()
+                    # intensity_object, created = Intensity.objects.get_or_create(station=station,intensity_day =single_date,duration =actual_duration)
+                    # intensity_object.mean_per_day = max_amount
+                    # intensity_object.start_interval = first_time
+                    # intensity_object.end_interval = last_time
+                    # intensity_object.intensity = intensity_val
+                    # intensity_object.save()
         return "ok"
 
