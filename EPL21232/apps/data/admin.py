@@ -23,7 +23,7 @@ class StationAdmin(admin.ModelAdmin):
            
 class DataAdmin(ImportMixin, admin.ModelAdmin):
     resource_class = DataResource
-    list_display = ("station", "tilting_date", "tilting_time", "tilting_number", "tilting_mm")
+    list_display = ("station", "tilting_date", "tilting_time", "tilting_mm")
     # readonly_fields=("valuetest",)
 
     def get_import_form(self):
@@ -53,6 +53,7 @@ def _post_import(model, **kwargs):
     MeanDay().calculate_mean_per_day
     MeanWeek().calculate_mean_per_week
     MeanYear().calculate_mean_per_year
+    Intensity().calculate_intensity
 
 class MeanDayAdmin(admin.ModelAdmin):
     list_display = ("station", "mean_day", "min_per_day","max_per_day", "mean_per_day")
@@ -65,7 +66,10 @@ class MeanWeekAdmin(admin.ModelAdmin):
 class MeanYearAdmin(admin.ModelAdmin):
     list_display = ("station", "mean_year", "min_per_year","max_per_year", "mean_per_year")
 
-           
+class IntensityAdmin(admin.ModelAdmin):
+    list_display = ("station", "intensity_day", "duration","max_amount", "start_interval","end_interval","intensity")
+
+
 admin.site.register(Station, StationAdmin)
 admin.site.register(Data, DataAdmin)
 admin.site.register(MeanDay,MeanDayAdmin)

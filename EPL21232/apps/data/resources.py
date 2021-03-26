@@ -21,9 +21,9 @@ class DataResource (resources.ModelResource):
 
     class Meta:
         model = Data
-        fields = ('station','tilting_number','tilting_mm', 'tilting_date','tilting_time') #Select the field to import for the resource
+        fields = ('station','tilting_mm', 'tilting_date','tilting_time') #Select the field to import for the resource
         exclude = ('id',)
         import_id_fields = ('tilting_date', 'tilting_time', 'station')
-        export_order = ('station','tilting_number','tilting_mm', 'tilting_date','tilting_time')
+        export_order = ('station','tilting_mm', 'tilting_date','tilting_time')
 
         

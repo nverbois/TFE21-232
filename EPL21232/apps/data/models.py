@@ -48,7 +48,6 @@ class Data(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # A voir avec le canva que nous allons imposé, au pire deux méthodes de récolte
     # recolt_type = models.BooleanField()
-    tilting_number = models.IntegerField(verbose_name="Nombre de basculement")
     tilting_date= models.DateField(verbose_name="Date")
     tilting_time = models.TimeField(verbose_name="Heure")
     # Nous allons utilisés des nombres décimaux à 10 chiffes maximum et une presicion de 3 après la virgule du nombre.
@@ -112,7 +111,7 @@ class MeanDay(models.Model):
                     print("skipped")
                     continue
 
-                # Will either create the new mean for that year, or update the mean if it already exists
+                # Will either create the new mean for that day, or update the mean if it already exists
                 mean_object, created = MeanDay.objects.get_or_create(station=station,mean_day=single_date)
                 mean_object.mean_per_day = meanpd
                 mean_object.max_per_day = maxpd
@@ -227,18 +226,70 @@ class MeanYear(models.Model):
                 mean_object.save()
         return "ok"
 
-    
+
 
 class Intensity(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
+
     intensity_day = models.DateField()
     duration = models.TimeField()
     # Nous allons utilisés des nombres décimaux à 10 chiffes maximum et une presicion de 3 après la virgule du nombre.
     max_amount = models.DecimalField(max_digits=10,decimal_places=3)
-    start_interval = models.DecimalField(max_digits=10,decimal_places=3)
-    end_interval = models.DecimalField(max_digits=10,decimal_places=3)
+    # start_interval = models.TimeField(verbose_name="Heure")
+    # end_interval = models.TimeField(verbose_name="Heure")
+    start_interval = models.CharField(max_length=64, unique=True)
+    end_interval = models.CharField(max_length=64, unique=True)
     intensity = models.DecimalField(max_digits=10,decimal_places=3)
 
     class Meta:
         verbose_name = 'Intensité pluviométrique'
         verbose_name_plural = 'Intensités pluviométriques'
+        constraints = [
+            models.UniqueConstraint(fields=['station','intensity_day','duration'], name='unique duration for a station and for a day')
+        ]
+
+
+    @property
+    def calculate_intensity(self):
+        for station in Station.objects.all():
+            var1 = Data.objects.filter(station=station).order_by('-tilting_date')
+            if var1.last() is None:
+                continue
+            oldest_date = var1.last().tilting_date
+            newest_date = var1.first().tilting_date
+            #station = var1.last().station
+            for single_date in daterange(oldest_date, newest_date):
+                var2 = var1.filter(tilting_date=single_date)
+
+                for actual_duration in [1,5,10,15,20,30,40,50,60,90,120,180]:
+                    
+                    day_max = var2.aggregate(Max('tilting_mm'))['tilting_mm__max']
+                    min_time = var2.aggregate(Min('tilting_time'))['tilting_time__min']
+                    max_time = var2.aggregate(Max('tilting_time'))['tilting_time__max']
+                    intensity_value = var2.aggregate(Max('tilting_mm'))['tilting_mm__max']
+                    
+
+                    maxvalue = json.dumps(day_max, use_decimal=True)
+                    # first_time = json.dumps(min_time,indent=4, sort_keys=True, default=str)
+                    # last_time = json.dumps(max_time,indent=4, sort_keys=True, default=str)
+                    first_time = json.dumps(min_time)
+                    last_time = json.dumps(max_time)
+                    intensity_val = json.dumps(intensity_value, use_decimal=True)
+
+
+                    if maxvalue is None: 
+                        print("skipped")
+                        continue
+
+                    # Will either create the new mean for that day, or update the mean if it already exists
+
+                    print("efvydgcbushinzokpzouiybugvygubhinjokplokijuybu")
+                    print(max_time)
+                    intensity_object, created = Intensity.objects.get_or_create(station=station,intensity_day =single_date,duration =actual_duration)
+                    intensity_object.mean_per_day = max_amount
+                    intensity_object.start_interval = first_time
+                    intensity_object.end_interval = last_time
+                    intensity_object.intensity = intensity_val
+                    intensity_object.save()
+        return "ok"
+
