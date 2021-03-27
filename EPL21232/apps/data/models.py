@@ -31,7 +31,7 @@ def weekrange(start_week, end_week):
 
 class Station(models.Model):
     # Default location of a station is Haiti center
-    name = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=64, unique=True, verbose_name="Nom")
     normalized_name = models.CharField(max_length=64, unique=True)
     description = models.CharField(max_length=128, blank=True)
     longitude = models.DecimalField(max_digits=13,decimal_places=8, default=-72.285215)
@@ -122,7 +122,7 @@ class MeanDay(models.Model):
 class MeanWeek(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # Date du jour du début de la semaine de la moyenne
-    mean_week = models.DateField()
+    mean_week = models.DateField(verbose_name="Semaine")
     mean_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Moyenne hebdomadaire")
     max_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Maximum hebdomadaire")
     min_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Minimum hebdomadaire")
@@ -177,7 +177,7 @@ class MeanWeek(models.Model):
 class MeanYear(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # Année de la moyenne
-    mean_year = models.IntegerField()
+    mean_year = models.IntegerField(verbose_name="Année")
     mean_per_year = models.DecimalField(max_digits=10,decimal_places=6,default=0,verbose_name="Moyenne annuelle")
     max_per_year = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Maximum annuel")
     min_per_year = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Minimum annuel")
