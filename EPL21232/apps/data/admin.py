@@ -75,5 +75,5 @@ admin.site.register(Data, DataAdmin)
 admin.site.register(MeanDay,MeanDayAdmin)
 admin.site.register(MeanWeek, MeanWeekAdmin)
 admin.site.register(MeanYear, MeanYearAdmin)
-admin.site.register(Intensity)
+admin.site.register(Intensity, IntensityAdmin)
 

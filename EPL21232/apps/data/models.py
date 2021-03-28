@@ -4,7 +4,7 @@ from decimal import Decimal
 
 import simplejson as json
 
-from datetime import timedelta, date
+from datetime import timedelta, date, datetime
 
 def daterange(start_date, end_date):
     for n in range(int((end_date - start_date).days)+1):
@@ -232,14 +232,12 @@ class Intensity(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
 
     intensity_day = models.DateField()
-    duration = models.TimeField()
+    duration = models.DecimalField(max_digits=10,decimal_places=0,default = 1)
     # Nous allons utilisés des nombres décimaux à 10 chiffes maximum et une presicion de 3 après la virgule du nombre.
-    max_amount = models.DecimalField(max_digits=10,decimal_places=3)
-    # start_interval = models.TimeField(verbose_name="Heure")
-    # end_interval = models.TimeField(verbose_name="Heure")
-    start_interval = models.CharField(max_length=64, unique=True)
-    end_interval = models.CharField(max_length=64, unique=True)
-    intensity = models.DecimalField(max_digits=10,decimal_places=3)
+    max_amount = models.DecimalField(max_digits=10,decimal_places=3,default = 0)
+    start_interval = models.TimeField(verbose_name="Start Interval", default='00:00')
+    end_interval = models.TimeField(verbose_name="End Interval", default='23:59')
+    intensity = models.DecimalField(max_digits=10,decimal_places=3,default = 0)
 
     class Meta:
         verbose_name = 'Intensité pluviométrique'
@@ -251,43 +249,97 @@ class Intensity(models.Model):
 
     @property
     def calculate_intensity(self):
+        #initialisation de variables
+        max_mm = 0
+        max_start = 0
+        max_end = 0
+
+        #
         for station in Station.objects.all():
             var1 = Data.objects.filter(station=station).order_by('-tilting_date')
             if var1.last() is None:
                 continue
             oldest_date = var1.last().tilting_date
             newest_date = var1.first().tilting_date
-            #station = var1.last().station
             for single_date in daterange(oldest_date, newest_date):
                 var2 = var1.filter(tilting_date=single_date)
 
-                for actual_duration in [1,5,10,15,20,30,40,50,60,90,120,180]:
-                    
-                    day_max = var2.aggregate(Max('tilting_mm'))['tilting_mm__max']
-                    min_time = var2.aggregate(Min('tilting_time'))['tilting_time__min']
-                    max_time = var2.aggregate(Max('tilting_time'))['tilting_time__max']
-                    intensity_value = var2.aggregate(Max('tilting_mm'))['tilting_mm__max']
-                    
+                if var2 is None: 
+                    print("skipped")
+                    continue
+                else:
+                    for actual_duration in [1,5,10,15,20,30,40,50,60,90,120,180]:
 
-                    maxvalue = json.dumps(day_max, use_decimal=True)
-                    first_time = json.dumps(min_time,indent=4, sort_keys=True, default=str)
-                    last_time = json.dumps(max_time,indent=4, sort_keys=True, default=str)
-                    intensity_val = json.dumps(intensity_value, use_decimal=True)
+                        var3 = var2.order_by('tilting_time')
+                        last_time_registered = var3.last().tilting_time
+
+                        print(actual_duration)
 
 
-                    if maxvalue is None: 
-                        print("skipped")
-                        continue
 
-                    # Will either create the new mean for that day, or update the mean if it already exists
+                        #TROP D'ITERATIONS!
+                        while len(var3) >= actual_duration:
 
-                    print("efvydgcbushinzokpzouiybugvygubhinjokplokijuybu")
-                    print(max_time)
-                    # intensity_object, created = Intensity.objects.get_or_create(station=station,intensity_day =single_date,duration =actual_duration)
-                    # intensity_object.mean_per_day = max_amount
-                    # intensity_object.start_interval = first_time
-                    # intensity_object.end_interval = last_time
-                    # intensity_object.intensity = intensity_val
-                    # intensity_object.save()
+
+                            #creation of var4
+                            start = datetime(2000, 1, 1, 
+                                                    hour=var3.first().tilting_time.hour,
+                                                    minute=var3.first().tilting_time.minute,
+                                                    second=var3.first().tilting_time.second)
+
+                            end = start + timedelta(minutes=(actual_duration - 1))
+                            time_span = [start, end]
+                            var4 = var3.filter(tilting_time__range=time_span)
+
+                            
+                            #calculate intensity on the period
+                            sum_mm = var4.aggregate(Sum('tilting_mm'))['tilting_mm__sum']
+
+                            #keep the biggest sum calculated
+                            if sum_mm > max_mm:
+                                max_mm = sum_mm
+                                max_start = start
+                                max_end = end
+                            
+                            
+
+                            start_bis = datetime(2000, 1, 1, 
+                                            hour=start.hour,
+                                            minute=start.minute,
+                                            second=start.second)
+
+                            new_start = start_bis + timedelta(minutes=1)
+                            var3_time_span = [new_start, last_time_registered]
+                            var3 = var3.filter(tilting_time__range=var3_time_span)
+
+                            
+                           
+                            #print(len(var3))
+
+                        
+                        
+                        day_max = max_mm
+                        min_time = max_start
+                        max_time = max_end
+                        intensity_value = day_max * 60 /actual_duration # quantity max / hour
+                        
+
+                        #maxvalue = json.dumps(day_max, use_decimal=True)
+                        #intensity_val = json.dumps(intensity_value, use_decimal=True)
+
+
+                        if day_max is None: 
+                            print("skipped")
+                            continue
+
+                        # Will either create the new mean for that day, or update the mean if it already exists
+
+                        intensity_object, created = Intensity.objects.get_or_create(station=station,intensity_day =single_date,duration =actual_duration)
+                        intensity_object.max_amount = day_max
+                        intensity_object.start_interval = min_time
+                        intensity_object.end_interval = max_time
+                        intensity_object.intensity = intensity_value
+                        intensity_object.save()
         return "ok"
+    
 
