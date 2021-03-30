@@ -171,3 +171,11 @@
   margin-top : 1rem;
   text-align: center;
 }
+
+.table-section{
+  margin-left: 5%;
+  margin-right: 5%;
+  display: none;
+  padding: 1rem 0;
+}
+
