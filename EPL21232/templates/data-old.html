@@ -43,7 +43,7 @@
 	<h4>Dernières données de la station</h4>
 </p>
 
-    <section class="page-section bg-primary-2 text-dark mb-0" id="table"> 
+    <section class="table-section bg-primary-2 text-dark mb-0" style="display: block;" id="table"> 
         <table id="table_data" class="display" margin-right="10%" margin-left="10%" style="width:80%">
             <thead>
                 <tr>
@@ -73,22 +73,36 @@
         $(document).ready( function () {
             $.noConflict();
 			$('#table_data').DataTable();
-            $('#table_mean').DataTable();
+            $('#table_mean_day').DataTable();
+			$('#table_mean_week').DataTable();
+			$('#table_mean_year').DataTable();
+			$('#table_intensity').DataTable();
         } );
 	</script>
 
 <p class="lead">
-	<h4>Dernières moyennes de la station</h4>
+	<h4>Moyennes pluviométriques de la station</h4>
 </p>
 
-<section class="page-section bg-primary-2 text-dark mb-0" id="table"> 
-	<table id="table_mean" class="display" margin-right="10%" margin-left="10%" style="width:80%">
+<a class="btn btn-x1 btn-outline-secondary active" id="showMeanDayTable" style="margin-left: 5%;">Moyennes journalières</a>
+<a class="btn btn-x1 btn-outline-secondary" id="showMeanWeekTable" style="margin-left: 1%; margin-right: 1%;">Moyennes hebdomadaires</a>
+<a class="btn btn-x1 btn-outline-secondary" id="showMeanYearTable">Moyennes annuelles</a>
+
+<script>
+	$('.btn').on('click', function(){
+		$(this).siblings().removeClass('active');
+		$(this).toggleClass('active');
+	});
+</script>
+
+<section class="table-section bg-primary-2 text-dark mb-0" style="display: block;" id="tableMeanDaySection"> 
+	<table id="table_mean_day" class="display" margin-right="10%" margin-left="10%" style="width:80%">
 		<thead>
 			<tr>
 				<th>Date</th>
 				<th>mm par jour</th>
-				<!-- <th>mm par semaine</th>
-				<th>mm par année</th> -->
+				<th>Maximum</th>
+				<th>Minimum</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -96,13 +110,119 @@
 			<tr>
 				<td>{{elem.mean_day}}</td>
 				<td>{{elem.mean_per_day}}</td>
-				<!-- <td>{{elem.mean_per_week}}</td>
-				<td>{{elem.mean_per_year}}</td> -->
+				<td>{{elem.max_per_day}}</td>
+				<td>{{elem.min_per_day}}</td>
 			</tr>
 			{% endfor %}
 		</tbody>
 	</table> 
 </section>
+<section class="table-section bg-primary-2 text-dark mb-0" id="tableMeanWeekSection"> 
+	<table id="table_mean_week" class="display" margin-right="10%" margin-left="10%" style="width:80%">
+		<thead>
+			<tr>
+				<th>Semaine</th>
+				<th>mm par semaine</th>
+				<th>Maximum</th>
+				<th>Minimum</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for elem in meanweektable %}
+			<tr>
+				<td>{{elem.mean_week}}</td>
+				<td>{{elem.mean_per_week}}</td>
+				<td>{{elem.max_per_week}}</td>
+				<td>{{elem.min_per_week}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table> 
+</section>
+<section class="table-section bg-primary-2 text-dark mb-0" id="tableMeanYearSection"> 
+	<table id="table_mean_year" class="display" margin-right="10%" margin-left="10%" style="width:80%">
+		<thead>
+			<tr>
+				<th>Année</th>
+				<th>mm pour l'année</th>
+				<th>Maximum</th>
+				<th>Minimum</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for elem in meanyeartable %}
+			<tr>
+				<td>{{elem.mean_year}}</td>
+				<td>{{elem.mean_per_year}}</td>
+				<td>{{elem.max_per_year}}</td>
+				<td>{{elem.min_per_year}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table> 
+</section>
+
+
+<script>
+	var tableMeanDay = document.getElementById("tableMeanDaySection");
+	var tableMeanWeek = document.getElementById("tableMeanWeekSection");
+	var tableMeanYear = document.getElementById("tableMeanYearSection");
+
+	var btnTabMD = document.getElementById("showMeanDayTable")
+	var btnTabMW = document.getElementById("showMeanWeekTable")
+	var btnTabMY = document.getElementById("showMeanYearTable")
+
+
+
+	btnTabMD.onclick = function () {
+		tableMeanDay.style.display = "block";
+		tableMeanWeek.style.display = "none";
+		tableMeanYear.style.display = "none";
+
+	}
+	btnTabMW.onclick = function () {
+		tableMeanDay.style.display = "none";
+		tableMeanWeek.style.display = "block";
+		tableMeanYear.style.display = "none";
+
+	}
+	btnTabMY.onclick = function () {
+		tableMeanDay.style.display = "none";
+		tableMeanWeek.style.display = "none";
+		tableMeanYear.style.display = "block";
+
+	}
+	
+</script>
+
+<p class="lead">
+	<h4>Mesures d'intensité pluviométrique</h4>
+</p>
+
+<section class="table-section bg-primary-2 text-dark mb-0" style="display: block;" id="tableIntensitySection"> 
+	<table id="table_intensity" class="display" margin-right="10%" margin-left="10%" style="width:80%">
+		<thead>
+			<tr>
+				<th>Jour</th>
+				<th>Durée de la mesure</th>
+				<th>Maximum</th>
+				<th>Intensité</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for elem in intensitytable %}
+			<tr>
+				<td>{{elem.intensity_day}}</td>
+				<td>{{elem.duration}}</td>
+				<td>{{elem.max_amount}}</td>
+				<td>{{elem.intensity}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table> 
+</section>
+
+
 
 
 <p class="lead">
