@@ -268,7 +268,7 @@ class Intensity(models.Model):
                     print("skipped")
                     continue
                 else:
-                    for actual_duration in [1,5,10,15,20,30,40,50,60,90,120,180]:
+                    for actual_duration in [5,10,15,20,30,40,50,60,90,120,180]:
 
                         var3 = var2.order_by('tilting_time')
                         last_time_registered = var3.last().tilting_time
@@ -308,7 +308,7 @@ class Intensity(models.Model):
                                             minute=start.minute,
                                             second=start.second)
 
-                            new_start = start_bis + timedelta(minutes=1)
+                            new_start = start_bis + timedelta(minutes=actual_duration)
                             var3_time_span = [new_start, last_time_registered]
                             var3 = var3.filter(tilting_time__range=var3_time_span)
 
