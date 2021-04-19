@@ -2,7 +2,6 @@
 
 {% block title %}Donnnées et statistiques{% endblock %}
 
-
 {% block content %}
 
 <head>
@@ -383,7 +382,7 @@
 	{% block customjs %}
 	<script>
 		$(function () {
-			let endpoint = '<int:my_id>'
+			let endpoint = '/dashboard/api/sales-expenses'
 			let salesData = []
 			let labels = []
 			let expenses = []
@@ -434,15 +433,22 @@
 
 
 
+
+
+
+
+
+
 	<div id="container" style="width: 75%;">
-		<canvas id="meanPerDay-chart" "></canvas>
-	  </div>
+		<canvas id="meanPerDay-chart" ></canvas>
+	 </div>
 	
 	 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 	 <script>
 	  
 		$(function () {
+	
 		  var $meanPerDayChart = $("#meanPerDay-chart");
 		  $.ajax({
 			url: $meanPerDayChart.data("url"),
@@ -478,38 +484,6 @@
 		});
 	
 	  </script> 
-	
-
-	<div id="container" style="width: 75%;">
-		<canvas id="meanPerDay-chart-test"></canvas>
-	</div>
-
-	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-
-	<script>
-
-		var config = {
-		type: 'line',
-		data: {
-			datasets: [{
-				data: data,
-				label: 'Moyenne'
-			}],
-			backgroundColor: window.chartColors.red,
-			labels: labels
-		},
-		options: {
-			responsive: true
-		}
-		};
-
-		window.onload = function() {
-		var ctx = document.getElementById('meanPerDay-chart').getContext('2d');
-		window.myLine= new Chart(ctx, config);
-		};
-
-	</script>
-
 	
 
 </body>
