@@ -244,10 +244,8 @@
 	
 	<script>
 		var DURATIONS = []
-		var DATA = []
 		{% for elem in intensitytable %}
-			DURATIONS.push({{elem.duration}});
-			DATA.push({{elem.intensity}});
+			DURATIONS.push(elem.duration);
 		{% endfor %}
 		//var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 		var config = {
@@ -255,11 +253,33 @@
 			data: {
 				labels: DURATIONS,
 				datasets: [{
-					label: 'Graphes des intensités',
+					label: 'Premier ensemble de données',
 					backgroundColor: window.chartColors.red,
 					borderColor: window.chartColors.red,
-					data: DATA,
+					data: [
+						randomScalingFactor(),
+						randomScalingFactor(),
+						randomScalingFactor(),
+						randomScalingFactor(),
+						randomScalingFactor(),
+						randomScalingFactor(),
+						randomScalingFactor()
+					],
 					fill: false,
+				}, {
+					label: 'Second ensemble de données',
+					fill: false,
+					backgroundColor: window.chartColors.blue,
+					borderColor: window.chartColors.blue,
+					data: [
+						randomScalingFactor(),
+						randomScalingFactor(),
+						randomScalingFactor(),
+						randomScalingFactor(),
+						randomScalingFactor(),
+						randomScalingFactor(),
+						randomScalingFactor()
+					],
 				}]
 			},
 			options: {
@@ -281,7 +301,7 @@
 						display: true,
 						scaleLabel: {
 							display: true,
-							labelString: 'Durée'
+							labelString: 'Mois'
 						}
 					}],
 					yAxes: [{
@@ -333,8 +353,8 @@
 
 		document.getElementById('addData').addEventListener('click', function() {
 			if (config.data.datasets.length > 0) {
-				var duration = DURATIONS[config.data.labels.length % DURATIONS.length];
-				config.data.labels.push(duration);
+				var month = MONTHS[config.data.labels.length % MONTHS.length];
+				config.data.labels.push(month);
 
 				config.data.datasets.forEach(function(dataset) {
 					dataset.data.push(randomScalingFactor());

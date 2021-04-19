@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from .models import Station,Data,MeanDay,Intensity, MeanWeek, MeanYear
 # Create your views here.
 
-    
+ 
 def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     # The concerned station 
     station = Station.objects.get(id=my_id)
@@ -29,3 +29,4 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
 
 def data(request: HttpRequest) -> HttpResponse:
     return render(request, "data.html")
+
