@@ -29,3 +29,4 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
 
 def data(request: HttpRequest) -> HttpResponse:
     return render(request, "data.html")
+
