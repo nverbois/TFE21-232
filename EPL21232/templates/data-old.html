@@ -376,120 +376,57 @@
 	</script>
 
 
-	<canvas id="chart" width="500" height="500"></canvas>
 
-
-	{% block customjs %}
-	<script>
-		$(function () {
-			let endpoint = '/dashboard/api/sales-expenses'
-			let salesData = []
-			let labels = []
-			let expenses = []
-			$.ajax({
-				method: "GET",
-				url: endpoint,
-				success: function (data) {
-					labels = data.labels
-					salesData = data.sales
-					expenses = data.total_expenses
-					console.log(expenses)
-					console.log(salesData)
-
-					new Chart(document.getElementById("chart"),
-						{
-							"type": "bar",
-							"data": {
-								"labels": labels,
-								"datasets": [{
-									"label": "Sales",
-									"data": salesData,
-									"fill": false,
-									"backgroundColor": "rgba(0, 194, 146, 0.2)",
-									"borderColor": "rgb(0, 194, 146)",
-									"borderWidth": 1
-								}, {
-									"label": "Expenses",
-									"data": expenses,
-									"fill": false,
-									"backgroundColor": "rgba(228, 106, 118, 0.2)",
-									"borderColor": "rgb(228, 106, 118)",
-									"borderWidth": 1
-								}]
-							},
-							"options": {
-								"scales": {"yAxes": [{"ticks": {"beginAtZero": true}}]}
-							}
-						});
-				},
-				error: function (error_data) {
-					console.log("Error")
-					console.log(error_data)
-				},
-			})
-		});
-	</script>
-	{% endblock %}
-
-
-
-
-
-
-
-
-
-	<div id="container" style="width: 75%;">
-		<canvas id="meanPerDay-chart" ></canvas>
-	 </div>
-	
-	 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-	 <script>
-	  
-		$(function () {
-	
-		  var $meanPerDayChart = $("#meanPerDay-chart");
-		  $.ajax({
-			url: $meanPerDayChart.data("url"),
-			success: function (data) {
-	
-			  var ctx = $meanPerDayChart[0].getContext("2d");
-	
-			  new Chart(ctx, {
-				type: 'bar',
-				data: {
-				  labels: data.labels,
-				  datasets: [{
-					label: 'date',
-					backgroundColor: 'blue',
-					data: data.data
-				  }]          
-				},
-				options: {
-				  responsive: true,
-				  legend: {
-					position: 'top',
-				  },
-				  title: {
-					display: true,
-					text: 'meanPerDay Bar Chart'
-				  }
-				}
-			  });
-	
-			}
-		  });
-	
-		});
-	
-	  </script> 
-	
 
 </body>
 
+<!--
+ <div id="container" style="width: 75%;">
+    <canvas id="meanPerDay"></canvas>
+  </div> 
+-->
 
+  <script>/* <script src="https://code.jquery.com/jquery-3.4.1.min.js"> */</script>
+  <script>/*  src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"> */</script>
+  <script> /*
+  
+    $(function () {
 
+      var $meanPerDay = $("#meanPerDay");
+      $.ajax({
+        url: $meanPerDay.data("url"),
+        success: function (data) {
+
+          var ctx = $meanPerDay[0].getContext("2d");
+
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: data.labels,
+              datasets: [{
+                label: 'date',
+                backgroundColor: 'blue',
+                data: data.data
+              }]          
+            },
+            options: {
+              responsive: true,
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'meanPerDay Bar Chart'
+              }
+            }
+          });
+
+        }
+      });
+
+    });
+
+  */</script> 
 
 
 {% endblock %}
