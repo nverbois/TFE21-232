@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.http import HttpRequest, HttpResponse
 from .models import Station,Data,MeanDay,Intensity, MeanWeek, MeanYear
 # Create your views here.
 
-    
+ 
 def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     # The concerned station 
     station = Station.objects.get(id=my_id)
@@ -29,27 +29,3 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
 
 def data(request: HttpRequest) -> HttpResponse:
     return render(request, "data.html")
-
-def meanPerDay_chart(request):
-    labels = []
-    data = []
-
-    queryset = MeanDay.objects.values('mean_day').annotate(mean_pluviometry='mean_per_day')
-    for entry in queryset:
-        labels.append(entry['mean_day'])
-        data.append(entry['mean_pluviometry'])
-
-    labels.append('test')
-    data.append(10)
-    
-    return JsonResponse(data={
-        'labels': labels,
-        'data': data,
-    })
-
-def get_data(request, *arg, **kwargs):
-    data = {
-        "sales" : 100,
-        "customers": 10
-    }
-    return JsonResponse(data)

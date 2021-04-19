@@ -19,4 +19,3 @@ def contact(request: HttpRequest) -> HttpResponse:
         raise NotImplementedError
         
     return render(request, "contact.html",{"form": form})
-

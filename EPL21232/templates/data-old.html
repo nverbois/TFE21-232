@@ -2,7 +2,6 @@
 
 {% block title %}Donnnées et statistiques{% endblock %}
 
-
 {% block content %}
 
 <head>
@@ -242,40 +241,25 @@
 	<button id="removeDataset">Remove Dataset</button>
 	<button id="addData">Add Data</button>
 	<button id="removeData">Remove Data</button>
+	
 	<script>
-		var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+		var DURATIONS = []
+		var DATA = []
+		{% for elem in intensitytable %}
+			DURATIONS.push({{elem.duration}});
+			DATA.push({{elem.intensity}});
+		{% endfor %}
+		//var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 		var config = {
 			type: 'line',
 			data: {
-				labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet'],
+				labels: DURATIONS,
 				datasets: [{
-					label: 'Premier ensemble de données',
+					label: 'Graphes des intensités',
 					backgroundColor: window.chartColors.red,
 					borderColor: window.chartColors.red,
-					data: [
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor()
-					],
+					data: DATA,
 					fill: false,
-				}, {
-					label: 'Second ensemble de données',
-					fill: false,
-					backgroundColor: window.chartColors.blue,
-					borderColor: window.chartColors.blue,
-					data: [
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor()
-					],
 				}]
 			},
 			options: {
@@ -297,7 +281,7 @@
 						display: true,
 						scaleLabel: {
 							display: true,
-							labelString: 'Mois'
+							labelString: 'Durée'
 						}
 					}],
 					yAxes: [{
@@ -349,8 +333,8 @@
 
 		document.getElementById('addData').addEventListener('click', function() {
 			if (config.data.datasets.length > 0) {
-				var month = MONTHS[config.data.labels.length % MONTHS.length];
-				config.data.labels.push(month);
+				var duration = DURATIONS[config.data.labels.length % DURATIONS.length];
+				config.data.labels.push(duration);
 
 				config.data.datasets.forEach(function(dataset) {
 					dataset.data.push(randomScalingFactor());
@@ -376,148 +360,8 @@
 		});
 	</script>
 
-
-	<canvas id="chart" width="500" height="500"></canvas>
-
-
-	{% block customjs %}
-	<script>
-		$(function () {
-			let endpoint = '<int:my_id>'
-			let salesData = []
-			let labels = []
-			let expenses = []
-			$.ajax({
-				method: "GET",
-				url: endpoint,
-				success: function (data) {
-					labels = data.labels
-					salesData = data.sales
-					expenses = data.total_expenses
-					console.log(expenses)
-					console.log(salesData)
-
-					new Chart(document.getElementById("chart"),
-						{
-							"type": "bar",
-							"data": {
-								"labels": labels,
-								"datasets": [{
-									"label": "Sales",
-									"data": salesData,
-									"fill": false,
-									"backgroundColor": "rgba(0, 194, 146, 0.2)",
-									"borderColor": "rgb(0, 194, 146)",
-									"borderWidth": 1
-								}, {
-									"label": "Expenses",
-									"data": expenses,
-									"fill": false,
-									"backgroundColor": "rgba(228, 106, 118, 0.2)",
-									"borderColor": "rgb(228, 106, 118)",
-									"borderWidth": 1
-								}]
-							},
-							"options": {
-								"scales": {"yAxes": [{"ticks": {"beginAtZero": true}}]}
-							}
-						});
-				},
-				error: function (error_data) {
-					console.log("Error")
-					console.log(error_data)
-				},
-			})
-		});
-	</script>
-	{% endblock %}
-
-
-
-	<div id="container" style="width: 75%;">
-		<canvas id="meanPerDay-chart" "></canvas>
-	  </div>
-	
-	 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-	 <script>
-	  
-		$(function () {
-		  var $meanPerDayChart = $("#meanPerDay-chart");
-		  $.ajax({
-			url: $meanPerDayChart.data("url"),
-			success: function (data) {
-	
-			  var ctx = $meanPerDayChart[0].getContext("2d");
-	
-			  new Chart(ctx, {
-				type: 'bar',
-				data: {
-				  labels: data.labels,
-				  datasets: [{
-					label: 'date',
-					backgroundColor: 'blue',
-					data: data.data
-				  }]          
-				},
-				options: {
-				  responsive: true,
-				  legend: {
-					position: 'top',
-				  },
-				  title: {
-					display: true,
-					text: 'meanPerDay Bar Chart'
-				  }
-				}
-			  });
-	
-			}
-		  });
-	
-		});
-	
-	  </script> 
-	
-
-	<div id="container" style="width: 75%;">
-		<canvas id="meanPerDay-chart-test"></canvas>
-	</div>
-
-	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-
-	<script>
-
-		var config = {
-		type: 'line',
-		data: {
-			datasets: [{
-				data: data,
-				label: 'Moyenne'
-			}],
-			backgroundColor: window.chartColors.red,
-			labels: labels
-		},
-		options: {
-			responsive: true
-		}
-		};
-
-		window.onload = function() {
-		var ctx = document.getElementById('meanPerDay-chart').getContext('2d');
-		window.myLine= new Chart(ctx, config);
-		};
-
-	</script>
-
-	
-
 </body>
 
 
 
-
-
 {% endblock %}
-
-
