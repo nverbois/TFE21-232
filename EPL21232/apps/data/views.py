@@ -14,10 +14,18 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     meanweektable = MeanWeek.objects.filter(station=station).order_by('-mean_week')[::-1]
     meanyeartable = MeanYear.objects.filter(station=station).order_by('-mean_year')[::-1]
     intensitytable = Intensity.objects.filter(station=station).order_by('-intensity_day')[:10][::-1]
-    intensityTest = []
+    intensityData = []
+    intensityDuration = []
+    meandayData = []
+    meandayDate = []
     
     for elem in intensitytable:
-        intensityTest.append(float(elem.intensity))
+        intensityData.append(float(elem.intensity))
+        intensityDuration.append(float(elem.duration))
+
+    for elem in meandaytable:
+        meandayData.append(float(elem.mean_per_day))
+        meandayDate.append(str(elem.mean_day))
 
 
     context = {
@@ -28,7 +36,10 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         "meanyeartable": meanyeartable,
         "intensitytable": intensitytable,
         "station": station,
-        "intensityTest": intensityTest,
+        "intensityData": intensityData,
+        "intensityDuration":intensityDuration,
+        "meandayData": meandayData,
+        "meandayDate": meandayDate
     }
     return render(request, "data-old.html", context)
 

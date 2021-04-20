@@ -242,27 +242,28 @@
 	<button id="removeDataset">Remove Dataset</button>
 	<button id="addData">Add Data</button>
 	<button id="removeData">Remove Data</button>
+	<button id="meandayButton">get meanday's data</button>
 	
 
 	<script>
-		var DURATIONS = []
-		var DATA = []
-		{% for elem in intensitytable %}
-			DURATIONS.push({{elem.duration}});
-			DATA.push({{elem.intensity}});
-		{% endfor %}
+		//var DURATIONS = []
+		//var DATA = []
+		//{% for elem in intensitytable %}
+		//	DURATIONS.push({{elem.duration}});
+		//	DATA.push({{elem.intensity}});
+		//{% endfor %}
 
 		
 		//var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 		var config = {
 			type: 'line',
 			data: {
-				labels: DURATIONS,
+				labels:{{intensityDuration}},
 				datasets: [{
 					label: 'Graphes des intensités',
 					backgroundColor: window.chartColors.red,
 					borderColor: window.chartColors.red,
-					data: {{intensityTest}},
+					data: {{intensityData}},
 					fill: false,
 				}]
 			},
@@ -275,11 +276,6 @@
 				tooltips: {
 					mode: 'index',
 					intersect: false,
-					callbacks: {
-   						label: function(tooltipItem, data) {
-        				return tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  						  },
-					},
 				},
 				hover: {
 					mode: 'nearest',
@@ -362,11 +358,25 @@
 			config.data.labels.splice(-1, 1); // remove the label first
 
 			config.data.datasets.forEach(function(dataset) {
-				dataset.data.pop();
+				dataset.pop();
 			});
 
 			window.myLine.update();
 		});
+
+		document.getElementById('meandayButton').addEventListener('click', function() {
+			
+			while (config.data.datasets.length > 0){
+					config.data.datasets.splice(config.data.datasets.length-1, 1);
+			}
+			config.data.labels.pop();
+			//config.data.labels = {{meandayDate}};
+
+		//	myLineChart.scale.xLabels = {{meandayDate}};
+
+			window.myLine.update();
+		});
+
 	</script>
 
 </body>
