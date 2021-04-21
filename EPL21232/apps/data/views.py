@@ -36,8 +36,8 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         "meanyeartable": meanyeartable,
         "intensitytable": intensitytable,
         "station": station,
-        "intensityData": intensityData,
-        "intensityDuration":intensityDuration,
+        "intensityData": intensityData[::-1],
+        "intensityDuration":intensityDuration[::-1],
         "meandayData": meandayData,
         "meandayDate": meandayDate
     }
