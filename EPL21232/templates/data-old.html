@@ -230,6 +230,19 @@
 
 
 <body>
+
+	<div style="margin-right: 10%; margin-left: 10%; width:75%;">
+		<canvas id="canvas2"></canvas>
+	</div>
+	<br>
+	<br>
+	<button id="randomizeData2">Randomize Data2</button>
+	<button id="addDataset2">Add Dataset2</button>
+	<button id="removeDataset2">Remove Dataset2</button>
+	<button id="addData2">Add Data2</button>
+	<button id="removeData2">Remove Data2</button>
+	<button id="meandayButton2">get meanday's data2</button>
+
 	<div style="margin-right: 10%; margin-left: 10%; width:75%;">
 		<canvas id="canvas"></canvas>
 	</div>
@@ -241,8 +254,19 @@
 	<button id="addData">Add Data</button>
 	<button id="removeData">Remove Data</button>
 	<button id="meandayButton">get meanday's data</button>
-	
 
+	<div style="margin-right: 10%; margin-left: 10%; width:75%;">
+		<canvas id="canvas3"></canvas>
+	</div>
+	<br>
+	<br>
+	<button id="randomizeData3">Randomize Data3</button>
+	<button id="addDataset3">Add Dataset3</button>
+	<button id="removeDataset3">Remove Dataset3</button>
+	<button id="addData3">Add Data3</button>
+	<button id="removeData3">Remove Data3</button>
+	<button id="meandayButton3">get meanday's data3</button>
+	
 	<script>
 		//var DURATIONS = []
 		//var DATA = []
@@ -252,7 +276,252 @@
 		//{% endfor %}
 
 		
-		//var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+		//Chart data
+		
+		var config3 = {
+			type: 'line',
+			data: {
+				labels:{{intensityDuration}},
+				datasets: [{
+					label: 'Graphes des intensités',
+					backgroundColor: window.chartColors.red,
+					borderColor: window.chartColors.red,
+					data: {{intensityData}},
+					fill: false,
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Exemple de graphiques comparant deux courbes pluviométriques'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Durée'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Valeur'
+						}
+					}]
+				}
+			}
+		};
+
+		document.getElementById('randomizeData3').addEventListener('click', function() {
+			config.data.datasets.forEach(function(dataset) {
+				dataset.data = dataset.data.map(function() {
+					return randomScalingFactor();
+				});
+
+			});
+
+			window.myLine.update();
+		});
+
+		var colorNames = Object.keys(window.chartColors);
+		document.getElementById('addDataset3').addEventListener('click', function() {
+			var colorName = colorNames[config.data.datasets.length % colorNames.length];
+			var newColor = window.chartColors[colorName];
+			var newDataset = {
+				label: 'Ensemble de données' + config.data.datasets.length,
+				backgroundColor: newColor,
+				borderColor: newColor,
+				data: [],
+				fill: false
+			};
+
+			for (var index = 0; index < config.data.labels.length; ++index) {
+				newDataset.data.push(randomScalingFactor());
+			}
+
+			config.data.datasets.push(newDataset);
+			window.myLine.update();
+		});
+
+		document.getElementById('addData3').addEventListener('click', function() {
+			if (config.data.datasets.length > 0) {
+				var duration = DURATIONS[config.data.labels.length % DURATIONS.length];
+				config.data.labels.push(duration);
+
+				config.data.datasets.forEach(function(dataset) {
+					dataset.data.push(randomScalingFactor());
+				});
+
+				window.myLine.update();
+			}
+		});
+
+		document.getElementById('removeDataset3').addEventListener('click', function() {
+			config.data.datasets.splice(0, 1);
+			window.myLine.update();
+		});
+
+		document.getElementById('removeData3').addEventListener('click', function() {
+			config.data.labels.splice(-1, 1); // remove the label first
+
+			config.data.datasets.forEach(function(dataset) {
+				dataset.pop();
+			});
+
+			window.myLine.update();
+		});
+
+		document.getElementById('meandayButton3').addEventListener('click', function() {
+			
+			while (config.data.datasets.length > 0){
+					config.data.datasets.splice(config.data.datasets.length-1, 1);
+			}
+			config.data.labels.pop();
+			//config.data.labels = {{meandayDate}};
+
+		//	myLineChart.scale.xLabels = {{meandayDate}};
+
+			window.myLine.update();
+		});
+		
+		
+		
+		
+		
+		//chart mean
+		
+		var config2 = {
+			type: 'line',
+			data: {
+				labels:{{intensityDuration}},
+				datasets: [{
+					label: 'Graphes des intensités',
+					backgroundColor: window.chartColors.red,
+					borderColor: window.chartColors.red,
+					data: {{intensityData}},
+					fill: false,
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Exemple de graphiques comparant deux courbes pluviométriques'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Durée'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Valeur'
+						}
+					}]
+				}
+			}
+		};
+
+		document.getElementById('randomizeData2').addEventListener('click', function() {
+			config.data.datasets.forEach(function(dataset) {
+				dataset.data = dataset.data.map(function() {
+					return randomScalingFactor();
+				});
+
+			});
+
+			window.myLine.update();
+		});
+
+		var colorNames = Object.keys(window.chartColors);
+		document.getElementById('addDataset2').addEventListener('click', function() {
+			var colorName = colorNames[config.data.datasets.length % colorNames.length];
+			var newColor = window.chartColors[colorName];
+			var newDataset = {
+				label: 'Ensemble de données 2' + config.data.datasets.length,
+				backgroundColor: newColor,
+				borderColor: newColor,
+				data: [],
+				fill: false
+			};
+
+			for (var index = 0; index < config.data.labels.length; ++index) {
+				newDataset.data.push(randomScalingFactor());
+			}
+
+			config.data.datasets.push(newDataset);
+			window.myLine.update();
+		});
+
+		document.getElementById('addData2').addEventListener('click', function() {
+			if (config.data.datasets.length > 0) {
+				var duration = DURATIONS[config.data.labels.length % DURATIONS.length];
+				config.data.labels.push(duration);
+
+				config.data.datasets.forEach(function(dataset) {
+					dataset.data.push(randomScalingFactor());
+				});
+
+				window.myLine.update();
+			}
+		});
+
+		document.getElementById('removeDataset2').addEventListener('click', function() {
+			config.data.datasets.splice(0, 1);
+			window.myLine.update();
+		});
+
+		document.getElementById('removeData2').addEventListener('click', function() {
+			config.data.labels.splice(-1, 1); // remove the label first
+
+			config.data.datasets.forEach(function(dataset) {
+				dataset.pop();
+			});
+
+			window.myLine.update();
+		});
+
+		document.getElementById('meandayButton2').addEventListener('click', function() {
+			
+			while (config.data.datasets.length > 0){
+					config.data.datasets.splice(config.data.datasets.length-1, 1);
+			}
+			config.data.labels.pop();
+			//config.data.labels = {{meandayDate}};
+
+		//	myLineChart.scale.xLabels = {{meandayDate}};
+
+			window.myLine.update();
+		});
+
+		
+		//IDF chart
+
+
 		var config = {
 			type: 'line',
 			data: {
@@ -298,10 +567,6 @@
 			}
 		};
 
-		window.onload = function() {
-			var ctx = document.getElementById('canvas').getContext('2d');
-			window.myLine = new Chart(ctx, config);
-		};
 
 		document.getElementById('randomizeData').addEventListener('click', function() {
 			config.data.datasets.forEach(function(dataset) {
@@ -374,6 +639,19 @@
 
 			window.myLine.update();
 		});
+
+
+
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+
+			var ctx2 = document.getElementById('canvas2').getContext('2d');
+			window.myLine = new Chart(ctx2, config2);
+
+			var ctx3 = document.getElementById('canvas3').getContext('2d');
+			window.myLine = new Chart(ctx3, config3);
+		};
 
 	</script>
 
