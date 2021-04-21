@@ -267,7 +267,7 @@ class Intensity(models.Model):
                 if var2 is None: 
                     print("skipped")
                     continue
-                else:
+                
                     for actual_duration in [5,10,15,20,30,40,50,60,90,120,180]:
 
                         var3 = var2.order_by('tilting_time')
