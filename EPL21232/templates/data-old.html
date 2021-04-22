@@ -334,7 +334,7 @@
 
 			});
 
-			window.myLine.update();
+			myNewChart3.update();
 		});
 
 		var colorNames = Object.keys(window.chartColors);
@@ -354,7 +354,7 @@
 			}
 
 			config3.data.datasets.push(newDataset);
-			window.myLine.update();
+			myNewChart3.update();
 		});
 
 		document.getElementById('addData3').addEventListener('click', function() {
@@ -366,13 +366,13 @@
 					dataset.data.push(randomScalingFactor());
 				});
 
-				window.myLine.update();
+				myNewChart3.update();
 			}
 		});
 
 		document.getElementById('removeDataset3').addEventListener('click', function() {
 			config3.data.datasets.splice(0, 1);
-			window.myLine.update();
+			myNewChart3.update();
 		});
 
 		document.getElementById('removeData3').addEventListener('click', function() {
@@ -382,7 +382,7 @@
 				dataset.pop();
 			});
 
-			window.myLine.update();
+			myNewChart3.update();
 		});
 
 		document.getElementById('meandayButton3').addEventListener('click', function() {
@@ -395,7 +395,7 @@
 
 		//	myLineChart.scale.xLabels = {{meandayDate}};
 
-			window.myLine.update();
+			myNewChart3.update();
 		});
 		
 		
@@ -457,7 +457,7 @@
 
 			});
 
-			window.myLine.update();
+			myNewChart2.update();
 		});
 
 		var colorNames = Object.keys(window.chartColors);
@@ -477,7 +477,7 @@
 			}
 
 			config2.data.datasets.push(newDataset);
-			window.myLine.update();
+			myNewChart2.update();
 		});
 
 		document.getElementById('addData2').addEventListener('click', function() {
@@ -489,13 +489,13 @@
 					dataset.data.push(randomScalingFactor());
 				});
 
-				window.myLine.update();
+				myNewChart2.update();
 			}
 		});
 
 		document.getElementById('removeDataset2').addEventListener('click', function() {
 			config2.data.datasets.splice(0, 1);
-			window.myLine.update();
+			myNewChart2.update();
 		});
 
 		document.getElementById('removeData2').addEventListener('click', function() {
@@ -505,7 +505,7 @@
 				dataset.pop();
 			});
 
-			window.myLine.update();
+			myNewChart2.update();
 		});
 
 		document.getElementById('meandayButton2').addEventListener('click', function() {
@@ -516,7 +516,7 @@
 			config2.data.labels.pop();
 			
 
-			window.myLine.update();
+			myNewChart2.update();
 		});
 
 		
@@ -586,7 +586,7 @@
 
 			});
 
-			window.myLine.update();
+			myNewChart.update();
 		});
 
 		var colorNames = Object.keys(window.chartColors);
@@ -606,7 +606,7 @@
 			}
 
 			config.data.datasets.push(newDataset);
-			window.myLine.update();
+			myNewChart.update();
 		});
 
 		document.getElementById('addData').addEventListener('click', function() {
@@ -618,13 +618,13 @@
 					dataset.data.push(randomScalingFactor());
 				});
 
-				window.myLine.update();
+				myNewChart.update();
 			}
 		});
 
 		document.getElementById('removeDataset').addEventListener('click', function() {
 			config.data.datasets.splice(0, 1);
-			window.myLine.update();
+			myNewChart.update();
 		});
 
 		document.getElementById('removeData').addEventListener('click', function() {
@@ -634,7 +634,7 @@
 				dataset.pop();
 			});
 
-			window.myLine.update();
+			myNewChart.update();
 		});
 
 		document.getElementById('meandayButton').addEventListener('click', function() {
@@ -643,11 +643,8 @@
 					config.data.datasets.splice(config.data.datasets.length-1, 1);
 			}
 			config.data.labels.pop();
-			//config.data.labels = {{meandayDate}};
 
-		//	myLineChart.scale.xLabels = {{meandayDate}};
-
-			window.myLine.update();
+			myNewChart.update();
 		});
 
 
@@ -656,17 +653,17 @@
 
 		function function1() {
 			var ctx = document.getElementById('canvas').getContext('2d');
-			window.myLine = new Chart(ctx, config);
+			myNewChart = new Chart(ctx, config);
 		}
 
 		function function2() {
 			var ctx2 = document.getElementById('canvas2').getContext('2d');
-			window.myLine = new Chart(ctx2, config2);
+			myNewChart2 = new Chart(ctx2, config2);
 		}
 
 		function function3() {
 			var ctx3 = document.getElementById('canvas3').getContext('2d');
-			window.myLine = new Chart(ctx3, config3);
+			myNewChart3 = new Chart(ctx3, config3);
 		}
 
 		
