@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 from .models import Station,Data,MeanDay,Intensity, MeanWeek, MeanYear
+from datetime import timedelta, date, datetime
+
 # Create your views here.
 
  
@@ -18,6 +20,10 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     intensityDuration = []
     meandayData = []
     meandayDate = []
+    precipitation = []
+    precipitationDate = []
+    precipitationTime = []
+
     
     for elem in intensitytable:
         intensityData.append(float(elem.intensity))
@@ -27,6 +33,15 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         meandayData.append(float(elem.mean_per_day))
         meandayDate.append(str(elem.mean_day))
 
+    for elem in data:
+        precipitationTime.append(elem.tilting_time.strftime("%H:%M:%S"))
+        precipitation.append(float(elem.tilting_mm))
+
+    shorterData = precipitation[-7:]
+    shorterTime = precipitationTime[-7:]
+
+    print(shorterData)
+    print(shorterTime)
 
     context = {
         'id': my_id,
@@ -39,7 +54,9 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         "intensityData": intensityData[::-1],
         "intensityDuration":intensityDuration[::-1],
         "meandayData": meandayData,
-        "meandayDate": meandayDate
+        "meandayDate": meandayDate,
+        "shorterData": shorterData,
+        "shorterTime": shorterTime,
     }
     return render(request, "data-old.html", context)
 
