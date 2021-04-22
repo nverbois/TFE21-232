@@ -17,13 +17,12 @@
                 
             </div>
             <!-- Footer Contact us-->
-            <div class="col-lg-4">
+            <div class="col-lg-4" style="text-align: center;">
                 <h4 class="text-uppercase mb-4">Contactez-nous</h4>
                 <p class="lead mb-0">
-                    Vous pouvez nous joindre en remplissant un formulaire ci-dessous
+                    Vous pouvez nous joindre en remplissant un formulaire ci-dessous :
                     {% url 'contact:contact' as contact_url %} 
-                    <a href="{{ contact_url }}">Contact</a>
-                    
+                    <a href="{{ contact_url }}"><h5 style="text-align: center; margin-top: 1ch;">Contact</h5></a>
                 </p>
             </div>
         </div>
