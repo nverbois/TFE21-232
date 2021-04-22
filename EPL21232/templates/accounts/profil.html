@@ -4,33 +4,44 @@
 
 {% block content %}
 
-    <h1>
-        {{ user.get_full_name }} (@{{user.username}})
-    </h1>
-
     {% with profil=user.profil %}
         {% if profil %}
-            <h2>
-                {{ profil.persona|default:"" }}
-            </h2>
-            <div>
-                {{ profil.bio|default:"" }}
-            </div>
-            <div>
-                Other stuff
-            </div>
-            <br/>
-            <div>
-                Stations:
-                {% for station in profil.stations.all %}
-                    <span>
-                        {{ station.name }}{% if not forloop.last %}, {% endif %} 
-                    </span>
-                    {% endfor %}
-            </div>
+
+    <h1>
+        {{ profil.name }}
+    </h1>
+
+    <br/>
+
+    <h5>
+        {{user.get_full_name}}
+    </h5>
+    <h5>
+        {{ profil.role|default:"Aucun rôle spécifique sur la plateforme" }}
+    </h5>
+
+    <br/>
+
+    <div>
+        {{ profil.bio|default:"Cette utilisateur ne possède pas de bio" }}
+    </div>
+
+    <div>
+        Other stuff
+    </div>
+
+    <br/>
+    <div>
+        Stations:
+        {% for station in profil.stations.all %}
+            <span>
+                {{ station.name }}{% if not forloop.last %}, {% endif %} 
+            </span>
+            {% endfor %}
+    </div>
         {% endif %}
     {% endwith %}
     {% url 'admin:index' as admin_url%}
-    <a href="{{ admin_url }}">Administration</a>
+    <a href="{{ admin_url }}"><h5 style="text-align:right;">Administration</h5></a>
 
 {% endblock %}
