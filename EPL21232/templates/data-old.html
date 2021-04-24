@@ -395,7 +395,7 @@
 		var config2 = {
 			type: 'line',
 			data: {
-				labels:['{{meandayDate}}'],
+				labels:{{meandayDate|safe}},
 				datasets: [{
 					label: 'Graphes des intensités',
 					backgroundColor: window.chartColors.red,
