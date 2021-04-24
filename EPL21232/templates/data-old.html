@@ -509,7 +509,7 @@
 					config2.data.datasets.splice(config.data.datasets.length-1, 1);
 			}
 			config2.data.labels.pop();
-			config2.data.labels = ['{{meandayDate}}'];
+			config2.data.labels = {{meandayDate|safe}};
 			config2.data.dataset[0].data = DATA;
 
 			myNewChart2.update();
@@ -521,7 +521,7 @@
 					config2.data.datasets.splice(config.data.datasets.length-1, 1);
 			}
 			config2.data.labels.pop();
-			config2.data.labels = ['{{meanweekDate}}'];
+			config2.data.labels = {{meanweekDate|safe}};
 			config2.data.datasets.data = {{meanweekData}};
 			
 
@@ -534,7 +534,7 @@
 					config2.data.datasets.splice(config.data.datasets.length-1, 1);
 			}
 			config2.data.labels.pop();
-			config2.data.labels = ['{{meanyearDate}}'];
+			config2.data.labels = {{meanyearDate|safe}};
 			config2.data.datasets.data = {{meanyearData}};
 			
 
