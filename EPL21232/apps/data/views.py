@@ -72,7 +72,7 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         "shorterData": shorterData,
         "shorterTime": shorterTime,
     }
-    return render(request, "data-old.html", context)
+    return render(request, "data-old2.html", context)
 
 def data(request: HttpRequest) -> HttpResponse:
     return render(request, "data.html")

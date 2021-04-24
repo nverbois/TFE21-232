@@ -1,0 +1,10 @@
+<a class="btn btn-x1 btn-outline-secondary active" id="showMeans" style="margin-left: 5%;">Moyennes</a>
+<a class="btn btn-x1 btn-outline-secondary" id="showIntensities" style="margin-left: 1%; margin-right: 1%;">Intensités</a>
+<a class="btn btn-x1 btn-outline-secondary" id="showGraphs">Graphiques</a>
+
+<script>
+	$('.btn').on('click', function(){
+		$(this).siblings().removeClass('active');
+		$(this).toggleClass('active');
+	});
+</script>
