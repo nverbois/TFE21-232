@@ -241,7 +241,7 @@
 	<button id="removeDataset">Remove Dataset</button>
 	<button id="addData">Add Data</button>
 	<button id="removeData">Remove Data</button>
-	<button id="meandayButton">get meanday's data</button>
+
 
 
 
@@ -255,7 +255,9 @@
 	<button id="removeDataset2">Remove Dataset2</button>
 	<button id="addData2">Add Data2</button>
 	<button id="removeData2">Remove Data2</button>
-	<button id="meandayButton2">get meanday's data2</button>
+	<button id="meanDayButton">get meanday's data</button>
+	<button id="meanWeekButton">get meanweek's data</button>
+	<button id="meanYearButton">get meanyear's data</button>
 
 
 	<div style="margin-right: 10%; margin-left: 10%; width:75%;">
@@ -268,7 +270,7 @@
 	<button id="removeDataset3">Remove Dataset3</button>
 	<button id="addData3">Add Data3</button>
 	<button id="removeData3">Remove Data3</button>
-	<button id="meandayButton3">get meanday's data3</button>
+
 	
 	<script>
 		//var DURATIONS = []
@@ -384,20 +386,6 @@
 
 			myNewChart3.update();
 		});
-
-		document.getElementById('meandayButton3').addEventListener('click', function() {
-			
-			while (config3.data.datasets.length > 0){
-					config3.data.datasets.splice(config3.data.datasets.length-1, 1);
-			}
-			config3.data.labels.pop();
-			//config.data.labels = {{meandayDate}};
-
-		//	myLineChart.scale.xLabels = {{meandayDate}};
-
-			myNewChart3.update();
-		});
-		
 		
 		
 		
@@ -508,12 +496,46 @@
 			myNewChart2.update();
 		});
 
-		document.getElementById('meandayButton2').addEventListener('click', function() {
+
+
+		var DATA = []
+		{% for elem in tableMeanDay %}
+			DATA.push({{elem.mean_per_day}});
+		{% endfor %}
+
+		document.getElementById('meanDayButton').addEventListener('click', function() {
 			
 			while (config2.data.datasets.length > 0){
 					config2.data.datasets.splice(config.data.datasets.length-1, 1);
 			}
 			config2.data.labels.pop();
+			config2.data.labels = ['{{meandayDate}}'];
+			config2.data.dataset[0].data = DATA;
+
+			myNewChart2.update();
+		});
+
+		document.getElementById('meanWeekButton').addEventListener('click', function() {
+			
+			while (config2.data.datasets.length > 0){
+					config2.data.datasets.splice(config.data.datasets.length-1, 1);
+			}
+			config2.data.labels.pop();
+			config2.data.labels = ['{{meanweekDate}}'];
+			config2.data.datasets.data = {{meanweekData}};
+			
+
+			myNewChart2.update();
+		});
+
+		document.getElementById('meanYearButton').addEventListener('click', function() {
+			
+			while (config2.data.datasets.length > 0){
+					config2.data.datasets.splice(config.data.datasets.length-1, 1);
+			}
+			config2.data.labels.pop();
+			config2.data.labels = ['{{meanyearDate}}'];
+			config2.data.datasets.data = {{meanyearData}};
 			
 
 			myNewChart2.update();
@@ -637,15 +659,6 @@
 			myNewChart.update();
 		});
 
-		document.getElementById('meandayButton').addEventListener('click', function() {
-			
-			while (config.data.datasets.length > 0){
-					config.data.datasets.splice(config.data.datasets.length-1, 1);
-			}
-			config.data.labels.pop();
-
-			myNewChart.update();
-		});
 
 
 

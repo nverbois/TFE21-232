@@ -20,6 +20,10 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     intensityDuration = []
     meandayData = []
     meandayDate = []
+    meanweekData = []
+    meanweekDate = []
+    meanyearData = []
+    meanyearDate = []
     precipitation = []
     precipitationDate = []
     precipitationTime = []
@@ -33,6 +37,14 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         meandayData.append(float(elem.mean_per_day))
         meandayDate.append(str(elem.mean_day))
 
+    for elem in meanweektable:
+        meanweekData.append(float(elem.mean_per_week))
+        meanweekDate.append(str(elem.mean_week))
+
+    for elem in meanyeartable:
+            meanyearData.append(float(elem.mean_per_year))
+            meanyearDate.append(str(elem.mean_year))
+
     for elem in data:
         precipitationTime.append(elem.tilting_time.strftime("%H:%M:%S"))
         precipitation.append(float(elem.tilting_mm))
@@ -40,8 +52,6 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     shorterData = precipitation[-7:]
     shorterTime = precipitationTime[-7:]
 
-    print(shorterData)
-    print(shorterTime)
 
     context = {
         'id': my_id,
@@ -55,6 +65,10 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         "intensityDuration":intensityDuration[::-1],
         "meandayData": meandayData,
         "meandayDate": meandayDate,
+        "meanweekData": meanweekData,
+        "meanweekDate": meanweekDate,
+        "meanyearData": meanyearData,
+        "meanyearDate": meanyearDate,
         "shorterData": shorterData,
         "shorterTime": shorterTime,
     }
