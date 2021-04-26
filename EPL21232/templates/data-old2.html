@@ -27,31 +27,15 @@
 
 {% include 'navbar2.html' %}
 
-<p class="lead">
-	<h2>Nom de la station : {{station.name}}</h2>
-</p>
-
-<p class="lead">
-	{{station.description}}
-</p>
-
-
-
-
-<div id="Means">
-
-	<p class="lead mt-4">
-		<h3>Tableaux de données de la station</h3>
-	</p>
-
+<div id="Data" style="display: none;">
 	{% if user.is_authenticated %}
 
 	<p class="lead">
-		<h4>Dernières données de la station</h4>
+		<h4 style="padding-left: 3%;">Dernières données de la station</h4>
 	</p>
 
 		<section class="table-section bg-primary-2 text-dark mb-0" style="display: block;" id="table"> 
-			<table id="table_data" class="display" margin-right="10%" margin-left="10%" style="width:80%">
+			<table id="table_data" class="display compact hover row-border" margin-right="10%" margin-left="10%" style="width:80%">
 				<thead>
 					<tr>
 						<th>Date de la mesure</th>
@@ -72,6 +56,10 @@
 		</section>
 
 	{% endif %}
+</div>
+
+
+<div id="Means">
 
 	<!-- The $.noConflict(); is a quick fix to ensure the jquery.js is loaded before the dataTable.js file-->
 		<script>
@@ -86,10 +74,10 @@
 		</script>
 
 	<p class="lead">
-		<h4>Moyennes pluviométriques de la station</h4>
+		<h4 style="padding-left: 3%;">Moyennes pluviométriques de la station</h4>
 	</p>
 
-	<a class="btn btn-x1 btn-outline-secondary active" id="showMeanDayTable" style="margin-left: 5%;">Moyennes journalières</a>
+	<a class="btn btn-x1 btn-outline-secondary active" id="showMeanDayTable" style="margin-left: 3%;">Moyennes journalières</a>
 	<a class="btn btn-x1 btn-outline-secondary" id="showMeanWeekTable" style="margin-left: 1%; margin-right: 1%;">Moyennes hebdomadaires</a>
 	<a class="btn btn-x1 btn-outline-secondary" id="showMeanYearTable">Moyennes annuelles</a>
 
@@ -101,7 +89,7 @@
 	</script>
 
 	<section class="table-section bg-primary-2 text-dark mb-0" style="display: block;" id="tableMeanDaySection"> 
-		<table id="table_mean_day" class="display" margin-right="10%" margin-left="10%" style="width:80%">
+		<table id="table_mean_day" class="display compact hover row-border" margin-right="10%" margin-left="10%" style="width:80%">
 			<thead>
 				<tr>
 					<th>Date</th>
@@ -123,7 +111,7 @@
 		</table> 
 	</section>
 	<section class="table-section bg-primary-2 text-dark mb-0" id="tableMeanWeekSection"> 
-		<table id="table_mean_week" class="display" margin-right="10%" margin-left="10%" style="width:80%">
+		<table id="table_mean_week" class="display compact hover row-border" margin-right="10%" margin-left="10%" style="width:80%">
 			<thead>
 				<tr>
 					<th>Semaine</th>
@@ -145,7 +133,7 @@
 		</table> 
 	</section>
 	<section class="table-section bg-primary-2 text-dark mb-0" id="tableMeanYearSection"> 
-		<table id="table_mean_year" class="display" margin-right="10%" margin-left="10%" style="width:80%">
+		<table id="table_mean_year" class="display compact hover row-border" margin-right="10%" margin-left="10%" style="width:80%">
 			<thead>
 				<tr>
 					<th>Année</th>
@@ -203,17 +191,17 @@
 
 <div id="Intensities" style="display: none;">
 	<p class="lead">
-		<h4>Mesures d'intensité pluviométrique</h4>
+		<h4 style="padding-left: 3%;">Mesures d'intensité pluviométrique</h4>
 	</p>
 
 	<section class="table-section bg-primary-2 text-dark mb-0" style="display: block;" id="tableIntensitySection"> 
-		<table id="table_intensity" class="display" margin-right="10%" margin-left="10%" style="width:80%">
+		<table id="table_intensity" class="display compact hover row-border" margin-right="10%" margin-left="10%" style="width:80%">
 			<thead>
 				<tr>
 					<th>Jour</th>
-					<th>Durée de la mesure</th>
-					<th>Maximum</th>
-					<th>Intensité</th>
+					<th>Durée de la mesure [min]</th>
+					<th>Maximum [mm]</th>
+					<th>Intensité [mm]</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -235,7 +223,7 @@
 
 <div id="Graphs" style="display: none;">
 	<p class="lead">
-		<h3>Graphes de données de la station</h3>
+		<h3 style="padding-left: 3%;">Graphes de données de la station</h3>
 	</p>
 
 
@@ -710,35 +698,37 @@
 	var tableMeans = document.getElementById("Means");
 	var tableIntensities = document.getElementById("Intensities");
 	var tableGraphs = document.getElementById("Graphs");
+	var tableData = document.getElementById("Data");
 
 	var btnMeans = document.getElementById("showMeans")
 	var btnIntensities = document.getElementById("showIntensities")
 	var btnGraphs = document.getElementById("showGraphs")
+	var btnData = document.getElementById("showData")
 
 
+	btnData.onclick = function () {
+		tableData.style.display = "block"
+		tableMeans.style.display = "none";
+		tableIntensities.style.display = "none";
+		tableGraphs.style.display = "none";
 
+	}
 	btnMeans.onclick = function () {
-		//btnGraphs.removeClass('active');
-		//btnIntensities.removeClass('active');
-        //this.toggleClass('active');
+		tableData.style.display = "none"
 		tableMeans.style.display = "block";
 		tableIntensities.style.display = "none";
 		tableGraphs.style.display = "none";
 
 	}
 	btnIntensities.onclick = function () {
-		//btnGraphs.removeClass('active');
-		//btnMeans.removeClass('active');
-        //btnIntensities.toggleClass('active');
+		tableData.style.display = "none"
 		tableMeans.style.display = "none";
 		tableIntensities.style.display = "block";
 		tableGraphs.style.display = "none";
 
 	}
 	btnGraphs.onclick = function () {
-		//btnIntensities.removeClass('active');
-		//btnMeans.removeClass('active');
-        //btnGraphs.toggleClass('active');
+		tableData.style.display = "none"
 		tableMeans.style.display = "none";
 		tableIntensities.style.display = "none";
 		tableGraphs.style.display = "block";

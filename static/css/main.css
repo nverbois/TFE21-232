@@ -185,16 +185,3 @@
   display: none;
   padding: 1rem 0;
 }
-
-#mainNav .navbar-nav li.nav-item a.nav-btn {
-  color: #fff;
-}
-#mainNav .navbar-nav li.nav-item a.nav-btn:hover {
-  color: #1abc9c;
-}
-#mainNav .navbar-nav li.nav-item a.nav-btn:active, #mainNav .navbar-nav li.nav-item a.nav-btn:focus {
-  color: #fff;
-}
-#mainNav .navbar-nav li.nav-item a.nav-btn.active {
-  color: #1abc9c;
-}
