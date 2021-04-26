@@ -8,21 +8,22 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
 
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger active" id="showMeans" style="margin-left: 5%;">Moyennes</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger active" id="showMeans" style="cursor: pointer;">Moyennes</a></li>
 
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger " id="showIntensities" style="margin-left: 1%; margin-right: 1%;">Intensités</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger " id="showIntensities" style="cursor: pointer;">Intensités</a></li>
                 
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger " id="showGraphs">Graphiques</a>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 js-scroll-trigger " id="showGraphs" style="cursor: pointer;">Graphiques</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
+
 <script>
-    $('.nav-link').on('click', function(){
+    $('a.nav-link').on('click', function(){
         // Remove doesn't work
-        $(this).siblings().removeClass('active');
+        $("a.nav-link").removeClass('active');
         $(this).toggleClass('active');
     });
 </script>

@@ -718,18 +718,27 @@
 
 
 	btnMeans.onclick = function () {
+		//btnGraphs.removeClass('active');
+		//btnIntensities.removeClass('active');
+        //this.toggleClass('active');
 		tableMeans.style.display = "block";
 		tableIntensities.style.display = "none";
 		tableGraphs.style.display = "none";
 
 	}
 	btnIntensities.onclick = function () {
+		//btnGraphs.removeClass('active');
+		//btnMeans.removeClass('active');
+        //btnIntensities.toggleClass('active');
 		tableMeans.style.display = "none";
 		tableIntensities.style.display = "block";
 		tableGraphs.style.display = "none";
 
 	}
 	btnGraphs.onclick = function () {
+		//btnIntensities.removeClass('active');
+		//btnMeans.removeClass('active');
+        //btnGraphs.toggleClass('active');
 		tableMeans.style.display = "none";
 		tableIntensities.style.display = "none";
 		tableGraphs.style.display = "block";
