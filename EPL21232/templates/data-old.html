@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=7rcsZZMPcx8l_7wm0a_wMWveIXnxg4V4mRqQdQgg2D7HFQlZ5FsSUOnXb14eoTIG8gapUSDc1tyCi_CDcq-Ule1QLnHc07YyvgoGw8pXnJg" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 	<script src="../static/js/utils.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
@@ -270,6 +270,7 @@
 	<button id="removeDataset3">Remove Dataset3</button>
 	<button id="addData3">Add Data3</button>
 	<button id="removeData3">Remove Data3</button>
+	<button id="test">test</button>
 
 	
 	<script>
@@ -497,12 +498,6 @@
 		});
 
 
-
-		var DATA = []
-		{% for elem in tableMeanDay %}
-			DATA.push({{elem.mean_per_day}});
-		{% endfor %}
-
 		document.getElementById('meanDayButton').addEventListener('click', function() {
 			
 			while (config2.data.datasets.length > 0){
@@ -510,7 +505,34 @@
 			}
 			config2.data.labels.pop();
 			config2.data.labels = {{meandayDate|safe}};
-			config2.data.dataset[0].data = DATA;
+
+			
+			
+		
+
+			$.ajax({
+				url:"http://localhost:8000/data/1/getMeanDayData",
+
+				success:  function (result) {
+
+					var colorName = colorNames[config2.data.datasets.length % colorNames.length];
+					var newColor = window.chartColors[colorName];
+					var newDataset = {
+						label: 'mean by day' + config2.data.datasets.length,
+						backgroundColor: newColor,
+						borderColor: newColor,
+						data: [],
+						fill: false
+					};
+
+					for (var index = 0; index < config2.data.labels.length; ++index) {
+						newDataset.data.push(parseFloat(result[index]));
+					}
+					config2.data.datasets.push(newDataset);
+					myNewChart2.update();
+				}
+			});
+
 
 			myNewChart2.update();
 		});
@@ -688,7 +710,10 @@
 
 		window.onload = graphfunction;
 
+
 	</script>
+
+</script>
 
 </body>
 

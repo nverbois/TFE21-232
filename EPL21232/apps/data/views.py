@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from .models import Station,Data,MeanDay,Intensity, MeanWeek, MeanYear
 from datetime import timedelta, date, datetime
 
@@ -77,3 +77,11 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
 def data(request: HttpRequest) -> HttpResponse:
     return render(request, "data.html")
 
+def getMeanDayData(request,my_id):
+    station = Station.objects.get(id=my_id)
+    meandayData = []
+    meandaytable = MeanDay.objects.filter(station=station).order_by('-mean_day')[::-1]
+    for elem in meandaytable:
+        meandayData.append(str(elem.mean_per_day))
+
+    return JsonResponse(meandayData, safe = False)
