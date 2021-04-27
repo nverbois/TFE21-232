@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=7rcsZZMPcx8l_7wm0a_wMWveIXnxg4V4mRqQdQgg2D7HFQlZ5FsSUOnXb14eoTIG8gapUSDc1tyCi_CDcq-Ule1QLnHc07YyvgoGw8pXnJg" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 	<script src="../static/js/utils.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
@@ -234,8 +234,8 @@
 		<br>
 		<br>
 
-		<button id="removeDataset">Remove Dataset</button>
-		<button id="removeData">Remove Data</button>
+		<button id="removeDataset" style="display: none;">Remove Dataset</button>
+		<button id="removeData" style="display: none;">Remove Data</button>
 
 
 		<div style="margin-right: 10%; margin-left: 10%; width:75%;">
@@ -243,8 +243,8 @@
 		</div>
 		<br>
 		<br>
-		<button id="removeDataset2">Remove mean Dataset</button>
-		<button id="removeData2">Remove mean Data</button>
+		<button id="removeDataset2" style="display: none;">Remove mean Dataset</button>
+		<button id="removeData2" style="display: none;">Remove mean Data</button>
 		<button id="meanDayButton">get meanday's data</button>
 		<button id="meanWeekButton">get meanweek's data</button>
 		<button id="meanYearButton">get meanyear's data</button>
@@ -263,8 +263,8 @@
 		</div>
 		<br>
 		<br>
-		<button id="removeDataset3">Remove Intensity Dataset</button>
-		<button id="removeData3">Remove Intensity Data</button>
+		<button id="removeDataset3" style="display: none;">Remove Intensity Dataset</button>
+		<button id="removeData3" style="display: none;">Remove Intensity Data</button>
 
 
 		
@@ -348,7 +348,7 @@
 				data: {
 					labels:{{meandayDate|safe}},
 					datasets: [{
-						label: 'Graphes des intensités',
+						label: 'Valeurs moyennes journalières',
 						backgroundColor: window.chartColors.red,
 						borderColor: window.chartColors.red,
 						data: {{meandayData}},
@@ -359,7 +359,7 @@
 					responsive: true,
 					title: {
 						display: true,
-						text: 'Exemple de graphiques comparant deux courbes pluviométriques'
+						text: 'Courbe des moyennes journalières pluviométriques'
 					},
 					tooltips: {
 						mode: 'index',
@@ -374,14 +374,14 @@
 							display: true,
 							scaleLabel: {
 								display: true,
-								labelString: 'Durée'
+								labelString: 'Jour'
 							}
 						}],
 						yAxes: [{
 							display: true,
 							scaleLabel: {
 								display: true,
-								labelString: 'Valeur'
+								labelString: 'Valeur [mm]'
 							}
 						}]
 					}
