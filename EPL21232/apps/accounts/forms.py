@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from .models import User
+from .models import User, UserProfile
 
 
 class RegisterForm(forms.ModelForm):
@@ -74,3 +74,11 @@ class UserAdminChangeForm(forms.ModelForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('user', 'firstname', 'lastname', 'bio', 'role', 'stations')
+        widgets = {'stations': forms.SelectMultiple(attrs={'style': 'height:200px'})}
+

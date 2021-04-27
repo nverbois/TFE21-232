@@ -8,8 +8,12 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 
-from .forms import UserAdminCreationForm, UserAdminChangeForm
+from .forms import UserAdminCreationForm, UserAdminChangeForm, ProfileForm
 from .models import User
+
+from django.forms import SelectMultiple, CheckboxSelectMultiple
+from django.db import models
+#from models import *
 
 class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
@@ -49,6 +53,9 @@ admin.site.unregister(Group)
 class ProfileAdmin(admin.ModelAdmin):
     # a list of displayed columns name.
     list_display = ['name']
+    form = ProfileForm
+   
+
 admin.site.register(UserProfile, ProfileAdmin)
 
 admin.site.register(UserRole)
