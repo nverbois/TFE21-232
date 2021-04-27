@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=7rcsZZMPcx8l_7wm0a_wMWveIXnxg4V4mRqQdQgg2D7HFQlZ5FsSUOnXb14eoTIG8gapUSDc1tyCi_CDcq-Ule1QLnHc07YyvgoGw8pXnJg" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 	<script src="../static/js/utils.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
@@ -25,823 +25,863 @@
 	</style>
 </head>
 
-<p class="lead">
-	<h2>Nom de la station : {{station.name}}</h2>
-</p>
+{% include 'navbar2.html' %}
 
-<p class="lead">
-	{{station.description}}
-</p>
+<div id="Data" style="display: none;">
+	{% if user.is_authenticated %}
 
-<p class="lead mt-4">
-	<h3>Tableaux de données de la station</h3>
-</p>
+	<p class="lead">
+		<h4 style="padding-left: 3%;">Dernières données de la station</h4>
+	</p>
 
-{% if user.is_authenticated %}
+		<section class="table-section bg-primary-2 text-dark mb-0" style="display: block;" id="table"> 
+			<table id="table_data" class="display compact hover row-border" margin-right="10%" margin-left="10%" style="width:80%">
+				<thead>
+					<tr>
+						<th>Date de la mesure</th>
+						<th>Heure de la mesure</th>
+						<th>Mesure [mm]</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for elem in data %}
+					<tr>
+						<td>{{elem.tilting_date}}</td>
+						<td>{{elem.tilting_time}}</td>
+						<td>{{elem.tilting_mm}}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table> 
+		</section>
 
-<p class="lead">
-	<h4>Dernières données de la station</h4>
-</p>
+	{% endif %}
+</div>
 
-    <section class="table-section bg-primary-2 text-dark mb-0" style="display: block;" id="table"> 
-        <table id="table_data" class="display" margin-right="10%" margin-left="10%" style="width:80%">
-            <thead>
-                <tr>
-					<th>Date de la mesure</th>
-					<th>Heure de la mesure</th>
-                    <th>Mesure [mm]</th>
-                </tr>
-            </thead>
-            <tbody>
-				{% for elem in data %}
-                <tr>
-					<td>{{elem.tilting_date}}</td>
-					<td>{{elem.tilting_time}}</td>
-                    <td>{{elem.tilting_mm}}</td>
-                </tr>
-				{% endfor %}
-            </tbody>
-        </table> 
-    </section>
+<div id="Means">
 
-{% endif %}
+	<!-- The $.noConflict(); is a quick fix to ensure the jquery.js is loaded before the dataTable.js file-->
+		<script>
+			$(document).ready( function () {
+				$.noConflict();
+				$('#table_data').DataTable();
+				$('#table_mean_day').DataTable();
+				$('#table_mean_week').DataTable();
+				$('#table_mean_year').DataTable();
+				$('#table_intensity').DataTable();
+			} );
+		</script>
 
-<!-- The $.noConflict(); is a quick fix to ensure the jquery.js is loaded before the dataTable.js file-->
-    <script>
-        $(document).ready( function () {
-            $.noConflict();
-			$('#table_data').DataTable();
-            $('#table_mean_day').DataTable();
-			$('#table_mean_week').DataTable();
-			$('#table_mean_year').DataTable();
-			$('#table_intensity').DataTable();
-        } );
-	</script>
+	<p class="lead">
+		<h4 style="padding-left: 3%;">Moyennes pluviométriques de la station</h4>
+	</p>
 
-<p class="lead">
-	<h4>Moyennes pluviométriques de la station</h4>
-</p>
+	<a class="btn btn-x1 btn-outline-secondary active" id="showMeanDayTable" style="margin-left: 3%;">Moyennes journalières</a>
+	<a class="btn btn-x1 btn-outline-secondary" id="showMeanWeekTable" style="margin-left: 1%; margin-right: 1%;">Moyennes hebdomadaires</a>
+	<a class="btn btn-x1 btn-outline-secondary" id="showMeanYearTable">Moyennes annuelles</a>
 
-<a class="btn btn-x1 btn-outline-secondary active" id="showMeanDayTable" style="margin-left: 5%;">Moyennes journalières</a>
-<a class="btn btn-x1 btn-outline-secondary" id="showMeanWeekTable" style="margin-left: 1%; margin-right: 1%;">Moyennes hebdomadaires</a>
-<a class="btn btn-x1 btn-outline-secondary" id="showMeanYearTable">Moyennes annuelles</a>
-
-<script>
-	$('.btn').on('click', function(){
-		$(this).siblings().removeClass('active');
-		$(this).toggleClass('active');
-	});
-</script>
-
-<section class="table-section bg-primary-2 text-dark mb-0" style="display: block;" id="tableMeanDaySection"> 
-	<table id="table_mean_day" class="display" margin-right="10%" margin-left="10%" style="width:80%">
-		<thead>
-			<tr>
-				<th>Date</th>
-				<th>Moyenne du jour [mm]</th>
-				<th>Maximum [mm]</th>
-				<th>Minimum [mm]</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for elem in meandaytable %}
-			<tr>
-				<td>{{elem.mean_day}}</td>
-				<td>{{elem.mean_per_day}}</td>
-				<td>{{elem.max_per_day}}</td>
-				<td>{{elem.min_per_day}}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table> 
-</section>
-<section class="table-section bg-primary-2 text-dark mb-0" id="tableMeanWeekSection"> 
-	<table id="table_mean_week" class="display" margin-right="10%" margin-left="10%" style="width:80%">
-		<thead>
-			<tr>
-				<th>Semaine</th>
-				<th>Moyenne de la semaine [mm]</th>
-				<th>Maximum [mm]</th>
-				<th>Minimum [mm]</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for elem in meanweektable %}
-			<tr>
-				<td>{{elem.mean_week}}</td>
-				<td>{{elem.mean_per_week}}</td>
-				<td>{{elem.max_per_week}}</td>
-				<td>{{elem.min_per_week}}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table> 
-</section>
-<section class="table-section bg-primary-2 text-dark mb-0" id="tableMeanYearSection"> 
-	<table id="table_mean_year" class="display" margin-right="10%" margin-left="10%" style="width:80%">
-		<thead>
-			<tr>
-				<th>Année</th>
-				<th>Moyenne de l'année [mm]</th>
-				<th>Maximum [mm]</th>
-				<th>Minimum [mm]</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for elem in meanyeartable %}
-			<tr>
-				<td>{{elem.mean_year}}</td>
-				<td>{{elem.mean_per_year}}</td>
-				<td>{{elem.max_per_year}}</td>
-				<td>{{elem.min_per_year}}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table> 
-</section>
-
-
-<script>
-	var tableMeanDay = document.getElementById("tableMeanDaySection");
-	var tableMeanWeek = document.getElementById("tableMeanWeekSection");
-	var tableMeanYear = document.getElementById("tableMeanYearSection");
-
-	var btnTabMD = document.getElementById("showMeanDayTable")
-	var btnTabMW = document.getElementById("showMeanWeekTable")
-	var btnTabMY = document.getElementById("showMeanYearTable")
-
-
-
-	btnTabMD.onclick = function () {
-		tableMeanDay.style.display = "block";
-		tableMeanWeek.style.display = "none";
-		tableMeanYear.style.display = "none";
-
-	}
-	btnTabMW.onclick = function () {
-		tableMeanDay.style.display = "none";
-		tableMeanWeek.style.display = "block";
-		tableMeanYear.style.display = "none";
-
-	}
-	btnTabMY.onclick = function () {
-		tableMeanDay.style.display = "none";
-		tableMeanWeek.style.display = "none";
-		tableMeanYear.style.display = "block";
-
-	}
-	
-</script>
-
-<p class="lead">
-	<h4>Mesures d'intensité pluviométrique</h4>
-</p>
-
-<section class="table-section bg-primary-2 text-dark mb-0" style="display: block;" id="tableIntensitySection"> 
-	<table id="table_intensity" class="display" margin-right="10%" margin-left="10%" style="width:80%">
-		<thead>
-			<tr>
-				<th>Jour</th>
-				<th>Durée de la mesure</th>
-				<th>Maximum</th>
-				<th>Intensité</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for elem in intensitytable %}
-			<tr>
-				<td>{{elem.intensity_day}}</td>
-				<td>{{elem.duration}}</td>
-				<td>{{elem.max_amount}}</td>
-				<td>{{elem.intensity}}</td>
-				
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table> 
-</section>
-
-
-
-
-<p class="lead">
-	<h3>Graphes de données de la station</h3>
-</p>
-
-
-<body>
-
-	<div style="margin-right: 10%; margin-left: 10%; width:75%;">
-		<canvas id="canvas"></canvas>
-	</div>
-	<br>
-	<br>
-
-	<button id="removeDataset">Remove Dataset</button>
-	<button id="removeData">Remove Data</button>
-
-
-	<div style="margin-right: 10%; margin-left: 10%; width:75%;">
-		<canvas id="canvas2"></canvas>
-	</div>
-	<br>
-	<br>
-	<button id="removeDataset2">Remove mean Dataset</button>
-	<button id="removeData2">Remove mean Data</button>
-	<button id="meanDayButton">get meanday's data</button>
-	<button id="meanWeekButton">get meanweek's data</button>
-	<button id="meanYearButton">get meanyear's data</button>
-	<br>
-	<br>
-	<button id="GetMaxDay">Get Max by Day</button>
-	<button id="GetMinDay">Get Min by Day</button>
-	<button id="GetMaxWeek">Get Max by Week</button>
-	<button id="GetMinWeek">Get Min by Week</button>
-	<button id="GetMaxYear">Get Max by Year</button>
-	<button id="GetMinYear">Get Min by Year</button>
-
-
-	<div style="margin-right: 10%; margin-left: 10%; width:75%;">
-		<canvas id="canvas3"></canvas>
-	</div>
-	<br>
-	<br>
-	<button id="removeDataset3">Remove Intensity Dataset</button>
-	<button id="removeData3">Remove Intensity Data</button>
-
-
-	
 	<script>
+		$('.btn').on('click', function(){
+			$(this).siblings().removeClass('active');
+			$(this).toggleClass('active');
+		});
+	</script>
+
+	<section class="table-section bg-primary-2 text-dark mb-0" style="display: block;" id="tableMeanDaySection"> 
+		<table id="table_mean_day" class="display compact hover row-border" margin-right="10%" margin-left="10%" style="width:80%">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Moyenne du jour [mm]</th>
+					<th>Maximum [mm]</th>
+					<th>Minimum [mm]</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for elem in meandaytable %}
+				<tr>
+					<td>{{elem.mean_day}}</td>
+					<td>{{elem.mean_per_day}}</td>
+					<td>{{elem.max_per_day}}</td>
+					<td>{{elem.min_per_day}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table> 
+	</section>
+	<section class="table-section bg-primary-2 text-dark mb-0" id="tableMeanWeekSection"> 
+		<table id="table_mean_week" class="display compact hover row-border" margin-right="10%" margin-left="10%" style="width:80%">
+			<thead>
+				<tr>
+					<th>Semaine</th>
+					<th>Moyenne de la semaine [mm]</th>
+					<th>Maximum [mm]</th>
+					<th>Minimum [mm]</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for elem in meanweektable %}
+				<tr>
+					<td>{{elem.mean_week}}</td>
+					<td>{{elem.mean_per_week}}</td>
+					<td>{{elem.max_per_week}}</td>
+					<td>{{elem.min_per_week}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table> 
+	</section>
+	<section class="table-section bg-primary-2 text-dark mb-0" id="tableMeanYearSection"> 
+		<table id="table_mean_year" class="display compact hover row-border" margin-right="10%" margin-left="10%" style="width:80%">
+			<thead>
+				<tr>
+					<th>Année</th>
+					<th>Moyenne de l'année [mm]</th>
+					<th>Maximum [mm]</th>
+					<th>Minimum [mm]</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for elem in meanyeartable %}
+				<tr>
+					<td>{{elem.mean_year}}</td>
+					<td>{{elem.mean_per_year}}</td>
+					<td>{{elem.max_per_year}}</td>
+					<td>{{elem.min_per_year}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table> 
+	</section>
 
 
-		//Chart Intensity
+	<script>
+		var tableMeanDay = document.getElementById("tableMeanDaySection");
+		var tableMeanWeek = document.getElementById("tableMeanWeekSection");
+		var tableMeanYear = document.getElementById("tableMeanYearSection");
+
+		var btnTabMD = document.getElementById("showMeanDayTable")
+		var btnTabMW = document.getElementById("showMeanWeekTable")
+		var btnTabMY = document.getElementById("showMeanYearTable")
+
+
+
+		btnTabMD.onclick = function () {
+			tableMeanDay.style.display = "block";
+			tableMeanWeek.style.display = "none";
+			tableMeanYear.style.display = "none";
+
+		}
+		btnTabMW.onclick = function () {
+			tableMeanDay.style.display = "none";
+			tableMeanWeek.style.display = "block";
+			tableMeanYear.style.display = "none";
+
+		}
+		btnTabMY.onclick = function () {
+			tableMeanDay.style.display = "none";
+			tableMeanWeek.style.display = "none";
+			tableMeanYear.style.display = "block";
+
+		}
 		
-		var config3 = {
-			type: 'line',
-			data: {
-				labels:{{intensityDuration}},
-				datasets: [{
-					label: 'Graphes des intensités',
-					backgroundColor: window.chartColors.red,
-					borderColor: window.chartColors.red,
-					data: {{intensityData}},
-					fill: false,
-				}]
-			},
-			options: {
-				responsive: true,
-				title: {
-					display: true,
-					text: 'Exemple de graphiques comparant deux courbes pluviométriques'
-				},
-				tooltips: {
-					mode: 'index',
-					intersect: false,
-				},
-				hover: {
-					mode: 'nearest',
-					intersect: true
-				},
-				scales: {
-					xAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Durée'
-						}
-					}],
-					yAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Valeur'
-						}
+	</script>
+</div>
+
+<div id="Intensities" style="display: none;">
+	<p class="lead">
+		<h4 style="padding-left: 3%;">Mesures d'intensité pluviométrique</h4>
+	</p>
+
+	<section class="table-section bg-primary-2 text-dark mb-0" style="display: block;" id="tableIntensitySection"> 
+		<table id="table_intensity" class="display compact hover row-border" margin-right="10%" margin-left="10%" style="width:80%">
+			<thead>
+				<tr>
+					<th>Jour</th>
+					<th>Durée de la mesure [min]</th>
+					<th>Maximum [mm]</th>
+					<th>Intensité [mm]</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for elem in intensitytable %}
+				<tr>
+					<td>{{elem.intensity_day}}</td>
+					<td>{{elem.duration}}</td>
+					<td>{{elem.max_amount}}</td>
+					<td>{{elem.intensity}}</td>
+					
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table> 
+	</section>
+
+</div>
+
+<div id="Graphs" style="display: none;">
+
+	<p class="lead">
+		<h3 style="padding-left: 3%;">Graphes de données de la station</h3>
+	</p>
+
+
+	<body>
+
+		<div style="margin-right: 10%; margin-left: 10%; width:75%;">
+			<canvas id="canvas"></canvas>
+		</div>
+		<br>
+		<br>
+
+		<button id="removeDataset" style="display: none;">Remove Dataset</button>
+		<button id="removeData" style="display: none;">Remove Data</button>
+
+
+		<div style="margin-right: 10%; margin-left: 10%; width:75%;">
+			<canvas id="canvas2"></canvas>
+		</div>
+		<br>
+		<br>
+		<button id="removeDataset2" style="display: none;">Remove mean Dataset</button>
+		<button id="removeData2" style="display: none;">Remove mean Data</button>
+		<button id="meanDayButton">get meanday's data</button>
+		<button id="meanWeekButton">get meanweek's data</button>
+		<button id="meanYearButton">get meanyear's data</button>
+		<br>
+		<br>
+		<button id="GetMaxDay">Get Max by Day</button>
+		<button id="GetMinDay">Get Min by Day</button>
+		<button id="GetMaxWeek">Get Max by Week</button>
+		<button id="GetMinWeek">Get Min by Week</button>
+		<button id="GetMaxYear">Get Max by Year</button>
+		<button id="GetMinYear">Get Min by Year</button>
+
+
+		<div style="margin-right: 10%; margin-left: 10%; width:75%;">
+			<canvas id="canvas3"></canvas>
+		</div>
+		<br>
+		<br>
+		<button id="removeDataset3" style="display: none;">Remove Intensity Dataset</button>
+		<button id="removeData3" style="display: none;">Remove Intensity Data</button>
+
+
+		
+		<script>
+
+
+			//Chart Intensity
+			
+			var config3 = {
+				type: 'line',
+				data: {
+					labels:{{intensityDuration}},
+					datasets: [{
+						label: 'Graphes des intensités',
+						backgroundColor: window.chartColors.red,
+						borderColor: window.chartColors.red,
+						data: {{intensityData}},
+						fill: false,
 					}]
+				},
+				options: {
+					responsive: true,
+					title: {
+						display: true,
+						text: 'Exemple de graphiques comparant deux courbes pluviométriques'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false,
+					},
+					hover: {
+						mode: 'nearest',
+						intersect: true
+					},
+					scales: {
+						xAxes: [{
+							display: true,
+							scaleLabel: {
+								display: true,
+								labelString: 'Durée'
+							}
+						}],
+						yAxes: [{
+							display: true,
+							scaleLabel: {
+								display: true,
+								labelString: 'Valeur'
+							}
+						}]
+					}
 				}
-			}
-		};
+			};
 
 
-		var colorNames = Object.keys(window.chartColors);
+			var colorNames = Object.keys(window.chartColors);
 
-	
+		
 
-		document.getElementById('removeDataset3').addEventListener('click', function() {
-			config3.data.datasets.splice(0, 1);
-			myNewChart3.update();
-		});
-
-		document.getElementById('removeData3').addEventListener('click', function() {
-			config3.data.labels.splice(-1, 1); // remove the label first
-
-			config3.data.datasets.forEach(function(dataset) {
-				dataset.pop();
+			document.getElementById('removeDataset3').addEventListener('click', function() {
+				config3.data.datasets.splice(0, 1);
+				myNewChart3.update();
 			});
 
-			myNewChart3.update();
-		});
-		
-		
-		
-		
-		//chart mean
-		
-		var config2 = {
-			type: 'line',
-			data: {
-				labels:{{meandayDate|safe}},
-				datasets: [{
-					label: 'Graphes des intensités',
-					backgroundColor: window.chartColors.red,
-					borderColor: window.chartColors.red,
-					data: {{meandayData}},
-					fill: false,
-				}]
-			},
-			options: {
-				responsive: true,
-				title: {
-					display: true,
-					text: 'Exemple de graphiques comparant deux courbes pluviométriques'
-				},
-				tooltips: {
-					mode: 'index',
-					intersect: false,
-				},
-				hover: {
-					mode: 'nearest',
-					intersect: true
-				},
-				scales: {
-					xAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Durée'
-						}
-					}],
-					yAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Valeur'
-						}
+			document.getElementById('removeData3').addEventListener('click', function() {
+				config3.data.labels.splice(-1, 1); // remove the label first
+
+				config3.data.datasets.forEach(function(dataset) {
+					dataset.pop();
+				});
+
+				myNewChart3.update();
+			});
+			
+			
+			
+			
+			//chart mean
+			
+			var config2 = {
+				type: 'line',
+				data: {
+					labels:{{meandayDate|safe}},
+					datasets: [{
+						label: 'Valeurs moyennes journalières',
+						backgroundColor: window.chartColors.red,
+						borderColor: window.chartColors.red,
+						data: {{meandayData}},
+						fill: false,
 					}]
-				}
-			}
-		};
-
-
-
-		document.getElementById('removeDataset2').addEventListener('click', function() {
-			config2.data.datasets.splice(0, 1);
-			myNewChart2.update();
-		});
-
-		document.getElementById('removeData2').addEventListener('click', function() {
-			config2.data.labels.splice(-1, 1); // remove the label first
-
-			config2.data.datasets.forEach(function(dataset) {
-				dataset.pop();
-			});
-
-			myNewChart2.update();
-		});
-
-
-		document.getElementById('meanDayButton').addEventListener('click', function() {
-			
-			while (config2.data.datasets.length > 0){
-					config2.data.datasets.splice(config.data.datasets.length-1, 1);
-			}
-			config2.data.labels.pop();
-			config2.data.labels = {{meandayDate|safe}};
-
-
-
-			$.ajax({
-				url:"http://localhost:8000/data/1/getMeanDayData",
-
-				success:  function (result) {
-
-					var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-					var newColor = window.chartColors[colorName];
-					var newDataset = {
-						label: 'mean by day' + config2.data.datasets.length,
-						backgroundColor: newColor,
-						borderColor: newColor,
-						data: [],
-						fill: false
-					};
-
-					for (var index = 0; index < config2.data.labels.length; ++index) {
-						newDataset.data.push(parseFloat(result[index]));
-					}
-					config2.data.datasets.push(newDataset);
-					myNewChart2.update();
-				}
-			});
-
-
-			myNewChart2.update();
-		});
-
-		document.getElementById('meanWeekButton').addEventListener('click', function() {
-			
-			while (config2.data.datasets.length > 0){
-					config2.data.datasets.splice(config.data.datasets.length-1, 1);
-			}
-			config2.data.labels.pop();
-			config2.data.labels = {{meanweekDate|safe}};
-			
-			$.ajax({
-				url:"http://localhost:8000/data/1/getMeanWeekData",
-
-				success:  function (result) {
-
-					var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-					var newColor = window.chartColors[colorName];
-					var newDataset = {
-						label: 'mean by week' + config2.data.datasets.length,
-						backgroundColor: newColor,
-						borderColor: newColor,
-						data: [],
-						fill: false
-					};
-
-					for (var index = 0; index < config2.data.labels.length; ++index) {
-						newDataset.data.push(parseFloat(result[index]));
-					}
-
-					config2.data.datasets.push(newDataset);
-					myNewChart2.update();
-				}
-			});
-			
-
-			myNewChart2.update();
-		});
-
-		document.getElementById('meanYearButton').addEventListener('click', function() {
-			
-			while (config2.data.datasets.length > 0){
-					config2.data.datasets.splice(config.data.datasets.length-1, 1);
-			}
-			config2.data.labels.pop();
-			config2.data.labels = {{meanyearDate|safe}};
-			
-			
-			$.ajax({
-				url:"http://localhost:8000/data/1/getMeanYearData",
-
-				success:  function (result) {
-
-					var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-					var newColor = window.chartColors[colorName];
-					var newDataset = {
-						label: 'mean by year' + config2.data.datasets.length,
-						backgroundColor: newColor,
-						borderColor: newColor,
-						data: [],
-						fill: false
-					};
-
-					for (var index = 0; index < config2.data.labels.length; ++index) {
-						newDataset.data.push(parseFloat(result[index]));
-					}
-
-					config2.data.datasets.push(newDataset);
-					myNewChart2.update();
-				}
-			});
-			
-
-			myNewChart2.update();
-		});
-
-
-		document.getElementById('GetMaxDay').addEventListener('click', function() {
-			
-			while (config2.data.datasets.length > 0){
-					config2.data.datasets.splice(config.data.datasets.length-1, 1);
-			}
-			config2.data.labels.pop();
-			config2.data.labels = {{meandayDate|safe}};
-			
-			
-			$.ajax({
-				url:"http://localhost:8000/data/1/getMaxDayData",
-
-				success:  function (result) {
-
-					var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-					var newColor = window.chartColors[colorName];
-					var newDataset = {
-						label: 'max by day' + config2.data.datasets.length,
-						backgroundColor: newColor,
-						borderColor: newColor,
-						data: [],
-						fill: false
-					};
-
-					for (var index = 0; index < config2.data.labels.length; ++index) {
-						newDataset.data.push(parseFloat(result[index]));
-					}
-
-					config2.data.datasets.push(newDataset);
-					myNewChart2.update();
-				}
-			});
-			
-
-			myNewChart2.update();
-		});
-
-		document.getElementById('GetMinDay').addEventListener('click', function() {
-			
-			while (config2.data.datasets.length > 0){
-					config2.data.datasets.splice(config.data.datasets.length-1, 1);
-			}
-			config2.data.labels.pop();
-			config2.data.labels = {{meandayDate|safe}};
-			
-			
-			$.ajax({
-				url:"http://localhost:8000/data/1/getMinDayData",
-
-				success:  function (result) {
-
-					var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-					var newColor = window.chartColors[colorName];
-					var newDataset = {
-						label: 'min by day' + config2.data.datasets.length,
-						backgroundColor: newColor,
-						borderColor: newColor,
-						data: [],
-						fill: false
-					};
-
-					for (var index = 0; index < config2.data.labels.length; ++index) {
-						newDataset.data.push(parseFloat(result[index]));
-					}
-
-					config2.data.datasets.push(newDataset);
-					myNewChart2.update();
-				}
-			});
-			
-
-			myNewChart2.update();
-		});
-
-		document.getElementById('GetMaxWeek').addEventListener('click', function() {
-			
-			while (config2.data.datasets.length > 0){
-					config2.data.datasets.splice(config.data.datasets.length-1, 1);
-			}
-			config2.data.labels.pop();
-			config2.data.labels = {{meanweekDate|safe}};
-			
-			
-			$.ajax({
-				url:"http://localhost:8000/data/1/getMaxWeekData",
-
-				success:  function (result) {
-
-					var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-					var newColor = window.chartColors[colorName];
-					var newDataset = {
-						label: 'max by week' + config2.data.datasets.length,
-						backgroundColor: newColor,
-						borderColor: newColor,
-						data: [],
-						fill: false
-					};
-
-					for (var index = 0; index < config2.data.labels.length; ++index) {
-						newDataset.data.push(parseFloat(result[index]));
-					}
-
-					config2.data.datasets.push(newDataset);
-					myNewChart2.update();
-				}
-			});
-			
-
-			myNewChart2.update();
-		});
-
-		document.getElementById('GetMinWeek').addEventListener('click', function() {
-			
-			while (config2.data.datasets.length > 0){
-					config2.data.datasets.splice(config.data.datasets.length-1, 1);
-			}
-			config2.data.labels.pop();
-			config2.data.labels = {{meanweekDate|safe}};
-			
-			
-			$.ajax({
-				url:"http://localhost:8000/data/1/getMinWeekData",
-
-				success:  function (result) {
-
-					var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-					var newColor = window.chartColors[colorName];
-					var newDataset = {
-						label: 'min by week' + config2.data.datasets.length,
-						backgroundColor: newColor,
-						borderColor: newColor,
-						data: [],
-						fill: false
-					};
-
-					for (var index = 0; index < config2.data.labels.length; ++index) {
-						newDataset.data.push(parseFloat(result[index]));
-					}
-
-					config2.data.datasets.push(newDataset);
-					myNewChart2.update();
-				}
-			});
-			
-
-			myNewChart2.update();
-		});
-
-		document.getElementById('GetMaxYear').addEventListener('click', function() {
-			
-			while (config2.data.datasets.length > 0){
-					config2.data.datasets.splice(config.data.datasets.length-1, 1);
-			}
-			config2.data.labels.pop();
-			config2.data.labels = {{meanyearDate|safe}};
-			
-			
-			$.ajax({
-				url:"http://localhost:8000/data/1/getMaxYearData",
-
-				success:  function (result) {
-
-					var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-					var newColor = window.chartColors[colorName];
-					var newDataset = {
-						label: 'max by year' + config2.data.datasets.length,
-						backgroundColor: newColor,
-						borderColor: newColor,
-						data: [],
-						fill: false
-					};
-
-					for (var index = 0; index < config2.data.labels.length; ++index) {
-						newDataset.data.push(parseFloat(result[index]));
-					}
-
-					config2.data.datasets.push(newDataset);
-					myNewChart2.update();
-				}
-			});
-			
-
-			myNewChart2.update();
-		});
-
-		document.getElementById('GetMinYear').addEventListener('click', function() {
-			
-			while (config2.data.datasets.length > 0){
-					config2.data.datasets.splice(config.data.datasets.length-1, 1);
-			}
-			config2.data.labels.pop();
-			config2.data.labels = {{meanyearDate|safe}};
-			
-			
-			$.ajax({
-				url:"http://localhost:8000/data/1/getMinYearData",
-
-				success:  function (result) {
-
-					var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-					var newColor = window.chartColors[colorName];
-					var newDataset = {
-						label: 'min by year' + config2.data.datasets.length,
-						backgroundColor: newColor,
-						borderColor: newColor,
-						data: [],
-						fill: false
-					};
-
-					for (var index = 0; index < config2.data.labels.length; ++index) {
-						newDataset.data.push(parseFloat(result[index]));
-					}
-
-					config2.data.datasets.push(newDataset);
-					myNewChart2.update();
-				}
-			});
-			
-
-			myNewChart2.update();
-		});
-
-
-
-		
-		//chart Data
-
-
-		var config = {
-			type: 'line',
-			data: {
-				labels:{{shorterTime|safe}},
-				datasets: [{
-					label: 'Graphes des intensités',
-					backgroundColor: window.chartColors.red,
-					borderColor: window.chartColors.red,
-					data: {{shorterData}},
-					fill: false,
-				}]
-			},
-			options: {
-				responsive: true,
-				title: {
-					display: true,
-					text: 'Exemple de graphiques comparant deux courbes pluviométriques'
 				},
-				tooltips: {
-					mode: 'index',
-					intersect: false,
-				},
-				hover: {
-					mode: 'nearest',
-					intersect: true
-				},
-				scales: {
-					xAxes: [{
-						
+				options: {
+					responsive: true,
+					title: {
 						display: true,
-						scaleLabel: {
+						text: 'Courbe des moyennes journalières pluviométriques'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false,
+					},
+					hover: {
+						mode: 'nearest',
+						intersect: true
+					},
+					scales: {
+						xAxes: [{
 							display: true,
-							labelString: 'Durée'
-						}
-					}],
-					yAxes: [{
-						display: true,
-						scaleLabel: {
+							scaleLabel: {
+								display: true,
+								labelString: 'Jour'
+							}
+						}],
+						yAxes: [{
 							display: true,
-							labelString: 'Valeur'
+							scaleLabel: {
+								display: true,
+								labelString: 'Valeur [mm]'
+							}
+						}]
+					}
+				}
+			};
+
+
+
+			document.getElementById('removeDataset2').addEventListener('click', function() {
+				config2.data.datasets.splice(0, 1);
+				myNewChart2.update();
+			});
+
+			document.getElementById('removeData2').addEventListener('click', function() {
+				config2.data.labels.splice(-1, 1); // remove the label first
+
+				config2.data.datasets.forEach(function(dataset) {
+					dataset.pop();
+				});
+
+				myNewChart2.update();
+			});
+
+
+			document.getElementById('meanDayButton').addEventListener('click', function() {
+				
+				while (config2.data.datasets.length > 0){
+						config2.data.datasets.splice(config.data.datasets.length-1, 1);
+				}
+				config2.data.labels.pop();
+				config2.data.labels = {{meandayDate|safe}};
+
+
+
+				$.ajax({
+					url:"http://localhost:8000/data/1/getMeanDayData",
+
+					success:  function (result) {
+
+						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
+						var newColor = window.chartColors[colorName];
+						var newDataset = {
+							label: 'mean by day' + config2.data.datasets.length,
+							backgroundColor: newColor,
+							borderColor: newColor,
+							data: [],
+							fill: false
+						};
+
+						for (var index = 0; index < config2.data.labels.length; ++index) {
+							newDataset.data.push(parseFloat(result[index]));
 						}
+						config2.data.datasets.push(newDataset);
+						myNewChart2.update();
+					}
+				});
+
+
+				myNewChart2.update();
+			});
+
+			document.getElementById('meanWeekButton').addEventListener('click', function() {
+				
+				while (config2.data.datasets.length > 0){
+						config2.data.datasets.splice(config.data.datasets.length-1, 1);
+				}
+				config2.data.labels.pop();
+				config2.data.labels = {{meanweekDate|safe}};
+				
+				$.ajax({
+					url:"http://localhost:8000/data/1/getMeanWeekData",
+
+					success:  function (result) {
+
+						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
+						var newColor = window.chartColors[colorName];
+						var newDataset = {
+							label: 'mean by week' + config2.data.datasets.length,
+							backgroundColor: newColor,
+							borderColor: newColor,
+							data: [],
+							fill: false
+						};
+
+						for (var index = 0; index < config2.data.labels.length; ++index) {
+							newDataset.data.push(parseFloat(result[index]));
+						}
+
+						config2.data.datasets.push(newDataset);
+						myNewChart2.update();
+					}
+				});
+				
+
+				myNewChart2.update();
+			});
+
+			document.getElementById('meanYearButton').addEventListener('click', function() {
+				
+				while (config2.data.datasets.length > 0){
+						config2.data.datasets.splice(config.data.datasets.length-1, 1);
+				}
+				config2.data.labels.pop();
+				config2.data.labels = {{meanyearDate|safe}};
+				
+				
+				$.ajax({
+					url:"http://localhost:8000/data/1/getMeanYearData",
+
+					success:  function (result) {
+
+						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
+						var newColor = window.chartColors[colorName];
+						var newDataset = {
+							label: 'mean by year' + config2.data.datasets.length,
+							backgroundColor: newColor,
+							borderColor: newColor,
+							data: [],
+							fill: false
+						};
+
+						for (var index = 0; index < config2.data.labels.length; ++index) {
+							newDataset.data.push(parseFloat(result[index]));
+						}
+
+						config2.data.datasets.push(newDataset);
+						myNewChart2.update();
+					}
+				});
+				
+
+				myNewChart2.update();
+			});
+
+
+			document.getElementById('GetMaxDay').addEventListener('click', function() {
+				
+				while (config2.data.datasets.length > 0){
+						config2.data.datasets.splice(config.data.datasets.length-1, 1);
+				}
+				config2.data.labels.pop();
+				config2.data.labels = {{meandayDate|safe}};
+				
+				
+				$.ajax({
+					url:"http://localhost:8000/data/1/getMaxDayData",
+
+					success:  function (result) {
+
+						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
+						var newColor = window.chartColors[colorName];
+						var newDataset = {
+							label: 'max by day' + config2.data.datasets.length,
+							backgroundColor: newColor,
+							borderColor: newColor,
+							data: [],
+							fill: false
+						};
+
+						for (var index = 0; index < config2.data.labels.length; ++index) {
+							newDataset.data.push(parseFloat(result[index]));
+						}
+
+						config2.data.datasets.push(newDataset);
+						myNewChart2.update();
+					}
+				});
+				
+
+				myNewChart2.update();
+			});
+
+			document.getElementById('GetMinDay').addEventListener('click', function() {
+				
+				while (config2.data.datasets.length > 0){
+						config2.data.datasets.splice(config.data.datasets.length-1, 1);
+				}
+				config2.data.labels.pop();
+				config2.data.labels = {{meandayDate|safe}};
+				
+				
+				$.ajax({
+					url:"http://localhost:8000/data/1/getMinDayData",
+
+					success:  function (result) {
+
+						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
+						var newColor = window.chartColors[colorName];
+						var newDataset = {
+							label: 'min by day' + config2.data.datasets.length,
+							backgroundColor: newColor,
+							borderColor: newColor,
+							data: [],
+							fill: false
+						};
+
+						for (var index = 0; index < config2.data.labels.length; ++index) {
+							newDataset.data.push(parseFloat(result[index]));
+						}
+
+						config2.data.datasets.push(newDataset);
+						myNewChart2.update();
+					}
+				});
+				
+
+				myNewChart2.update();
+			});
+
+			document.getElementById('GetMaxWeek').addEventListener('click', function() {
+				
+				while (config2.data.datasets.length > 0){
+						config2.data.datasets.splice(config.data.datasets.length-1, 1);
+				}
+				config2.data.labels.pop();
+				config2.data.labels = {{meanweekDate|safe}};
+				
+				
+				$.ajax({
+					url:"http://localhost:8000/data/1/getMaxWeekData",
+
+					success:  function (result) {
+
+						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
+						var newColor = window.chartColors[colorName];
+						var newDataset = {
+							label: 'max by week' + config2.data.datasets.length,
+							backgroundColor: newColor,
+							borderColor: newColor,
+							data: [],
+							fill: false
+						};
+
+						for (var index = 0; index < config2.data.labels.length; ++index) {
+							newDataset.data.push(parseFloat(result[index]));
+						}
+
+						config2.data.datasets.push(newDataset);
+						myNewChart2.update();
+					}
+				});
+				
+
+				myNewChart2.update();
+			});
+
+			document.getElementById('GetMinWeek').addEventListener('click', function() {
+				
+				while (config2.data.datasets.length > 0){
+						config2.data.datasets.splice(config.data.datasets.length-1, 1);
+				}
+				config2.data.labels.pop();
+				config2.data.labels = {{meanweekDate|safe}};
+				
+				
+				$.ajax({
+					url:"http://localhost:8000/data/1/getMinWeekData",
+
+					success:  function (result) {
+
+						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
+						var newColor = window.chartColors[colorName];
+						var newDataset = {
+							label: 'min by week' + config2.data.datasets.length,
+							backgroundColor: newColor,
+							borderColor: newColor,
+							data: [],
+							fill: false
+						};
+
+						for (var index = 0; index < config2.data.labels.length; ++index) {
+							newDataset.data.push(parseFloat(result[index]));
+						}
+
+						config2.data.datasets.push(newDataset);
+						myNewChart2.update();
+					}
+				});
+				
+
+				myNewChart2.update();
+			});
+
+			document.getElementById('GetMaxYear').addEventListener('click', function() {
+				
+				while (config2.data.datasets.length > 0){
+						config2.data.datasets.splice(config.data.datasets.length-1, 1);
+				}
+				config2.data.labels.pop();
+				config2.data.labels = {{meanyearDate|safe}};
+				
+				
+				$.ajax({
+					url:"http://localhost:8000/data/1/getMaxYearData",
+
+					success:  function (result) {
+
+						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
+						var newColor = window.chartColors[colorName];
+						var newDataset = {
+							label: 'max by year' + config2.data.datasets.length,
+							backgroundColor: newColor,
+							borderColor: newColor,
+							data: [],
+							fill: false
+						};
+
+						for (var index = 0; index < config2.data.labels.length; ++index) {
+							newDataset.data.push(parseFloat(result[index]));
+						}
+
+						config2.data.datasets.push(newDataset);
+						myNewChart2.update();
+					}
+				});
+				
+
+				myNewChart2.update();
+			});
+
+			document.getElementById('GetMinYear').addEventListener('click', function() {
+				
+				while (config2.data.datasets.length > 0){
+						config2.data.datasets.splice(config.data.datasets.length-1, 1);
+				}
+				config2.data.labels.pop();
+				config2.data.labels = {{meanyearDate|safe}};
+				
+				
+				$.ajax({
+					url:"http://localhost:8000/data/1/getMinYearData",
+
+					success:  function (result) {
+
+						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
+						var newColor = window.chartColors[colorName];
+						var newDataset = {
+							label: 'min by year' + config2.data.datasets.length,
+							backgroundColor: newColor,
+							borderColor: newColor,
+							data: [],
+							fill: false
+						};
+
+						for (var index = 0; index < config2.data.labels.length; ++index) {
+							newDataset.data.push(parseFloat(result[index]));
+						}
+
+						config2.data.datasets.push(newDataset);
+						myNewChart2.update();
+					}
+				});
+				
+
+				myNewChart2.update();
+			});
+
+
+
+			
+			//chart Data
+
+
+			var config = {
+				type: 'line',
+				data: {
+					labels:{{shorterTime|safe}},
+					datasets: [{
+						label: 'Graphes des intensités',
+						backgroundColor: window.chartColors.red,
+						borderColor: window.chartColors.red,
+						data: {{shorterData}},
+						fill: false,
 					}]
+				},
+				options: {
+					responsive: true,
+					title: {
+						display: true,
+						text: 'Exemple de graphiques comparant deux courbes pluviométriques'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false,
+					},
+					hover: {
+						mode: 'nearest',
+						intersect: true
+					},
+					scales: {
+						xAxes: [{
+							
+							display: true,
+							scaleLabel: {
+								display: true,
+								labelString: 'Durée'
+							}
+						}],
+						yAxes: [{
+							display: true,
+							scaleLabel: {
+								display: true,
+								labelString: 'Valeur'
+							}
+						}]
+					}
 				}
-			}
-		};
+			};
 
 
-		document.getElementById('removeDataset').addEventListener('click', function() {
-			config.data.datasets.splice(0, 1);
-			myNewChart.update();
-		});
-
-		document.getElementById('removeData').addEventListener('click', function() {
-			config.data.labels.splice(-1, 1); // remove the label first
-
-			config.data.datasets.forEach(function(dataset) {
-				dataset.pop();
+			document.getElementById('removeDataset').addEventListener('click', function() {
+				config.data.datasets.splice(0, 1);
+				myNewChart.update();
 			});
 
-			myNewChart.update();
-		});
+			document.getElementById('removeData').addEventListener('click', function() {
+				config.data.labels.splice(-1, 1); // remove the label first
+
+				config.data.datasets.forEach(function(dataset) {
+					dataset.pop();
+				});
+
+				myNewChart.update();
+			});
 
 
-		function function1() {
-			var ctx = document.getElementById('canvas').getContext('2d');
-			myNewChart = new Chart(ctx, config);
-		}
+			function function1() {
+				var ctx = document.getElementById('canvas').getContext('2d');
+				myNewChart = new Chart(ctx, config);
+			}
 
-		function function2() {
-			var ctx2 = document.getElementById('canvas2').getContext('2d');
-			myNewChart2 = new Chart(ctx2, config2);
-		}
+			function function2() {
+				var ctx2 = document.getElementById('canvas2').getContext('2d');
+				myNewChart2 = new Chart(ctx2, config2);
+			}
 
-		function function3() {
-			var ctx3 = document.getElementById('canvas3').getContext('2d');
-			myNewChart3 = new Chart(ctx3, config3);
-		}
+			function function3() {
+				var ctx3 = document.getElementById('canvas3').getContext('2d');
+				myNewChart3 = new Chart(ctx3, config3);
+			}
 
-		
-		function graphfunction(){
-			function1();
-			function2();
-			function3();
-		}
+			
+			function graphfunction(){
+				function1();
+				function2();
+				function3();
+			}
 
-		window.onload = graphfunction;
+			window.onload = graphfunction;
 
+
+		</script>
 
 	</script>
 
+	</body>
+
+</div>
+
+<script>
+	var tableMeans = document.getElementById("Means");
+	var tableIntensities = document.getElementById("Intensities");
+	var tableGraphs = document.getElementById("Graphs");
+	var tableData = document.getElementById("Data");
+
+	var btnMeans = document.getElementById("showMeans")
+	var btnIntensities = document.getElementById("showIntensities")
+	var btnGraphs = document.getElementById("showGraphs")
+	var btnData = document.getElementById("showData")
+
+
+	btnData.onclick = function () {
+		tableData.style.display = "block"
+		tableMeans.style.display = "none";
+		tableIntensities.style.display = "none";
+		tableGraphs.style.display = "none";
+
+	}
+	btnMeans.onclick = function () {
+		tableData.style.display = "none"
+		tableMeans.style.display = "block";
+		tableIntensities.style.display = "none";
+		tableGraphs.style.display = "none";
+
+	}
+	btnIntensities.onclick = function () {
+		tableData.style.display = "none"
+		tableMeans.style.display = "none";
+		tableIntensities.style.display = "block";
+		tableGraphs.style.display = "none";
+
+	}
+	btnGraphs.onclick = function () {
+		tableData.style.display = "none"
+		tableMeans.style.display = "none";
+		tableIntensities.style.display = "none";
+		tableGraphs.style.display = "block";
+
+	}
+	
 </script>
-
-</body>
-
-
 
 {% endblock %}
