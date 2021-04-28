@@ -44,12 +44,14 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
             meanyearData.append(float(elem.mean_per_year))
             meanyearDate.append(str(elem.mean_year))
 
-    for elem in data:
-        precipitationTime.append(elem.tilting_time.strftime("%H:%M:%S"))
-        precipitation.append(float(elem.tilting_mm))
 
-    shorterData = precipitation[-7:]
-    shorterTime = precipitationTime[-7:]
+    lastday = data[len(data)-1].tilting_date
+
+    for elem in data:
+        if elem.tilting_date == lastday:
+            precipitationTime.append(elem.tilting_time.strftime("%H:%M:%S"))
+            precipitation.append(float(elem.tilting_mm))
+
 
     shorterintensityData = intensityData[-11:]
     shorterintensityDuration = intensityDuration[-11:]
@@ -71,8 +73,8 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         "meanweekDate": meanweekDate,
         "meanyearData": meanyearData,
         "meanyearDate": meanyearDate,
-        "shorterData": shorterData,
-        "shorterTime": shorterTime,
+        "shorterData": precipitation,
+        "shorterTime": precipitationTime,
     }
     return render(request, "data-old.html", context)
 
