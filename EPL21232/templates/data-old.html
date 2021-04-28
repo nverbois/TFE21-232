@@ -417,7 +417,7 @@
 
 
 				$.ajax({
-					url:"http://localhost:8000/data/1/getMeanDayData",
+					url:"/data/"+ {{station.id}}+ "/getMeanDayData",
 
 					success:  function (result) {
 
@@ -452,7 +452,7 @@
 				config2.data.labels = {{meanweekDate|safe}};
 				
 				$.ajax({
-					url:"http://localhost:8000/data/1/getMeanWeekData",
+					url:"/data/"+ {{station.id}}+ "/getMeanWeekData",
 
 					success:  function (result) {
 
@@ -489,7 +489,7 @@
 				
 				
 				$.ajax({
-					url:"http://localhost:8000/data/1/getMeanYearData",
+					url:"/data/"+ {{station.id}}+ "/getMeanYearData",
 
 					success:  function (result) {
 
@@ -527,7 +527,7 @@
 				
 				
 				$.ajax({
-					url:"http://localhost:8000/data/1/getMaxDayData",
+					url:"/data/"+ {{station.id}}+ "/getMaxDayData",
 
 					success:  function (result) {
 
@@ -564,7 +564,7 @@
 				
 				
 				$.ajax({
-					url:"http://localhost:8000/data/1/getMinDayData",
+					url:"/data/"+ {{station.id}}+ "/getMinDayData",
 
 					success:  function (result) {
 
@@ -601,7 +601,7 @@
 				
 				
 				$.ajax({
-					url:"http://localhost:8000/data/1/getMaxWeekData",
+					url:"/data/"+ {{station.id}}+ "/getMaxWeekData",
 
 					success:  function (result) {
 
@@ -638,7 +638,7 @@
 				
 				
 				$.ajax({
-					url:"http://localhost:8000/data/1/getMinWeekData",
+					url:"/data/"+ {{station.id}}+ "/getMinWeekData",
 
 					success:  function (result) {
 
@@ -675,7 +675,7 @@
 				
 				
 				$.ajax({
-					url:"http://localhost:8000/data/1/getMaxYearData",
+					url:"/data/"+ {{station.id}}+ "/getMaxYearData",
 
 					success:  function (result) {
 
@@ -712,7 +712,7 @@
 				
 				
 				$.ajax({
-					url:"http://localhost:8000/data/1/getMinYearData",
+					url:"/data/"+ {{station.id}}+ "/getMinYearData",
 
 					success:  function (result) {
 
