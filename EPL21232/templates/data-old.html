@@ -234,8 +234,8 @@
 		<br>
 		<br>
 
-		<button id="removeDataset">Remove one Day</button>
-		<button id="removeData" style="display: none;">Remove Data</button>
+		<button id="removeDatasetButton">Remove one Day</button>
+		<input type="text" id="removeDataset" name="removeDataset" value = "2021-03-13">
 		<button id="addDataButton" >add Data</button>
 		<input type="text" id="addData" name="addData" value = "2021-03-13">
 
@@ -821,20 +821,20 @@
 			};
 
 
-			document.getElementById('removeDataset').addEventListener('click', function() {
-				config.data.datasets.splice(0, 1);
+			document.getElementById('removeDatasetButton').addEventListener('click', function() {
+
+				var dateToDelete = document.getElementById('removeDataset').value
+
+				for (index = 0; index < config.data.datasets.length ; index ++){
+					console.log(config.data.datasets[index].label)
+					if (config.data.datasets[index].label == dateToDelete) {
+						config.data.datasets.splice(index, 1);
+						console.log('effacé')
+					}
+				}
 				myNewChart.update();
 			});
 
-			document.getElementById('removeData').addEventListener('click', function() {
-				config.data.labels.splice(-1, 1); // remove the label first
-
-				config.data.datasets.forEach(function(dataset) {
-					dataset.pop();
-				});
-
-				myNewChart.update();
-			});
 
 			document.getElementById('addDataButton').addEventListener('click', function() {
 
