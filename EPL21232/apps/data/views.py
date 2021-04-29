@@ -80,6 +80,21 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
 def data(request: HttpRequest) -> HttpResponse:
     return render(request, "data.html")
 
+
+def addDailyData(request,my_id):
+    station = Station.objects.get(id=my_id)
+    dataTable = Data.objects.order_by('-tilting_date').filter(station=station)[::-1]
+    dataDic = {}
+
+    for elem in dataTable:
+        if str(elem.tilting_date) not in dataDic:
+            dataDic[str(elem.tilting_date)] = [str(elem.tilting_mm)]
+        else:
+            dataDic[str(elem.tilting_date)].append(str(elem.tilting_mm))
+        
+
+    return JsonResponse(dataDic, safe = False)
+
 def getMeanDayData(request,my_id):
     station = Station.objects.get(id=my_id)
     meandayData = []

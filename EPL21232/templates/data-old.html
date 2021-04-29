@@ -234,8 +234,10 @@
 		<br>
 		<br>
 
-		<button id="removeDataset" style="display: none;">Remove Dataset</button>
+		<button id="removeDataset">Remove one Day</button>
 		<button id="removeData" style="display: none;">Remove Data</button>
+		<button id="addDataButton" >add Data</button>
+		<input type="text" id="addData" name="addData" value = "2021-03-13">
 
 
 		<div style="margin-right: 10%; margin-left: 10%; width:75%;">
@@ -453,8 +455,6 @@
 			document.getElementById('addMeanDayButton').addEventListener('click', function() {
 				
 				
-
-
 				$.ajax({
 					url:"/data/"+ {{station.id}}+ "/addMeanDayData",
 
@@ -470,13 +470,6 @@
 
 
 			});
-
-
-
-
-
-
-
 
 
 			document.getElementById('meanWeekButton').addEventListener('click', function() {
@@ -842,6 +835,36 @@
 
 				myNewChart.update();
 			});
+
+			document.getElementById('addDataButton').addEventListener('click', function() {
+
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/addDailyData",
+
+					success:  function (result) {
+
+						var dateToAdd = document.getElementById('addData').value
+						var r = Math.floor(Math.random() * 255);
+						var g = Math.floor(Math.random() * 255);
+						var b = Math.floor(Math.random() * 255);
+						var newColor =  "rgb(" + r + "," + g + "," + b + ")";
+
+						var newdataset = {
+						label: dateToAdd,
+							backgroundColor: newColor,
+							borderColor: newColor,
+							data: result[dateToAdd],
+							fill: false,
+						}	
+						config.data.datasets.push(newdataset);
+
+						myNewChart.update();
+						
+					}
+				});
+			});
+
 
 
 			function function1() {
