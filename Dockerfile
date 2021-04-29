@@ -8,7 +8,7 @@ WORKDIR /app/
 # RUN export C_INCLUDE_PATH=/usr/include/gdal
 
 COPY requirements/prod.txt ./requirements/prod.txt
-RUN pip3 install -r ./requirements/prod.txt
+RUN pip3 install -r ./requirements/prod.txt --user
 
 COPY manage.py ./manage.py
 COPY setup.cfg ./setup.cfg
@@ -19,6 +19,6 @@ EXPOSE 8080
 FROM production as development
 
 COPY requirements/dev.txt ./requirements/dev.txt
-RUN pip3 install -r ./requirements/dev.txt
+RUN pip3 install -r ./requirements/dev.txt --user
 
 COPY . .
