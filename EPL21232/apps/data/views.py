@@ -46,7 +46,6 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
 
 
     lastday = data[len(data)-1].tilting_date
-
     for elem in data:
         if elem.tilting_date == lastday:
             precipitationTime.append(elem.tilting_time.strftime("%H:%M:%S"))
@@ -85,10 +84,24 @@ def getMeanDayData(request,my_id):
     station = Station.objects.get(id=my_id)
     meandayData = []
     meandaytable = MeanDay.objects.filter(station=station).order_by('-mean_day')[::-1]
+    
     for elem in meandaytable:
         meandayData.append(str(elem.mean_per_day))
 
     return JsonResponse(meandayData, safe = False)
+
+
+def addMeanDayData(request,my_id):
+    station = Station.objects.get(id=my_id)
+    meandaytable = MeanDay.objects.filter(station=station).order_by('-mean_day')[::-1]
+    meandayDic = {}
+
+    for elem in meandaytable:
+
+        meandayDic[str(elem.mean_day)] = str(elem.mean_per_day)
+        
+
+    return JsonResponse(meandayDic, safe = False)
 
 
 def getMeanWeekData(request,my_id):

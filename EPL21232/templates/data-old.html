@@ -246,6 +246,9 @@
 		<button id="removeDataset2" style="display: none;">Remove mean Dataset</button>
 		<button id="removeData2" style="display: none;">Remove mean Data</button>
 		<button id="meanDayButton">get meanday's data</button>
+		<button id="addMeanDayButton">add meanday's data</button>
+		<input type="text" id="addMeanDay" name="addMeanDay" value = "2021-03-12">
+
 		<button id="meanWeekButton">get meanweek's data</button>
 		<button id="meanYearButton">get meanyear's data</button>
 		<br>
@@ -442,6 +445,39 @@
 
 				myNewChart2.update();
 			});
+
+
+
+
+
+			document.getElementById('addMeanDayButton').addEventListener('click', function() {
+				
+				
+
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/addMeanDayData",
+
+					success:  function (result) {
+
+						var dateToAdd = document.getElementById('addMeanDay').value
+						config2.data.labels.push(dateToAdd);
+						config2.data.datasets[0].data.push(parseFloat(result[dateToAdd]));
+						myNewChart2.update();
+						
+					}
+				});
+
+
+			});
+
+
+
+
+
+
+
+
 
 			document.getElementById('meanWeekButton').addEventListener('click', function() {
 				
