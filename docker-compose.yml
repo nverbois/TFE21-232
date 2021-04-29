@@ -15,13 +15,13 @@ x-app-variables: &app-variables
 services: 
   website:
     image: epl21232:latest
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8080
     volumes: *service-volumes
     environment: *app-variables
     depends_on: 
       - db_migrate
     ports: 
-      - "8000:8000"
+      - "8080:8080"
 
   db_migrate:
     image: epl21232:latest

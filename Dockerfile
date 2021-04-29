@@ -14,7 +14,7 @@ COPY manage.py ./manage.py
 COPY setup.cfg ./setup.cfg
 COPY EPL21232 ./EPL21232 
 
-EXPOSE 8000 
+EXPOSE 8080 
 
 FROM production as development
 
