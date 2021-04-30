@@ -268,8 +268,12 @@
 		</div>
 		<br>
 		<br>
-		<button id="removeDataset3" style="display: none;">Remove Intensity Dataset</button>
-		<button id="removeData3" style="display: none;">Remove Intensity Data</button>
+
+		<button id="removeIntensitysetButton">Remove one Day</button>
+		<input type="text" id="removeIntensityset" name="removeIntensityset" value = "2021-03-13">
+		<button id="addIntensityButton" >add Intensity</button>
+		<input type="text" id="addIntensity" name="addIntensity" value = "2021-03-13">
+
 
 
 		
@@ -324,23 +328,48 @@
 			};
 
 
-			var colorNames = Object.keys(window.chartColors);
+			document.getElementById('removeIntensitysetButton').addEventListener('click', function() {
 
-		
+				var dateToDelete = document.getElementById('removeIntensityset').value
 
-			document.getElementById('removeDataset3').addEventListener('click', function() {
-				config3.data.datasets.splice(0, 1);
+				for (index = 0; index < config3.data.datasets.length ; index ++){
+					console.log(config3.data.datasets[index].label)
+					if (config3.data.datasets[index].label == dateToDelete) {
+						config3.data.datasets.splice(index, 1);
+						console.log('effacé')
+						index--
+					}
+				}
 				myNewChart3.update();
 			});
 
-			document.getElementById('removeData3').addEventListener('click', function() {
-				config3.data.labels.splice(-1, 1); // remove the label first
 
-				config3.data.datasets.forEach(function(dataset) {
-					dataset.pop();
+			document.getElementById('addIntensityButton').addEventListener('click', function() {
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/addDailyIntensity",
+
+					success:  function (result) {
+
+						var dateToAdd = document.getElementById('addIntensity').value
+						var r = Math.floor(Math.random() * 255);
+						var g = Math.floor(Math.random() * 255);
+						var b = Math.floor(Math.random() * 255);
+						var newColor =  "rgb(" + r + "," + g + "," + b + ")";
+
+						var newdataset = {
+							label: dateToAdd,
+							backgroundColor: newColor,
+							borderColor: newColor,
+							data: result[dateToAdd],
+							fill: false,
+						}	
+						config3.data.datasets.push(newdataset);
+
+						myNewChart3.update();
+						
+					}
 				});
-
-				myNewChart3.update();
 			});
 			
 			
@@ -830,6 +859,7 @@
 					if (config.data.datasets[index].label == dateToDelete) {
 						config.data.datasets.splice(index, 1);
 						console.log('effacé')
+						index--
 					}
 				}
 				myNewChart.update();
@@ -837,7 +867,6 @@
 
 
 			document.getElementById('addDataButton').addEventListener('click', function() {
-
 
 				$.ajax({
 					url:"/data/"+ {{station.id}}+ "/addDailyData",

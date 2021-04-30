@@ -194,3 +194,17 @@ def getMinYearData(request,my_id):
         maxdayData.append(str(elem.min_per_year))
 
     return JsonResponse(maxdayData, safe = False)
+
+def addDailyIntensity(request,my_id):
+    station = Station.objects.get(id=my_id)
+    intensityTable = Intensity.objects.filter(station=station).order_by('-intensity_day')[::-1]
+    intensityDic = {}
+
+    for elem in intensityTable:
+        if str(elem.intensity_day) not in intensityDic:
+            intensityDic[str(elem.intensity_day)] = [str(elem.intensity)]
+        else:
+            intensityDic[str(elem.intensity_day)].append(str(elem.intensity))
+        
+
+    return JsonResponse(intensityDic, safe = False)
