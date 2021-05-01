@@ -255,12 +255,12 @@
 		<button id="meanYearButton">get meanyear's data</button>
 		<br>
 		<br>
-		<button id="GetMaxDay">Get Max by Day</button>
-		<button id="GetMinDay">Get Min by Day</button>
-		<button id="GetMaxWeek">Get Max by Week</button>
-		<button id="GetMinWeek">Get Min by Week</button>
-		<button id="GetMaxYear">Get Max by Year</button>
-		<button id="GetMinYear">Get Min by Year</button>
+		<button id="GetMaxDay" style="display: none;">Get Max by Day</button>
+		<button id="GetMinDay" style="display: none;">Get Min by Day</button>
+		<button id="GetMaxWeek" style="display: none;">Get Max by Week</button>
+		<button id="GetMinWeek" style="display: none;">Get Min by Week</button>
+		<button id="GetMaxYear" style="display: none;">Get Max by Year</button>
+		<button id="GetMinYear" style="display: none;">Get Min by Year</button>
 
 
 		<div style="margin-right: 10%; margin-left: 10%; width:75%;">
@@ -451,7 +451,7 @@
 				}
 		
 				myNewChart2.update();
-				
+
 				var r = Math.floor(Math.random() * 255);
 				var g = Math.floor(Math.random() * 255);
 				var b = Math.floor(Math.random() * 255);
@@ -508,15 +508,38 @@
 					success:  function (result) {
 
 						var dateToAdd = document.getElementById('addMeanDay').value
-
 						config2.data.labels.push(dateToAdd);
 						config2.data.datasets[0].data.push(parseFloat(result[dateToAdd]));
-						config2.data.datasets[1].data.push(0);
-						config2.data.datasets[2].data.push(1);
 						myNewChart2.update();
 
 					}
 				});
+
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/getMaxDayData",
+					
+					success:  function (result) {
+						var dateToAdd = document.getElementById('addMeanDay').value
+						config2.data.datasets[1].data.push(parseFloat(result[dateToAdd]));
+						myNewChart2.update();
+
+					}
+				});
+
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/getMinDayData",
+					
+					success:  function (result) {
+						var dateToAdd = document.getElementById('addMeanDay').value
+						config2.data.datasets[2].data.push(parseFloat(result[dateToAdd]));
+						myNewChart2.update();
+
+					}
+				});
+
+
 				myNewChart2.update();
 
 			});
