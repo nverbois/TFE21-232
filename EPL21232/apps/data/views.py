@@ -56,6 +56,8 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     shorterintensityDuration = intensityDuration[-11:]
 
 
+    lastDay = [str(lastday)]
+
     context = {
         'id': my_id,
         "data": data,
@@ -74,7 +76,10 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         "meanyearDate": meanyearDate,
         "shorterData": precipitation,
         "shorterTime": precipitationTime,
+        "lastDayRegistered": lastDay,
     }
+
+    print(context)
     return render(request, "data-old.html", context)
 
 def data(request: HttpRequest) -> HttpResponse:
