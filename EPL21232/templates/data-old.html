@@ -250,18 +250,16 @@
 		<button id="meanDayButton">get meanday's data</button>
 		<button id="addMeanDayButton">add meanday's data</button>
 		<input type="text" id="addMeanDay" name="addMeanDay" value = "2021-03-12">
-
+		<br>
+		<br>
 		<button id="meanWeekButton">get meanweek's data</button>
+		<button id="addMeanWeekButton">add meanweek's data</button>
+		<input type="text" id="addMeanWeek" name="addMeanWeek" value = "2021-03-13">
+		<br>
+		<br>
 		<button id="meanYearButton">get meanyear's data</button>
-		<br>
-		<br>
-		<button id="GetMaxDay" style="display: none;">Get Max by Day</button>
-		<button id="GetMinDay" style="display: none;">Get Min by Day</button>
-		<button id="GetMaxWeek" style="display: none;">Get Max by Week</button>
-		<button id="GetMinWeek" style="display: none;">Get Min by Week</button>
-		<button id="GetMaxYear" style="display: none;">Get Max by Year</button>
-		<button id="GetMinYear" style="display: none;">Get Min by Year</button>
-
+		<button id="addMeanYearButton">add meanweek's data</button>
+		<input type="text" id="addMeanYear" name="addMeanYear" value = "2021">
 
 		<div style="margin-right: 10%; margin-left: 10%; width:75%;">
 			<canvas id="canvas3"></canvas>
@@ -549,39 +547,106 @@
 				
 				while (config2.data.datasets.length > 0){
 						config2.data.datasets.splice(config.data.datasets.length-1, 1);
+						
 				}
-				config2.data.labels.pop();
-				config2.data.labels = {{meanweekDate|safe}};
+				while(config2.data.labels.length > 0){
+					config2.data.labels.pop();
+				}
+		
+				myNewChart2.update();
+
+				var r = Math.floor(Math.random() * 255);
+				var g = Math.floor(Math.random() * 255);
+				var b = Math.floor(Math.random() * 255);
+				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
+				var newDataset = {
+					label: 'Valeurs moyennes hebdommadaires',
+					backgroundColor: newColor,
+					borderColor: newColor,
+					data: [],
+					fill: false
+				};
+				config2.data.datasets.push(newDataset);
+
+				var r = Math.floor(Math.random() * 255);
+				var g = Math.floor(Math.random() * 255);
+				var b = Math.floor(Math.random() * 255);
+				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
+				var newDataset = {
+					label: 'Valeurs maximale hebdommadaires',
+					backgroundColor: newColor,
+					borderColor: newColor,
+					data: [],
+					fill: false
+				};
+				config2.data.datasets.push(newDataset);
+
+				var r = Math.floor(Math.random() * 255);
+				var g = Math.floor(Math.random() * 255);
+				var b = Math.floor(Math.random() * 255);
+				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
+				var newDataset = {
+					label: 'Valeurs minimale hebdommadaires',
+					backgroundColor: newColor,
+					borderColor: newColor,
+					data: [],
+					fill: false
+				};
+				config2.data.datasets.push(newDataset);
 				
-				$.ajax({
-					url:"/data/"+ {{station.id}}+ "/getMeanWeekData",
-
-					success:  function (result) {
-
-						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-						var newColor = window.chartColors[colorName];
-						var newDataset = {
-							label: 'mean by week' + config2.data.datasets.length,
-							backgroundColor: newColor,
-							borderColor: newColor,
-							data: [],
-							fill: false
-						};
-
-						for (var index = 0; index < config2.data.labels.length; ++index) {
-							newDataset.data.push(parseFloat(result[index]));
-						}
-
-						config2.data.datasets.push(newDataset);
-
-						myNewChart2.update();
-					}
-				});
-				
-				//document.getElementById('meanWeekButton').style = "display: none;"
 
 				myNewChart2.update();
 			});
+
+
+			document.getElementById('addMeanWeekButton').addEventListener('click', function() {
+				
+				
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/addMeanWeekData",
+					
+					success:  function (result) {
+
+						var dateToAdd = document.getElementById('addMeanWeek').value
+						config2.data.labels.push(dateToAdd);
+						config2.data.datasets[0].data.push(parseFloat(result[dateToAdd]));
+						myNewChart2.update();
+
+					}
+				});
+
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/getMaxWeekData",
+					
+					success:  function (result) {
+						var dateToAdd = document.getElementById('addMeanWeek').value
+						config2.data.datasets[1].data.push(parseFloat(result[dateToAdd]));
+						myNewChart2.update();
+
+					}
+				});
+
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/getMinWeekData",
+					
+					success:  function (result) {
+						var dateToAdd = document.getElementById('addMeanWeek').value
+						config2.data.datasets[2].data.push(parseFloat(result[dateToAdd]));
+						myNewChart2.update();
+
+					}
+				});
+
+
+				myNewChart2.update();
+
+			});
+
+
+
+
 
 			document.getElementById('meanYearButton').addEventListener('click', function() {
 				
@@ -621,228 +686,7 @@
 			});
 
 
-			document.getElementById('GetMaxDay').addEventListener('click', function() {
-				
-				while (config2.data.datasets.length > 0){
-						config2.data.datasets.splice(config.data.datasets.length-1, 1);
-				}
-				config2.data.labels.pop();
-				config2.data.labels = {{meandayDate|safe}};
-				
-				
-				$.ajax({
-					url:"/data/"+ {{station.id}}+ "/getMaxDayData",
-
-					success:  function (result) {
-
-						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-						var newColor = window.chartColors[colorName];
-						var newDataset = {
-							label: 'max by day' + config2.data.datasets.length,
-							backgroundColor: newColor,
-							borderColor: newColor,
-							data: [],
-							fill: false
-						};
-
-						for (var index = 0; index < config2.data.labels.length; ++index) {
-							newDataset.data.push(parseFloat(result[index]));
-						}
-
-						config2.data.datasets.push(newDataset);
-						myNewChart2.update();
-					}
-				});
-				
-
-				myNewChart2.update();
-			});
-
-			document.getElementById('GetMinDay').addEventListener('click', function() {
-				
-				while (config2.data.datasets.length > 0){
-						config2.data.datasets.splice(config.data.datasets.length-1, 1);
-				}
-				config2.data.labels.pop();
-				config2.data.labels = {{meandayDate|safe}};
-				
-				
-				$.ajax({
-					url:"/data/"+ {{station.id}}+ "/getMinDayData",
-
-					success:  function (result) {
-
-						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-						var newColor = window.chartColors[colorName];
-						var newDataset = {
-							label: 'min by day' + config2.data.datasets.length,
-							backgroundColor: newColor,
-							borderColor: newColor,
-							data: [],
-							fill: false
-						};
-
-						for (var index = 0; index < config2.data.labels.length; ++index) {
-							newDataset.data.push(parseFloat(result[index]));
-						}
-
-						config2.data.datasets.push(newDataset);
-						myNewChart2.update();
-					}
-				});
-				
-
-				myNewChart2.update();
-			});
-
-			document.getElementById('GetMaxWeek').addEventListener('click', function() {
-				
-				while (config2.data.datasets.length > 0){
-						config2.data.datasets.splice(config.data.datasets.length-1, 1);
-				}
-				config2.data.labels.pop();
-				config2.data.labels = {{meanweekDate|safe}};
-				
-				
-				$.ajax({
-					url:"/data/"+ {{station.id}}+ "/getMaxWeekData",
-
-					success:  function (result) {
-
-						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-						var newColor = window.chartColors[colorName];
-						var newDataset = {
-							label: 'max by week' + config2.data.datasets.length,
-							backgroundColor: newColor,
-							borderColor: newColor,
-							data: [],
-							fill: false
-						};
-
-						for (var index = 0; index < config2.data.labels.length; ++index) {
-							newDataset.data.push(parseFloat(result[index]));
-						}
-
-						config2.data.datasets.push(newDataset);
-						myNewChart2.update();
-					}
-				});
-				
-
-				myNewChart2.update();
-			});
-
-			document.getElementById('GetMinWeek').addEventListener('click', function() {
-				
-				while (config2.data.datasets.length > 0){
-						config2.data.datasets.splice(config.data.datasets.length-1, 1);
-				}
-				config2.data.labels.pop();
-				config2.data.labels = {{meanweekDate|safe}};
-				
-				
-				$.ajax({
-					url:"/data/"+ {{station.id}}+ "/getMinWeekData",
-
-					success:  function (result) {
-
-						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-						var newColor = window.chartColors[colorName];
-						var newDataset = {
-							label: 'min by week' + config2.data.datasets.length,
-							backgroundColor: newColor,
-							borderColor: newColor,
-							data: [],
-							fill: false
-						};
-
-						for (var index = 0; index < config2.data.labels.length; ++index) {
-							newDataset.data.push(parseFloat(result[index]));
-						}
-
-						config2.data.datasets.push(newDataset);
-						myNewChart2.update();
-					}
-				});
-				
-
-				myNewChart2.update();
-			});
-
-			document.getElementById('GetMaxYear').addEventListener('click', function() {
-				
-				while (config2.data.datasets.length > 0){
-						config2.data.datasets.splice(config.data.datasets.length-1, 1);
-				}
-				config2.data.labels.pop();
-				config2.data.labels = {{meanyearDate|safe}};
-				
-				
-				$.ajax({
-					url:"/data/"+ {{station.id}}+ "/getMaxYearData",
-
-					success:  function (result) {
-
-						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-						var newColor = window.chartColors[colorName];
-						var newDataset = {
-							label: 'max by year' + config2.data.datasets.length,
-							backgroundColor: newColor,
-							borderColor: newColor,
-							data: [],
-							fill: false
-						};
-
-						for (var index = 0; index < config2.data.labels.length; ++index) {
-							newDataset.data.push(parseFloat(result[index]));
-						}
-
-						config2.data.datasets.push(newDataset);
-						myNewChart2.update();
-					}
-				});
-				
-
-				myNewChart2.update();
-			});
-
-			document.getElementById('GetMinYear').addEventListener('click', function() {
-				
-				while (config2.data.datasets.length > 0){
-						config2.data.datasets.splice(config.data.datasets.length-1, 1);
-				}
-				config2.data.labels.pop();
-				config2.data.labels = {{meanyearDate|safe}};
-				
-				
-				$.ajax({
-					url:"/data/"+ {{station.id}}+ "/getMinYearData",
-
-					success:  function (result) {
-
-						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-						var newColor = window.chartColors[colorName];
-						var newDataset = {
-							label: 'min by year' + config2.data.datasets.length,
-							backgroundColor: newColor,
-							borderColor: newColor,
-							data: [],
-							fill: false
-						};
-
-						for (var index = 0; index < config2.data.labels.length; ++index) {
-							newDataset.data.push(parseFloat(result[index]));
-						}
-
-						config2.data.datasets.push(newDataset);
-						myNewChart2.update();
-					}
-				});
-				
-
-				myNewChart2.update();
-			});
-
+		
 
 
 			

@@ -128,6 +128,20 @@ def getMeanWeekData(request,my_id):
 
     return JsonResponse(meanweekData, safe = False)
 
+
+def addMeanWeekData(request,my_id):
+    station = Station.objects.get(id=my_id)
+    meanweektable = MeanWeek.objects.filter(station=station).order_by('-mean_week')[::-1]
+    meanweekDic = {}
+
+    for elem in meanweektable:
+
+        meanweekDic[str(elem.mean_week)] = str(elem.mean_per_week)
+        
+
+    return JsonResponse(meanweekDic, safe = False)
+
+
 def getMeanYearData(request,my_id):
     station = Station.objects.get(id=my_id)
     meanyearData = []
@@ -163,22 +177,26 @@ def getMinDayData(request,my_id):
 
 def getMaxWeekData(request,my_id):
     station = Station.objects.get(id=my_id)
-    maxdayData = []
-    maxdaytable = MeanWeek.objects.filter(station=station).order_by('-mean_week')[::-1]
-    for elem in maxdaytable:
-        maxdayData.append(str(elem.max_per_week))
+    maxweektable = MeanWeek.objects.filter(station=station).order_by('-mean_week')[::-1]
+    maxweekDic = {}
 
-    return JsonResponse(maxdayData, safe = False)
+    for elem in maxweektable:
+        maxweekDic[str(elem.mean_week)] = str(elem.max_per_week)
+        
+
+    return JsonResponse(maxweekDic, safe = False)
 
 
 def getMinWeekData(request,my_id):
     station = Station.objects.get(id=my_id)
-    maxdayData = []
-    maxdaytable = MeanWeek.objects.filter(station=station).order_by('-mean_week')[::-1]
-    for elem in maxdaytable:
-        maxdayData.append(str(elem.min_per_week))
+    minweektable = MeanWeek.objects.filter(station=station).order_by('-mean_week')[::-1]
+    minweekDic = {}
 
-    return JsonResponse(maxdayData, safe = False)
+    for elem in minweektable:
+        minweekDic[str(elem.mean_week)] = str(elem.min_per_week)
+        
+
+    return JsonResponse(minweekDic, safe = False)
 
 def getMaxYearData(request,my_id):
     station = Station.objects.get(id=my_id)
