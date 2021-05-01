@@ -285,7 +285,7 @@
 				data: {
 					labels:{{intensityDuration}},
 					datasets: [{
-						label: 'Graphes des intensités',
+						label: {{lastDayRegistered|safe}},
 						backgroundColor: window.chartColors.red,
 						borderColor: window.chartColors.red,
 						data: {{intensityData}},
@@ -296,7 +296,7 @@
 					responsive: true,
 					title: {
 						display: true,
-						text: 'Exemple de graphiques comparant deux courbes pluviométriques'
+						text: 'Graphiques des intensitées'
 					},
 					tooltips: {
 						mode: 'index',
@@ -391,7 +391,7 @@
 					responsive: true,
 					title: {
 						display: true,
-						text: 'Courbe des moyennes journalières pluviométriques'
+						text: 'Courbe des moyennes pluviométriques'
 					},
 					tooltips: {
 						mode: 'index',
@@ -773,7 +773,7 @@
 					responsive: true,
 					title: {
 						display: true,
-						text: 'Exemple de graphiques comparant deux courbes pluviométriques'
+						text: 'Graphiques des données brutes'
 					},
 					tooltips: {
 						mode: 'index',
