@@ -652,39 +652,103 @@
 				
 				while (config2.data.datasets.length > 0){
 						config2.data.datasets.splice(config.data.datasets.length-1, 1);
+						
 				}
-				config2.data.labels.pop();
-				config2.data.labels = {{meanyearDate|safe}};
-				
-				
-				$.ajax({
-					url:"/data/"+ {{station.id}}+ "/getMeanYearData",
+				while(config2.data.labels.length > 0){
+					config2.data.labels.pop();
+				}
+		
+				myNewChart2.update();
 
-					success:  function (result) {
+				var r = Math.floor(Math.random() * 255);
+				var g = Math.floor(Math.random() * 255);
+				var b = Math.floor(Math.random() * 255);
+				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
+				var newDataset = {
+					label: 'Valeurs moyennes annuelle',
+					backgroundColor: newColor,
+					borderColor: newColor,
+					data: [],
+					fill: false
+				};
+				config2.data.datasets.push(newDataset);
 
-						var colorName = colorNames[config2.data.datasets.length % colorNames.length];
-						var newColor = window.chartColors[colorName];
-						var newDataset = {
-							label: 'mean by year' + config2.data.datasets.length,
-							backgroundColor: newColor,
-							borderColor: newColor,
-							data: [],
-							fill: false
-						};
+				var r = Math.floor(Math.random() * 255);
+				var g = Math.floor(Math.random() * 255);
+				var b = Math.floor(Math.random() * 255);
+				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
+				var newDataset = {
+					label: 'Valeurs maximale annuelle',
+					backgroundColor: newColor,
+					borderColor: newColor,
+					data: [],
+					fill: false
+				};
+				config2.data.datasets.push(newDataset);
 
-						for (var index = 0; index < config2.data.labels.length; ++index) {
-							newDataset.data.push(parseFloat(result[index]));
-						}
-
-						config2.data.datasets.push(newDataset);
-						myNewChart2.update();
-					}
-				});
+				var r = Math.floor(Math.random() * 255);
+				var g = Math.floor(Math.random() * 255);
+				var b = Math.floor(Math.random() * 255);
+				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
+				var newDataset = {
+					label: 'Valeurs minimale annuelle',
+					backgroundColor: newColor,
+					borderColor: newColor,
+					data: [],
+					fill: false
+				};
+				config2.data.datasets.push(newDataset);
 				
 
 				myNewChart2.update();
 			});
 
+
+
+			document.getElementById('addMeanYearButton').addEventListener('click', function() {
+				
+				
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/addMeanYearData",
+					
+					success:  function (result) {
+
+						var dateToAdd = document.getElementById('addMeanYear').value
+						config2.data.labels.push(dateToAdd);
+						config2.data.datasets[0].data.push(parseFloat(result[dateToAdd]));
+						myNewChart2.update();
+
+					}
+				});
+
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/getMaxYearData",
+					
+					success:  function (result) {
+						var dateToAdd = document.getElementById('addMeanYear').value
+						config2.data.datasets[1].data.push(parseFloat(result[dateToAdd]));
+						myNewChart2.update();
+
+					}
+				});
+
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/getMinYearData",
+					
+					success:  function (result) {
+						var dateToAdd = document.getElementById('addMeanYear').value
+						config2.data.datasets[2].data.push(parseFloat(result[dateToAdd]));
+						myNewChart2.update();
+
+					}
+				});
+
+
+				myNewChart2.update();
+
+			});
 
 		
 

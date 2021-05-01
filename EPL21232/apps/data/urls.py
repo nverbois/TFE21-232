@@ -20,4 +20,5 @@ urlpatterns = [
     path("<int:my_id>/addDailyData", views.addDailyData, name="addDailyData"),
     path("<int:my_id>/addDailyIntensity", views.addDailyIntensity, name="addDailyIntensity"),
     path("<int:my_id>/addMeanWeekData", views.addMeanWeekData, name="addMeanWeekData"),
+    path("<int:my_id>/addMeanYearData", views.addMeanYearData, name="addMeanYearData"),
 ]
