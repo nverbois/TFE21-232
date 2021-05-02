@@ -234,10 +234,11 @@
 		<br>
 		<br>
 
-		<button id="removeDatasetButton">Remove one Day</button>
-		<input type="text" id="removeDataset" name="removeDataset" value = "2021-03-13">
+		
 		<button id="addDataButton" >add Data</button>
 		<input type="text" id="addData" name="addData" value = "2021-03-13">
+		<button id="removeDatasetButton">Remove one Day</button>
+		<input type="text" id="removeDataset" name="removeDataset" value = "2021-03-13">
 
 
 		<div style="margin-right: 10%; margin-left: 10%; width:75%;">
@@ -245,21 +246,25 @@
 		</div>
 		<br>
 		<br>
-		<button id="removeDataset2" style="display: none;">Remove mean Dataset</button>
-		<button id="removeData2" style="display: none;">Remove mean Data</button>
 		<button id="meanDayButton">get meanday's data</button>
 		<button id="addMeanDayButton">add meanday's data</button>
 		<input type="text" id="addMeanDay" name="addMeanDay" value = "2021-03-12">
+		<button id="removeMeanDayDatasetButton">Remove one Day</button>
+		<input type="text" id="removeMeanDayDataset" name="removeMeanDayDataset" value = "2021-03-13" style="display: none;">
 		<br>
 		<br>
 		<button id="meanWeekButton">get meanweek's data</button>
 		<button id="addMeanWeekButton">add meanweek's data</button>
 		<input type="text" id="addMeanWeek" name="addMeanWeek" value = "2021-03-13">
+		<button id="removeMeanWeekDatasetButton">Remove one Week</button>
+		<input type="text" id="removeMeanWeekDataset" name="removeMeanWeekDataset" value = "2021-03-13" style="display: none;">
 		<br>
 		<br>
 		<button id="meanYearButton">get meanyear's data</button>
 		<button id="addMeanYearButton">add meanweek's data</button>
 		<input type="text" id="addMeanYear" name="addMeanYear" value = "2021">
+		<button id="removeMeanYearDatasetButton">Remove one Year</button>
+		<input type="text" id="removeMeanYearDataset" name="removeMeanYearDataset" value = "2021" style="display: none;">
 
 		<div style="margin-right: 10%; margin-left: 10%; width:75%;">
 			<canvas id="canvas3"></canvas>
@@ -422,22 +427,6 @@
 
 
 
-			document.getElementById('removeDataset2').addEventListener('click', function() {
-				config2.data.datasets.splice(0, 1);
-				myNewChart2.update();
-			});
-
-			document.getElementById('removeData2').addEventListener('click', function() {
-				config2.data.labels.splice(-1, 1); // remove the label first
-
-				config2.data.datasets.forEach(function(dataset) {
-					dataset.pop();
-				});
-
-				myNewChart2.update();
-			});
-
-
 			document.getElementById('meanDayButton').addEventListener('click', function() {
 				
 				while (config2.data.datasets.length > 0){
@@ -543,6 +532,28 @@
 			});
 
 
+			document.getElementById('removeMeanDayDatasetButton').addEventListener('click', function() {
+
+					//var dateToDelete = document.getElementById('removeMeanDayDataset').value
+
+					// for (labelIndex = 0; labelIndex < config2.data.labels.length; labelIndex ++){
+					// 	if(config2.data.labels[labelIndex] == dateToDelete){
+					// 		for (index = 0; index < config2.data.datasets.length ; index ++){
+					// 				config2.data.datasets[index].data.pop();
+					// 		}
+					// 		config2.data.labels.splice(labelIndex, 1);
+					// 	}
+					// }
+
+					for (index = 0; index < config2.data.datasets.length ; index ++){
+							config2.data.datasets[index].data.pop();
+					}
+					config2.data.labels.pop();
+
+				myNewChart2.update();
+			});
+
+
 			document.getElementById('meanWeekButton').addEventListener('click', function() {
 				
 				while (config2.data.datasets.length > 0){
@@ -642,6 +653,28 @@
 
 				myNewChart2.update();
 
+			});
+
+
+			document.getElementById('removeMeanWeekDatasetButton').addEventListener('click', function() {
+
+				//var dateToDelete = document.getElementById('removeMeanDayDataset').value
+
+				// for (labelIndex = 0; labelIndex < config2.data.labels.length; labelIndex ++){
+				// 	if(config2.data.labels[labelIndex] == dateToDelete){
+				// 		for (index = 0; index < config2.data.datasets.length ; index ++){
+				// 				config2.data.datasets[index].data.pop();
+				// 		}
+				// 		config2.data.labels.splice(labelIndex, 1);
+				// 	}
+				// }
+
+				for (index = 0; index < config2.data.datasets.length ; index ++){
+						config2.data.datasets[index].data.pop();
+				}
+				config2.data.labels.pop();
+
+				myNewChart2.update();
 			});
 
 
@@ -750,6 +783,28 @@
 
 			});
 
+
+
+			document.getElementById('removeMeanYearDatasetButton').addEventListener('click', function() {
+
+				//var dateToDelete = document.getElementById('removeMeanDayDataset').value
+
+				// for (labelIndex = 0; labelIndex < config2.data.labels.length; labelIndex ++){
+				// 	if(config2.data.labels[labelIndex] == dateToDelete){
+				// 		for (index = 0; index < config2.data.datasets.length ; index ++){
+				// 				config2.data.datasets[index].data.pop();
+				// 		}
+				// 		config2.data.labels.splice(labelIndex, 1);
+				// 	}
+				// }
+
+					for (index = 0; index < config2.data.datasets.length ; index ++){
+							config2.data.datasets[index].data.pop();
+					}
+					config2.data.labels.pop();
+
+				myNewChart2.update();
+			});
 		
 
 
