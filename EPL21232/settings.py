@@ -27,7 +27,11 @@ SECRET_KEY = "6cz0w7$4ee&dw%%(yjr=%&@=hdv%--fm-p7k=9bb=wg0xdw22("
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "tfe-verbois-duprez.info.ucl.ac.be",
+    "130.104.229.16",
+    "localhost",
+]
 
 
 # Application definition
