@@ -254,16 +254,16 @@
 		<br>
 		<br>
 		<button id="meanWeekButton">get meanweek's data</button>
-		<button id="addMeanWeekButton">add meanweek's data</button>
-		<input type="text" id="addMeanWeek" name="addMeanWeek" value = "2021-03-13">
-		<button id="removeMeanWeekDatasetButton">Remove one Week</button>
+		<button id="addMeanWeekButton" style="display: none;">add meanweek's data</button>
+		<input type="text" id="addMeanWeek" name="addMeanWeek" value = "2021-03-13" style="display: none;">
+		<button id="removeMeanWeekDatasetButton" style="display: none;">Remove one Week</button>
 		<input type="text" id="removeMeanWeekDataset" name="removeMeanWeekDataset" value = "2021-03-13" style="display: none;">
 		<br>
 		<br>
 		<button id="meanYearButton">get meanyear's data</button>
-		<button id="addMeanYearButton">add meanweek's data</button>
-		<input type="text" id="addMeanYear" name="addMeanYear" value = "2021">
-		<button id="removeMeanYearDatasetButton">Remove one Year</button>
+		<button id="addMeanYearButton" style="display: none;">add meanweek's data</button>
+		<input type="text" id="addMeanYear" name="addMeanYear" value = "2021" style="display: none;">
+		<button id="removeMeanYearDatasetButton" style="display: none;">Remove one Year</button>
 		<input type="text" id="removeMeanYearDataset" name="removeMeanYearDataset" value = "2021" style="display: none;">
 
 		<div style="margin-right: 10%; margin-left: 10%; width:75%;">
@@ -428,6 +428,7 @@
 
 
 			document.getElementById('meanDayButton').addEventListener('click', function() {
+
 				
 				while (config2.data.datasets.length > 0){
 						config2.data.datasets.splice(config.data.datasets.length-1, 1);
@@ -480,6 +481,23 @@
 				
 
 				myNewChart2.update();
+
+
+				document.getElementById('addMeanDayButton').style.display = "inline";
+				document.getElementById('addMeanDay').style.display = "inline";
+				document.getElementById('removeMeanDayDatasetButton').style.display = "inline";
+				//document.getElementById('removeMeanDayDataset').style.display = inline;
+
+				document.getElementById('addMeanWeekButton').style.display = "none";
+				document.getElementById('addMeanWeek').style.display = "none";
+				document.getElementById('removeMeanWeekDatasetButton').style.display = "none";
+			//	document.getElementById('removeMeanWeekDataset').style.display = none;
+
+				document.getElementById('addMeanYearButton').style.display = "none";
+				document.getElementById('addMeanYear').style.display = "none";
+				document.getElementById('removeMeanYearDatasetButton').style.display = "none";
+				//document.getElementById('removeMeanYearDataset').style.display = none;
+
 			});
 
 
@@ -555,6 +573,8 @@
 
 
 			document.getElementById('meanWeekButton').addEventListener('click', function() {
+
+
 				
 				while (config2.data.datasets.length > 0){
 						config2.data.datasets.splice(config.data.datasets.length-1, 1);
@@ -607,6 +627,22 @@
 				
 
 				myNewChart2.update();
+
+
+				document.getElementById('addMeanDayButton').style.display = "none";
+				document.getElementById('addMeanDay').style.display = "none";
+				document.getElementById('removeMeanDayDatasetButton').style.display = "none";
+				//document.getElementById('removeMeanDayDataset').style.display = none;
+
+				document.getElementById('addMeanWeekButton').style.display = "inline";
+				document.getElementById('addMeanWeek').style.display = "inline";
+				document.getElementById('removeMeanWeekDatasetButton').style.display = "inline";
+				//document.getElementById('removeMeanWeekDataset').style.display = inline;
+
+				document.getElementById('addMeanYearButton').style.display = "none";
+				document.getElementById('addMeanYear').style.display = "none";
+				document.getElementById('removeMeanYearDatasetButton').style.display = "none";
+				//document.getElementById('removeMeanYearDataset').style.display = none;
 			});
 
 
@@ -682,6 +718,7 @@
 
 
 			document.getElementById('meanYearButton').addEventListener('click', function() {
+
 				
 				while (config2.data.datasets.length > 0){
 						config2.data.datasets.splice(config.data.datasets.length-1, 1);
@@ -734,6 +771,23 @@
 				
 
 				myNewChart2.update();
+
+				document.getElementById('addMeanDayButton').style.display = "none";
+				document.getElementById('addMeanDay').style.display = "none";
+				document.getElementById('removeMeanDayDatasetButton').style.display = "none";
+				//document.getElementById('removeMeanDayDataset').style.display = none;
+
+				document.getElementById('addMeanWeekButton').style.display = "none";
+				document.getElementById('addMeanWeek').style.display = "none";
+				document.getElementById('removeMeanWeekDatasetButton').style.display = "none";
+				//document.getElementById('removeMeanWeekDataset').style.display = none;
+
+				document.getElementById('addMeanYearButton').style.display = "inline";
+				document.getElementById('addMeanYear').style.display = "inline";
+				document.getElementById('removeMeanYearDatasetButton').style.display = "inline";
+				//document.getElementById('removeMeanYearDataset').style.display = inline;
+
+
 			});
 
 
