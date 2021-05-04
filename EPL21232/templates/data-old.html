@@ -6,7 +6,8 @@
 
 <head>
 	<title>Data page</title>
-	<script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=7rcsZZMPcx8l_7wm0a_wMWveIXnxg4V4mRqQdQgg2D7HFQlZ5FsSUOnXb14eoTIG8gapUSDc1tyCi_CDcq-Ule1QLnHc07YyvgoGw8pXnJg" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+	<!-- <script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=7rcsZZMPcx8l_7wm0a_wMWveIXnxg4V4mRqQdQgg2D7HFQlZ5FsSUOnXb14eoTIG8gapUSDc1tyCi_CDcq-Ule1QLnHc07YyvgoGw8pXnJg" charset="UTF-8"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 	<script src="../static/js/utils.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -227,19 +228,45 @@
 
 
 	<body>
+		<div class="container" style="margin-left: 2%; margin-right: 3%;">
+			<div class="row">
+				<div class="col-lg-9 ml-0"><p class="lead">
+					<div style="width: 100%;">
+						<canvas id="canvas"></canvas>
+					</div>
+					
+				</p></div>
 
-		<div style="margin-right: 10%; margin-left: 10%; width:75%;">
-			<canvas id="canvas"></canvas>
-		</div>
-		<br>
-		<br>
+				<div class="col-lg-3 mr-0" style="padding-top: 3%;">
 
-		
-		<button id="addDataButton" >add Data</button>
-		<input type="text" id="addData" name="addData" value = "2021-03-13">
-		<button id="removeDatasetButton">Remove one Day</button>
-		<input type="text" id="removeDataset" name="removeDataset" value = "2021-03-13">
+					<p class="lead" style="font-size: medium;">
+						Sur ce graphe, vous pouvez consulter toutes les mesures pluviométriques 
+						d'une ou plusieurs journées. Par défaut, le jour le plus récent où des mesures
+						ont été prises sera affiché.
+					</p>
 
+					<p class="lead" style="font-size: medium;">
+						Entrez une date dans le champ ci-dessous, au format indiqué, et appuyez ensuite
+						sur le bouton pour ajouter une courbe sur le graphe.
+					</p>
+
+					<a class="btn btn-x1 btn-outline-secondary active" id="addDataButton" >Ajouter une journée</a>
+					<input type="text" id="addData" name="addData" value = "2021-03-13" size="10">
+
+					<br>
+					<br>
+
+					<p class="lead" style="font-size: medium;">
+						Entrez une date dans le champ ci-dessous, au format indiqué, et appuyez ensuite
+						sur le bouton pour enlever une courbe du graphe.
+					</p>
+
+					<a class="btn btn-x1 btn-outline-secondary active" id="removeDatasetButton">Retirer une journée</a>
+					<input type="text" id="removeDataset" name="removeDataset" value = "2021-03-13" size="10">
+					 
+				</div>
+			</div>
+		<div>
 
 		<div style="margin-right: 10%; margin-left: 10%; width:75%;">
 			<canvas id="canvas2"></canvas>
@@ -882,7 +909,7 @@
 					responsive: true,
 					title: {
 						display: true,
-						text: 'Graphiques des données brutes'
+						text: 'Mesures journalières pluviométriques'
 					},
 					tooltips: {
 						mode: 'index',
