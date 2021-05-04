@@ -5,6 +5,9 @@ Le site web sera développé autour du Framework Django, et utilisera PostGres p
 Nous allons créer des instances de Docker Compose afin de faciliter le déploiement de l'application:  
 https://docs.docker.com/compose/django/
 
+Docker Engine
+Docker Compose
+
 Pour démarrer le site web : 
 
 - make build ( la première fois )
