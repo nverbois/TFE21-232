@@ -7,7 +7,7 @@
     {% with profil=user.profil %}
         {% if profil %}
 
-    <h1>
+    <h1 style="padding-top: 5vh;">
         {{ profil.name }}
     </h1>
 
@@ -33,9 +33,11 @@
     <br/>
     <div>
         Stations:
+        <br>
+        <br>
         {% for station in profil.stations.all %}
             <span>
-                {{ station.name }}{% if not forloop.last %}, {% endif %} 
+                - {{ station.name }}{% if not forloop.last %},<br> {% endif %} 
             </span>
             {% endfor %}
     </div>
