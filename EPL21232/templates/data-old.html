@@ -1060,14 +1060,15 @@
 	var btnGraphs = document.getElementById("showGraphs")
 	var btnData = document.getElementById("showData")
 
-
+	{% if user.is_authenticated %}
 	btnData.onclick = function () {
 		tableData.style.display = "block"
 		tableMeans.style.display = "none";
 		tableIntensities.style.display = "none";
 		tableGraphs.style.display = "none";
-
+	
 	}
+	{% endif %}
 	btnMeans.onclick = function () {
 		tableData.style.display = "none"
 		tableMeans.style.display = "block";
