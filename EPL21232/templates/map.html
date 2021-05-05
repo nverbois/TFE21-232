@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
     <style>
       .map {
-        height: 450px;
+        height: 75vh;
         width: 100%;
       }
     </style>
@@ -21,9 +21,9 @@
 
 {% url 'data:data' as data_url %}
 
-<div class="container">
+<div class="container" style="padding-left: 3%; padding-right: 3%;">
     <div class="row">
-        <div class="col-lg-8 ml-auto"><p class="lead">
+        <div class="col ml-auto"><p class="lead">
             <div id="map" class="map"></div>
 
             <div id="popup" class="ol-popup">
@@ -40,8 +40,8 @@
                     })
                 ],
                 view: new ol.View({
-                    center: ol.proj.fromLonLat([-73.285215, 18.971187]),
-                    zoom: 8
+                    center: ol.proj.fromLonLat([-72.285215, 19.071187]),
+                    zoom: 8.1
                 })
                 });
                 
@@ -104,13 +104,15 @@
 
         </p></div>
 
-        <div class="col-lg-4 mr-auto">
+        <div class="col-lg-3 mr-auto" style="margin-top: 5vh;">
             <p class="lead">
                 <h3 style="text-align: center;"> Carte interactive de Haiti</h3>
             </p>
-            <p class="lead">
+            <p class="lead" style="font-size: medium;">
                 Bienvenue sur cette carte intéractive du pays ! Sur celle-ci, vous allez pouvoir survoller les différentes stations indiquées par des marqueurs (ou points noirs),
-                et sélectionner celle dont vous souhaitez voir de plus amples informations. <br>
+                et sélectionner celle dont vous souhaitez voir de plus amples informations. 
+                <br>
+                <br>
                 Vous pourrez alors être rediriger vers une page vous affichant les différentes données et statistiques pluviométriques associées à cette station.
                 
             </p>    
