@@ -251,7 +251,7 @@
 					</p>
 
 					<a class="btn btn-x1 btn-outline-secondary active" id="addDataButton" >Ajouter une journée</a>
-					<input type="text" id="addData" name="addData" value = "2021-03-13" size="10">
+					<input type="text" id="addData" name="addData" placeholder = "2021-03-13" size="10">
 
 					<p class="lead" style="font-size: medium; margin-top: 5%;">
 						Entrez une date dans le champ ci-dessous, au format indiqué, et appuyez ensuite
@@ -259,7 +259,7 @@
 					</p>
 
 					<a class="btn btn-x1 btn-outline-secondary active" id="removeDatasetButton">Retirer une journée</a>
-					<input type="text" id="removeDataset" name="removeDataset" value = "2021-03-13" size="10">
+					<input type="text" id="removeDataset" name="removeDataset" placeholder = "2021-03-13" size="10">
 					 
 				</div>
 			</div>
@@ -274,27 +274,25 @@
 				</p></div>
 
 				<div class="col-lg-3 mr-0" style="padding-top: 3%;">
-					<br>
-					<br>
-					<a class="btn btn-x1 btn-outline-secondary active" id="meanDayButton">get meanday's data</a>
+
+					<a class="btn btn-x1 btn-outline-secondary active" id="meanDayButton">Afficher moyennes journalières</a><br>
 					<a class="btn btn-x1 btn-outline-secondary active" id="addMeanDayButton">add meanday's data</a>
-					<input type="text" id="addMeanDay" name="addMeanDay" value = "2021-03-12" size="10">
+					<input type="text" id="addMeanDay" name="addMeanDay" placeholder = "2021-03-12" size="10">
 					<a class="btn btn-x1 btn-outline-secondary active" id="removeMeanDayDatasetButton">Remove one Day</a>
-					<input type="text" id="removeMeanDayDataset" name="removeMeanDayDataset" value = "2021-03-13" style="display: none;" size="10">
-					<br>
-					<br>
-					<a class="btn btn-x1 btn-outline-secondary active" id="meanWeekButton">get meanweek's data</a>
+					<input type="text" id="removeMeanDayDataset" name="removeMeanDayDataset" placeholder = "2021-03-13" style="display: none;" size="10">
+
+					<a class="btn btn-x1 btn-outline-secondary active" id="meanWeekButton" style="margin-top: 5%;">Afficher moyennes hebdomadaires</a><br>
 					<a class="btn btn-x1 btn-outline-secondary active" id="addMeanWeekButton" style="display: none;">add meanweek's data</a>
-					<input type="text" id="addMeanWeek" name="addMeanWeek" value = "2021-03-13" style="display: none;" size="10">
+					<input type="text" id="addMeanWeek" name="addMeanWeek" placeholder = "2021-03-13" style="display: none;" size="10">
 					<a class="btn btn-x1 btn-outline-secondary active"  id="removeMeanWeekDatasetButton" style="display: none;">Remove one Week</a>
-					<input type="text" id="removeMeanWeekDataset" name="removeMeanWeekDataset" value = "2021-03-13" style="display: none;" size="10">
-					<br>
-					<br>
-					<a class="btn btn-x1 btn-outline-secondary active" id="meanYearButton">get meanyear's data</a>
+					<input type="text" id="removeMeanWeekDataset" name="removeMeanWeekDataset" placeholder = "2021-03-13" style="display: none;" size="10">
+
+					<a class="btn btn-x1 btn-outline-secondary active" id="meanYearButton" style="margin-top: 5%;">Afficher moyennes annuelles</a><br>
 					<a class="btn btn-x1 btn-outline-secondary active" id="addMeanYearButton" style="display: none;">add meanweek's data</a>
-					<input type="text" id="addMeanYear" name="addMeanYear" value = "2021" style="display: none;" size="10">
+					<input type="text" id="addMeanYear" name="addMeanYear" placeholder = "2021" style="display: none;" size="10">
 					<a class="btn btn-x1 btn-outline-secondary active" id="removeMeanYearDatasetButton" style="display: none;">Remove one Year</a>
-					<input type="text" id="removeMeanYearDataset" name="removeMeanYearDataset" value = "2021" style="display: none;" size="10">
+					<input type="text" id="removeMeanYearDataset" name="removeMeanYearDataset" placeholder = "2021" style="display: none;" size="10">
+					
 				</div>
 			</div>
 
@@ -320,15 +318,15 @@
 					</p>
 
 					<a class="btn btn-x1 btn-outline-secondary active" id="addIntensityButton" >Ajouter une journée</a>
-					<input type="text" id="addIntensity" name="addIntensity" value = "2021-03-13" size="10">
+					<input type="text" id="addIntensity" name="addIntensity" placeholder = "2021-03-13" size="10">
 
 					<p class="lead" style="font-size: medium; margin-top: 5%;">
 						Entrez une date dans le champ ci-dessous, au format indiqué, et appuyez ensuite
-						sur le bouton pour ajouter une courbe sur le graphe.
+						sur le bouton pour enlever une courbe du graphe.
 					</p>
 
 					<a class="btn btn-x1 btn-outline-secondary active" id="removeIntensitysetButton">Enlever une journée</a>
-					<input type="text" id="removeIntensityset" name="removeIntensityset" value = "2021-03-13" size="10">
+					<input type="text" id="removeIntensityset" name="removeIntensityset" placeholder = "2021-03-13" size="10">
 
 				</div>
 			</div>
@@ -543,17 +541,17 @@
 				document.getElementById('addMeanDayButton').style.display = "inline";
 				document.getElementById('addMeanDay').style.display = "inline";
 				document.getElementById('removeMeanDayDatasetButton').style.display = "inline";
-				//document.getElementById('removeMeanDayDataset').style.display = inline;
+				//document.getElementById('removeMeanDayDataset').style.display = "inline";
 
 				document.getElementById('addMeanWeekButton').style.display = "none";
 				document.getElementById('addMeanWeek').style.display = "none";
 				document.getElementById('removeMeanWeekDatasetButton').style.display = "none";
-			//	document.getElementById('removeMeanWeekDataset').style.display = none;
+				//document.getElementById('removeMeanWeekDataset').style.display = "none";
 
 				document.getElementById('addMeanYearButton').style.display = "none";
 				document.getElementById('addMeanYear').style.display = "none";
 				document.getElementById('removeMeanYearDatasetButton').style.display = "none";
-				//document.getElementById('removeMeanYearDataset').style.display = none;
+				//document.getElementById('removeMeanYearDataset').style.display = "none";
 
 			});
 
