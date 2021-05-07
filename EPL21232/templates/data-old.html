@@ -341,18 +341,18 @@
 
 
 			//Chart Intensity
-			
+			var labelsIntensity = ['5','10','15','20','30','40','50','60','90','120','180']
 			var config3 = {
 				type: 'line',
 				data: {
-					labels:{{intensityDuration}},
-					datasets: [{
-						label: {{lastDayRegistered|safe}},
-						backgroundColor: window.chartColors.red,
-						borderColor: window.chartColors.red,
-						data: {{intensityData}},
-						fill: false,
-					}]
+					labels: labelsIntensity ,
+					// datasets: [{
+					// 	label: {{lastDayRegistered|safe}},
+					// 	backgroundColor: window.chartColors.red,
+					// 	borderColor: window.chartColors.red,
+					// 	data: {{intensityData}},
+					// 	fill: false,
+					// }]
 				},
 				options: {
 					responsive: true,

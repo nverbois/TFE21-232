@@ -79,7 +79,6 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         "lastDayRegistered": lastDay,
     }
 
-    print(context)
     return render(request, "data-old.html", context)
 
 def data(request: HttpRequest) -> HttpResponse:
@@ -246,9 +245,17 @@ def addDailyIntensity(request,my_id):
 
     for elem in intensityTable:
         if str(elem.intensity_day) not in intensityDic:
-            intensityDic[str(elem.intensity_day)] = [str(elem.intensity)]
+            intensityDic[str(elem.intensity_day)] = {int(elem.duration):str(elem.intensity)}
         else:
-            intensityDic[str(elem.intensity_day)].append(str(elem.intensity))
+            intensityDic[str(elem.intensity_day)][int(elem.duration)] = (str(elem.intensity))
+    
+    for dic in intensityDic:
+        newKeys = sorted(intensityDic[dic])
+        newList = []
+        for key in newKeys:
+            newList.append(intensityDic[dic][key])
+        intensityDic[dic] = newList
+        
         
 
     return JsonResponse(intensityDic, safe = False)
