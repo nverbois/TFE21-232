@@ -272,15 +272,19 @@ class Intensity(models.Model):
                 
                 for actual_duration in [5,10,15,20,30,40,50,60,90,120,180]:
 
+                    max_mm = 0
+                    max_start = 0
+                    max_end = 0
+
                     var3 = var2.order_by('tilting_time')
                     last_time_registered = var3.last().tilting_time
 
                     print(actual_duration)
 
-
+                    FlagStart = True
 
                     #TROP D'ITERATIONS!
-                    while len(var3) >= actual_duration:
+                    while len(var3) >= actual_duration and FlagStart :
 
 
                         #creation of var4
@@ -314,6 +318,8 @@ class Intensity(models.Model):
                         var3_time_span = [new_start, last_time_registered]
                         var3 = var3.filter(tilting_time__range=var3_time_span)
 
+                        if new_start.hour == 0 and new_start.minute == 0 and new_start.second :
+                            FlagStar = False
                         
                         
                         #print(len(var3))
