@@ -77,16 +77,19 @@
 		<h4 style="padding-left: 3%;">Moyennes pluviométriques de la station</h4>
 	</p>
 
-	<a class="btn btn-x1 btn-outline-secondary active" id="showMeanDayTable" style="margin-left: 3%;">Moyennes journalières</a>
-	<a class="btn btn-x1 btn-outline-secondary" id="showMeanWeekTable" style="margin-left: 1%; margin-right: 1%;">Moyennes hebdomadaires</a>
-	<a class="btn btn-x1 btn-outline-secondary" id="showMeanYearTable">Moyennes annuelles</a>
-
-	<script>
-		$('.btn').on('click', function(){
-			$(this).siblings().removeClass('active');
-			$(this).toggleClass('active');
-		});
-	</script>
+	<!--
+	<div class="container">
+		<div class="row">
+			<div class="col text-center">
+				-->
+				<a class="btn btn-sm btn-outline-secondary active" id="showMeanDayTable" style="margin-left: 3%;">Moyennes journalières</a>
+				<a class="btn btn-sm btn-outline-secondary" id="showMeanWeekTable" style="margin-left: 1%; margin-right: 1%;">Moyennes hebdomadaires</a>
+				<a class="btn btn-sm btn-outline-secondary" id="showMeanYearTable">Moyennes annuelles</a>
+			<!--
+			</div>
+		</div>
+	</div>
+	-->
 
 	<section class="table-section bg-primary-2 text-dark mb-0" style="display: block;" id="tableMeanDaySection"> 
 		<table id="table_mean_day" class="display compact hover row-border" margin-right="10%" margin-left="10%" style="width:80%">
@@ -223,13 +226,17 @@
 <div id="Graphs" style="display: none;">
 
 	<p class="lead">
-		<h3 style="padding-left: 3%;">Graphes de données de la station</h3>
+		<h4 style="padding-left: 3%;">Graphes de statistiques de la station</h4>
 	</p>
 
 
+	<a class="btn btn-sm btn-outline-secondary active" id="showDataGraph" style="margin-left: 3%;">Graphes des mesures simples</a>
+	<a class="btn btn-sm btn-outline-secondary" id="showMeanGraph" style="margin-left: 1%; margin-right: 1%;">Graphes des moyennes</a>
+	<a class="btn btn-sm btn-outline-secondary" id="showIntensityGraph">Graphes des intensités</a>
+
 	<body>
-		<div class="container" style="">
-			<div class="row" >
+		<div class="container">
+			<div class="row justify-content-center" id="DataGraph" style="padding-bottom: 10vh; display: flex;">
 				<div class="col-lg-auto ml-0"><p class="lead">
 					<div style="height:70vh; width:70vw">
 						<canvas id="canvas"></canvas>
@@ -237,7 +244,7 @@
 					
 				</p></div>
 
-				<div class="col-lg-3 mr-0" style="padding-top: 3%;">
+				<div class="col-lg-3 mr-0" style="padding-top: 13vh;">
 					<!--
 					<p class="lead" style="font-size: medium;">
 						Sur ce graphe, vous pouvez consulter toutes les mesures pluviométriques 
@@ -250,22 +257,22 @@
 						sur le bouton pour ajouter une courbe sur le graphe.
 					</p>
 
-					<a class="btn btn-x1 btn-outline-secondary active" id="addDataButton">Ajouter une journée</a>
-					<input type="text" id="addData" name="addData" placeholder = "2021-03-13" size="10">
+					<a class="btn btn-sm btn-outline-secondary" id="addDataButton">Ajouter une journée</a>
+					<input type="text" id="addData" name="addData" placeholder = "2021-03-13" size="10" style="padding-bottom: 0.75vh; margin-left: 0.3vw;">
 
-					<p class="lead" style="font-size: medium; margin-top: 5%;">
+					<p class="lead" style="font-size: medium; margin-top: 5vh;">
 						Entrez une date dans le champ ci-dessous, au format indiqué, et appuyez ensuite
 						sur le bouton pour enlever une courbe du graphe.
 					</p>
 
-					<a class="btn btn-x1 btn-outline-secondary active" id="removeDatasetButton">Retirer une journée</a>
-					<input type="text" id="removeDataset" name="removeDataset" placeholder = "2021-03-13" size="10">
+					<a class="btn btn-sm btn-outline-secondary" id="removeDatasetButton">Retirer une journée</a>
+					<input type="text" id="removeDataset" name="removeDataset" placeholder = "2021-03-13" size="10" style="padding-bottom: 0.75vh; margin-left: 0.3vw;">
 					 
 				</div>
 			</div>
 
 
-			<div class="row">
+			<div class="row justify-content-center" id="MeanGraph" style="padding-bottom: 10vh; display: none;">
 				<div class="col ml-0"><p class="lead">
 					<div style="height:70vh; width:70vw">
 						<canvas id="canvas2"></canvas>
@@ -273,32 +280,48 @@
 
 				</p></div>
 
-				<div class="col-lg-3 mr-0" style="padding-top: 3%;">
+				<div class="col-lg-3 mr-0" style="padding-top: 13vh;">
 
-					Bla bla bla il faut changer ces boutons
+					<a class="btn btn-sm btn-outline-secondary active" style="margin-left: -3vh;" id="meanDayButton">Afficher moyennes journalières</a><br>
+					<br>
+					<p class="lead" style="font-size: medium;" id="meanDayDesc">
+						Entrez une date dans le champ ci-dessous, au format indiqué, et appuyez ensuite
+						sur le bouton pour enlever une courbe du graphe.
+					</p>
+					
+					<a class="btn btn-sm btn-outline-secondary" id="addMeanDayButton">Ajouter une journée </a>
+					<input type="text" id="addMeanDay" name="addMeanDay" placeholder = "2021-03-12" size="10" style="padding-bottom: 0.75vh; margin-left: 0.3vw;">
+					<a class="btn btn-sm btn-outline-secondary" style="padding-right: 0.85vw;" id="removeMeanDayDatasetButton">Retirer une journée</a>
+					<input type="text" id="removeMeanDayDataset" name="removeMeanDayDataset" placeholder = "2021-03-13"  size="10" style="padding-bottom: 0.75vh; margin-left: 0.3vw; margin-bottom: 5vh;">
 
-					<a class="btn btn-x1 btn-outline-secondary active" id="meanDayButton">Afficher moyennes journalières</a><br>
-					<a class="btn btn-x1 btn-outline-secondary active" id="addMeanDayButton">add meanday's data</a>
-					<input type="text" id="addMeanDay" name="addMeanDay" placeholder = "2021-03-12" size="10">
-					<a class="btn btn-x1 btn-outline-secondary active" id="removeMeanDayDatasetButton">Remove one Day</a>
-					<input type="text" id="removeMeanDayDataset" name="removeMeanDayDataset" placeholder = "2021-03-13" style="display: none;" size="10">
+					<a class="btn btn-sm btn-outline-secondary" id="meanWeekButton" style="margin-top: 5%; margin-left: -3vh;">Afficher moyennes hebdomadaires</a><br>
+					<br>
+					<p class="lead" style="font-size: medium; margin-top: 5vh; display: none;" id="meanWeekDesc">
+						Entrez une date dans le champ ci-dessous, au format indiqué, et appuyez ensuite
+						sur le bouton pour enlever une courbe du graphe.
+					</p>
 
-					<a class="btn btn-x1 btn-outline-secondary active" id="meanWeekButton" style="margin-top: 5%;">Afficher moyennes hebdomadaires</a><br>
-					<a class="btn btn-x1 btn-outline-secondary active" id="addMeanWeekButton" style="display: none;">add meanweek's data</a>
-					<input type="text" id="addMeanWeek" name="addMeanWeek" placeholder = "2021-03-13" style="display: none;" size="10">
-					<a class="btn btn-x1 btn-outline-secondary active"  id="removeMeanWeekDatasetButton" style="display: none;">Remove one Week</a>
-					<input type="text" id="removeMeanWeekDataset" name="removeMeanWeekDataset" placeholder = "2021-03-13" style="display: none;" size="10">
+					<a class="btn btn-sm btn-outline-secondary" id="addMeanWeekButton" style="display: none;">Ajouter une semaine</a>
+					<input type="text" id="addMeanWeek" name="addMeanWeek" placeholder = "2021-03-13" style="display: none;" size="10" style="padding-bottom: 0.75vh; margin-left: 0.3vw;">
+					<a class="btn btn-sm btn-outline-secondary"  id="removeMeanWeekDatasetButton" style="padding-right: 0.55vw; display: none;">Retirer une semaine</a>
+					<input type="text" id="removeMeanWeekDataset" name="removeMeanWeekDataset" placeholder = "2021-03-13" style="padding-bottom: 0.75vh; margin-left: 0.3vw; margin-bottom: 5vh; display: none;" size="10">
 
-					<a class="btn btn-x1 btn-outline-secondary active" id="meanYearButton" style="margin-top: 5%;">Afficher moyennes annuelles</a><br>
-					<a class="btn btn-x1 btn-outline-secondary active" id="addMeanYearButton" style="display: none;">add meanweek's data</a>
-					<input type="text" id="addMeanYear" name="addMeanYear" placeholder = "2021" style="display: none;" size="10">
-					<a class="btn btn-x1 btn-outline-secondary active" id="removeMeanYearDatasetButton" style="display: none;">Remove one Year</a>
-					<input type="text" id="removeMeanYearDataset" name="removeMeanYearDataset" placeholder = "2021" style="display: none;" size="10">
+					<a class="btn btn-sm btn-outline-secondary" id="meanYearButton" style="margin-top: 5%; margin-left: -3vh;">Afficher moyennes annuelles</a><br>
+					<br>
+					<p class="lead" style="font-size: medium; margin-top: 5vh; display: none;" id="meanYearDesc">
+						Entrez une date dans le champ ci-dessous, au format indiqué, et appuyez ensuite
+						sur le bouton pour enlever une courbe du graphe.
+					</p>
+
+					<a class="btn btn-sm btn-outline-secondary" id="addMeanYearButton" style="display: none;">Ajouter une année</a>
+					<input type="text" id="addMeanYear" name="addMeanYear" placeholder = "2021" style="display: none;" size="10" style="padding-bottom: 0.75vh; margin-left: 0.3vw;">
+					<a class="btn btn-sm btn-outline-secondary" id="removeMeanYearDatasetButton" style="padding-right: 0.55vw; display: none;">Retirer une année</a>
+					<input type="text" id="removeMeanYearDataset" name="removeMeanYearDataset" placeholder = "2021" style="padding-bottom: 0.75vh; margin-left: 0.3vw; margin-bottom: 5vh; display: none;" size="10">
 					
 				</div>
 			</div>
 
-			<div class="row" style="padding-bottom: 10vh;">
+			<div class="row justify-content-center" id ="IntensityGraph" style="padding-bottom: 10vh; display:none">
 				<div class="col ml-0"><p class="lead">
 					<div style="height:70vh; width:70vw">
 						<canvas id="canvas3"></canvas>
@@ -306,7 +329,7 @@
 
 				</p></div>
 
-				<div class="col mr-0" style="padding-top: 3%;">
+				<div class="col mr-0" style="padding-top: 13vh;">
 					<!--
 					<p class="lead" style="font-size: medium;">
 						Sur ce graphe, vous pouvez consulter les intensité pluviométriques
@@ -319,24 +342,60 @@
 						sur le bouton pour ajouter une courbe sur le graphe.
 					</p>
 
-					<a class="btn btn-x1 btn-outline-secondary active" id="addIntensityButton" >Ajouter une journée</a>
-					<input type="text" id="addIntensity" name="addIntensity" placeholder = "2021-03-13" size="10">
+					<a class="btn btn-sm btn-outline-secondary" id="addIntensityButton" >Ajouter une journée</a>
+					<input type="text" id="addIntensity" name="addIntensity" placeholder = "2021-03-13" size="10" style="padding-bottom: 0.75vh; margin-left: 0.3vw;">
 
-					<p class="lead" style="font-size: medium; margin-top: 5%;">
+					<p class="lead" style="font-size: medium; margin-top: 5vh;">
 						Entrez une date dans le champ ci-dessous, au format indiqué, et appuyez ensuite
 						sur le bouton pour enlever une courbe du graphe.
 					</p>
 
-					<a class="btn btn-x1 btn-outline-secondary active" id="removeIntensitysetButton">Enlever une journée</a>
-					<input type="text" id="removeIntensityset" name="removeIntensityset" placeholder = "2021-03-13" size="10">
+					<a class="btn btn-sm btn-outline-secondary" id="removeIntensitysetButton">Enlever une journée</a>
+					<input type="text" id="removeIntensityset" name="removeIntensityset" placeholder = "2021-03-13" size="10" style="padding-bottom: 0.75vh; margin-left: 0.3vw;">
 
 				</div>
 			</div>
-		<div>
+		</div>
 
+		<script>
+			var DataGraphRow = document.getElementById("DataGraph");
+			var MeanGraphRow = document.getElementById("MeanGraph");
+			var IntensityGraphRow = document.getElementById("IntensityGraph");
+	
+			var btnGraphData = document.getElementById("showDataGraph")
+			var btnGraphMean = document.getElementById("showMeanGraph")
+			var btnGraphIntensity = document.getElementById("showIntensityGraph")
+	
+	
+	
+			btnGraphData.onclick = function () {
+				DataGraphRow.style.display = "flex";
+				MeanGraphRow.style.display = "none";
+				IntensityGraphRow.style.display = "none";
+	
+			}
+			btnGraphMean.onclick = function () {
+				DataGraphRow.style.display = "none";
+				MeanGraphRow.style.display = "flex";
+				IntensityGraphRow.style.display = "none";
+	
+			}
+			btnGraphIntensity.onclick = function () {
+				DataGraphRow.style.display = "none";
+				MeanGraphRow.style.display = "none";
+				IntensityGraphRow.style.display = "flex";
+	
+			}
+			
+		</script>
 
-
-		
+		<script>
+			$('.btn').on('click', function(){
+				$(this).siblings().removeClass('active');
+				$(this).toggleClass('active');
+			});
+		</script>
+				
 		<script>
 
 
@@ -543,17 +602,20 @@
 				document.getElementById('addMeanDayButton').style.display = "inline";
 				document.getElementById('addMeanDay').style.display = "inline";
 				document.getElementById('removeMeanDayDatasetButton').style.display = "inline";
-				//document.getElementById('removeMeanDayDataset').style.display = "inline";
+				document.getElementById('removeMeanDayDataset').style.display = "inline";
+				document.getElementById('meanDayDesc').style.display ="inline"
 
 				document.getElementById('addMeanWeekButton').style.display = "none";
 				document.getElementById('addMeanWeek').style.display = "none";
 				document.getElementById('removeMeanWeekDatasetButton').style.display = "none";
-				//document.getElementById('removeMeanWeekDataset').style.display = "none";
+				document.getElementById('removeMeanWeekDataset').style.display = "none";
+				document.getElementById('meanWeekDesc').style.display ="none"
 
 				document.getElementById('addMeanYearButton').style.display = "none";
 				document.getElementById('addMeanYear').style.display = "none";
 				document.getElementById('removeMeanYearDatasetButton').style.display = "none";
-				//document.getElementById('removeMeanYearDataset').style.display = "none";
+				document.getElementById('removeMeanYearDataset').style.display = "none";
+				document.getElementById('meanYearDesc').style.display ="none"
 
 			});
 
@@ -689,17 +751,20 @@
 				document.getElementById('addMeanDayButton').style.display = "none";
 				document.getElementById('addMeanDay').style.display = "none";
 				document.getElementById('removeMeanDayDatasetButton').style.display = "none";
-				//document.getElementById('removeMeanDayDataset').style.display = none;
+				document.getElementById('removeMeanDayDataset').style.display = "none";
+				document.getElementById('meanDayDesc').style.display ="none"
 
 				document.getElementById('addMeanWeekButton').style.display = "inline";
 				document.getElementById('addMeanWeek').style.display = "inline";
 				document.getElementById('removeMeanWeekDatasetButton').style.display = "inline";
-				//document.getElementById('removeMeanWeekDataset').style.display = inline;
+				document.getElementById('removeMeanWeekDataset').style.display = "inline";
+				document.getElementById('meanWeekDesc').style.display ="inline"
 
 				document.getElementById('addMeanYearButton').style.display = "none";
 				document.getElementById('addMeanYear').style.display = "none";
 				document.getElementById('removeMeanYearDatasetButton').style.display = "none";
-				//document.getElementById('removeMeanYearDataset').style.display = none;
+				document.getElementById('removeMeanYearDataset').style.display = "none";
+				document.getElementById('meanYearDesc').style.display ="none"
 			});
 
 
@@ -832,17 +897,20 @@
 				document.getElementById('addMeanDayButton').style.display = "none";
 				document.getElementById('addMeanDay').style.display = "none";
 				document.getElementById('removeMeanDayDatasetButton').style.display = "none";
-				//document.getElementById('removeMeanDayDataset').style.display = none;
+				document.getElementById('removeMeanDayDataset').style.display = "none";
+				document.getElementById('meanDayDesc').style.display ="none"
 
 				document.getElementById('addMeanWeekButton').style.display = "none";
 				document.getElementById('addMeanWeek').style.display = "none";
 				document.getElementById('removeMeanWeekDatasetButton').style.display = "none";
-				//document.getElementById('removeMeanWeekDataset').style.display = none;
+				document.getElementById('removeMeanWeekDataset').style.display = "none";
+				document.getElementById('meanWeekDesc').style.display ="none"
 
 				document.getElementById('addMeanYearButton').style.display = "inline";
 				document.getElementById('addMeanYear').style.display = "inline";
 				document.getElementById('removeMeanYearDatasetButton').style.display = "inline";
-				//document.getElementById('removeMeanYearDataset').style.display = inline;
+				document.getElementById('removeMeanYearDataset').style.display = "inline";
+				document.getElementById('meanYearDesc').style.display ="inline"
 
 
 			});

@@ -3,3 +3,5 @@
 **/migrations/**
 !**/migrations
 !**/migrations/__init__.py
+.vscode/settings.json
+*.pyc
