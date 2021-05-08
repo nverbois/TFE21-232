@@ -23,7 +23,8 @@ class StationAdmin(admin.ModelAdmin):
            
 class DataAdmin(ImportMixin, admin.ModelAdmin):
     resource_class = DataResource
-    list_display = ("station", "tilting_date", "tilting_time", "tilting_mm")
+    import_template_name = 'admin/import_export/import.html'
+    list_display = ("station", "date", "heure", "mesure")
     # readonly_fields=("valuetest",)
 
     def get_import_form(self):

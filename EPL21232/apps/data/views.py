@@ -10,7 +10,7 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     # The concerned station 
     station = Station.objects.get(id=my_id)
     # 10 latests data for the station
-    data = Data.objects.order_by('-tilting_date').filter(station=station)[:10000][::-1]
+    data = Data.objects.order_by('-date').filter(station=station)[:10000][::-1]
     # 10 latests means for the station (counting per day !!!)
     meandaytable = MeanDay.objects.filter(station=station).order_by('-mean_day')[::-1]
     meanweektable = MeanWeek.objects.filter(station=station).order_by('-mean_week')[::-1]
@@ -45,11 +45,11 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
             meanyearDate.append(str(elem.mean_year))
 
 
-    lastday = data[len(data)-1].tilting_date
+    lastday = data[len(data)-1].date
     for elem in data:
-        if elem.tilting_date == lastday:
-            precipitationTime.append(elem.tilting_time.strftime("%H:%M:%S"))
-            precipitation.append(float(elem.tilting_mm))
+        if elem.date == lastday:
+            precipitationTime.append(elem.heure.strftime("%H:%M:%S"))
+            precipitation.append(float(elem.mesure))
 
 
     shorterintensityData = intensityData[-11:]
@@ -87,14 +87,14 @@ def data(request: HttpRequest) -> HttpResponse:
 
 def addDailyData(request,my_id):
     station = Station.objects.get(id=my_id)
-    dataTable = Data.objects.order_by('-tilting_date').filter(station=station)[::-1]
+    dataTable = Data.objects.order_by('-date').filter(station=station)[::-1]
     dataDic = {}
 
     for elem in dataTable:
-        if str(elem.tilting_date) not in dataDic:
-            dataDic[str(elem.tilting_date)] = [str(elem.tilting_mm)]
+        if str(elem.date) not in dataDic:
+            dataDic[str(elem.date)] = [str(elem.mesure)]
         else:
-            dataDic[str(elem.tilting_date)].append(str(elem.tilting_mm))
+            dataDic[str(elem.date)].append(str(elem.mesure))
         
 
     return JsonResponse(dataDic, safe = False)

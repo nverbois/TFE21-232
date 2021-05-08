@@ -9,21 +9,21 @@ class DataResource (resources.ModelResource):
         attribute='station',
         widget=ForeignKeyWidget(Station, 'name'))
 
-    tilting_time = fields.Field(
-        column_name='tilting_time',
-        attribute='tilting_time',
+    heure = fields.Field(
+        column_name='heure',
+        attribute='heure',
         widget=TimeWidget())
 
-    tilting_date = fields.Field(
-        column_name='tilting_date',
-        attribute='tilting_date',
+    date = fields.Field(
+        column_name='date',
+        attribute='date',
         widget=DateWidget())
 
     class Meta:
         model = Data
-        fields = ('station','tilting_mm', 'tilting_date','tilting_time') #Select the field to import for the resource
+        fields = ('station','mesure', 'date','heure') #Select the field to import for the resource
         exclude = ('id',)
-        import_id_fields = ('tilting_date', 'tilting_time', 'station')
-        export_order = ('station','tilting_mm', 'tilting_date','tilting_time')
+        import_id_fields = ('date', 'heure', 'station')
+        export_order = ('station','mesure', 'date','heure')
 
         
