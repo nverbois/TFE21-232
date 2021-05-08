@@ -79,7 +79,7 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         "lastDayRegistered": lastDay,
     }
 
-    return render(request, "data-old.html", context)
+    return render(request, "data.html", context)
 
 def data(request: HttpRequest) -> HttpResponse:
     return render(request, "data.html")
