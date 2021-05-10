@@ -147,8 +147,8 @@ LOGOUT_REDIRECT_URL = "public:index"
 
 # EMAIL SETTINGS => SendGrid as SMTP 
 #EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
-
+# SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
+SENDGRID_API_KEY = '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'
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 DEFAULT_FROM_EMAIL = "nicolas.verbois@student.uclouvain.be"
