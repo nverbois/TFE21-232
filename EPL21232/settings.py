@@ -47,8 +47,6 @@ INSTALLED_APPS = [
     "EPL21232.apps.accounts",
     "EPL21232.apps.contact",
     "EPL21232.apps.data",
-    #"django.contrib.gis",
-    #'easy_maps',
     "EPL21232.apps.maps",
     'import_export',
 ]
@@ -147,12 +145,18 @@ LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "public:index"
 LOGOUT_REDIRECT_URL = "public:index"
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-DEFAULT_FROM_EMAIL = "nicolas.verbois@student.uclouvain.be"
+# EMAIL SETTINGS => SendGrid as SMTP 
+#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 
-#EASY_MAPS_GOOGLE_KEY = 'AIzaSyBw5el2x63SzKw4ZJvrKhGtFhpVsWMdThY'
-#EASY_MAPS_GOOGLE_KEY = 'AIzaSyBF0ZtmNCtXxfWcJiDCVJWcn3USNq_7K0s'
-#EASY_MAPS_CENTER = (-41.3, 32)
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+DEFAULT_FROM_EMAIL = "nicolas.verbois@student.uclouvain.be"
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey' # this is exactly the value 'api_key'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY #api_key
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 

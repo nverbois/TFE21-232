@@ -1,7 +1,6 @@
 Django==3.1.6
 psycopg2-binary==2.8.6
-#gdal==3.2.1
-#django-easy-maps==1.1.2
 simplejson==3.17.2
 django-import-export==2.5
 django-3-jet==1.0.8
+bleach==3.3.0
