@@ -3,11 +3,33 @@
 {% block title %}A propos{% endblock %}
 
 {% block content %}
-<h2>Login</h2>
-<form method="post">
-    {% csrf_token %} <!-- CSRF token to prevent hackers from calling our webpage for other websites -->
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
+<div id="LoginPage" style="text-align: center;">
+    <div class="container">
+        <div class="row">
+            <div class="col" style="margin-left: 15vw; margin-right: 15vw;">
 
+                <h2 style="margin-top: 10vh; margin-bottom: 3vh;">
+                    Connexion
+                </h2>
+
+                <p class="lead" style="font-size: medium;">
+                    Si vous faites partie de l'administration de la plateforme, vous pouvez vous connecter ci-dessous.
+                    Pour ce faire, entrez simplement votre adresse mail ainsi que le mot de passe correspondants à votre 
+                    compte sur la plateforme.
+                    <br>
+                    <br>
+                    <b>Attention :</b> Sur cette plateforme, un compte ne peut être créé que par une personne possédant
+                    les droits d'administrateur. Si vous n'avez pas de compte, contacter un administrateur afin que celui
+                    vous crée un compte et un mot de passe.
+                </p>
+
+                <form method="post">
+                    {% csrf_token %} <!-- CSRF token to prevent hackers from calling our webpage for other websites -->
+                    {{ form.as_p }}
+                    <button class="btn btn-sm btn-outline-secondary" type="submit">Se connecter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
