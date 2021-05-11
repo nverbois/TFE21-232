@@ -287,6 +287,7 @@ class Intensity(models.Model):
                     while len(var3) >= actual_duration and FlagStart :
 
 
+
                         #creation of var4
                         start = datetime(2000, 1, 1, 
                                                 hour=var3.first().heure.hour,
@@ -317,12 +318,13 @@ class Intensity(models.Model):
                         new_start = start_bis + timedelta(minutes=actual_duration)
                         var3_time_span = [new_start, last_time_registered]
                         var3 = var3.filter(heure__range=var3_time_span)
+                        
 
-                        if new_start.hour == 0 and new_start.minute == 0 and new_start.second :
-                            FlagStar = False
+                        if new_start.hour == 0 and new_start.minute == 0 and new_start.second == 0:
+                            FlagStart = False
                         
                         
-                        #print(len(var3))
+                       
 
                     
                     
