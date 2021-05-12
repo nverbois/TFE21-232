@@ -59,6 +59,7 @@ class Data(models.Model):
         return self.mesure
 
     class Meta:
+        ordering = ['date', 'heure']
         verbose_name = 'Donnée pluviométrique'
         verbose_name_plural = 'Données pluviométriques'
         ordering = ['date', 'heure']
@@ -81,6 +82,7 @@ class MeanDay(models.Model):
 
     
     class Meta:
+        ordering = ['mean_day']
         verbose_name = 'Moyenne journalière'
         verbose_name_plural = 'Moyennes journalières'
         constraints = [
@@ -129,6 +131,7 @@ class MeanWeek(models.Model):
     min_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Minimum hebdomadaire")
 
     class Meta:
+        ordering = ['mean_week']
         verbose_name = 'Moyenne hebdomadaire'
         verbose_name_plural = 'Moyennes hebdomadaires'
         constraints = [
@@ -184,6 +187,7 @@ class MeanYear(models.Model):
     min_per_year = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Minimum annuel")
 
     class Meta:
+        ordering = ['mean_year']
         verbose_name = 'Moyenne annuelle'
         verbose_name_plural = 'Moyennes annuelles'
         constraints = [
