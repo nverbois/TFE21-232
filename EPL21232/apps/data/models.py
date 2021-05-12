@@ -61,6 +61,7 @@ class Data(models.Model):
     class Meta:
         verbose_name = 'Donnée pluviométrique'
         verbose_name_plural = 'Données pluviométriques'
+        ordering = ['date', 'heure']
         constraints = [
             models.UniqueConstraint(fields=['station', 'date', 'heure'], name='unique data value')
         ]
@@ -260,6 +261,7 @@ class Intensity(models.Model):
             if var1.last() is None:
                 print("test")
                 continue
+
             oldest_date = var1.last().date
             newest_date = var1.first().date
             for single_date in daterange(oldest_date, newest_date):
@@ -269,6 +271,7 @@ class Intensity(models.Model):
                 if var2.last() is None: 
                     print("skipped")
                     continue
+
                 
                 for actual_duration in [5,10,15,20,30,40,50,60,90,120,180]:
 
@@ -283,11 +286,18 @@ class Intensity(models.Model):
 
                     FlagStart = True
 
-                    #TROP D'ITERATIONS!
-                    while len(var3) >= actual_duration and FlagStart :
+                    #creation of var4
+                    periodStart = datetime(2000, 1, 1, 
+                                                hour=0,
+                                                minute=0,
+                                                second=0)
+                    
+                    periodEnd = periodStart + timedelta(minutes=(actual_duration-1))
 
+                    while periodStart.day < 2 :
+                        
 
-
+                        
                         #creation of var4
                         start = datetime(2000, 1, 1, 
                                                 hour=var3.first().heure.hour,
@@ -295,12 +305,18 @@ class Intensity(models.Model):
                                                 second=var3.first().heure.second)
 
                         end = start + timedelta(minutes=(actual_duration - 1))
+
+                        if(end.day == 2):
+                            end = datetime(2000, 1, 1, hour= 23, minute= 59, second=0)
+                            start = end - timedelta(minutes=(actual_duration-1))
+
                         time_span = [start, end]
+
                         var4 = var3.filter(heure__range=time_span)
 
-                        
                         #calculate intensity on the period
                         sum_mm = var4.aggregate(Sum('mesure'))['mesure__sum']
+                        
 
                         #keep the biggest sum calculated
                         if sum_mm > max_mm:
@@ -322,6 +338,12 @@ class Intensity(models.Model):
 
                         if new_start.hour == 0 and new_start.minute == 0 and new_start.second == 0:
                             FlagStart = False
+
+                        periodEnd = periodEnd + timedelta(minutes=(actual_duration))
+                        periodStart = periodStart + timedelta(minutes=(actual_duration))
+
+
+
                         
                         
                        
