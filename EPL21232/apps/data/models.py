@@ -305,8 +305,12 @@ class Intensity(models.Model):
 
                         var4 = var3.filter(heure__range=time_span)
 
-                        #calculate intensity on the period
-                        sum_mm = var4.aggregate(Sum('mesure'))['mesure__sum']
+                        if(len(var4) == 0): 
+                            sum_mm == 0
+
+                        else:
+                            sum_mm = var4.aggregate(Sum('mesure'))['mesure__sum']
+                        
                         
 
                         #keep the biggest sum calculated
