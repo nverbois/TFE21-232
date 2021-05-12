@@ -7,44 +7,62 @@
     {% with profil=user.profil %}
         {% if profil %}
 
-    <h1 style="padding-top: 5vh;">
-        {{ profil.name }}
-    </h1>
+    <div id="profilePage">
+        <h1 style="padding-top: 5vh;">
+            {{ profil.name}}
+        </h1>
 
-    <br/>
+        <br/>
 
-    <h5>
-        {{user.get_full_name}}
-    </h5>
-    <h5>
-        {{ profil.role|default:"Aucun rôle spécifique sur la plateforme" }}
-    </h5>
+        <h5>
+            {{user.get_full_name}}
+        </h5>
+        <h5>
+            {{ profil.role|default:"Aucun rôle spécifique sur la plateforme" }}
+        </h5>
 
-    <br/>
+        <br/>
 
-    <div>
-        {{ profil.bio|default:"Cette utilisateur ne possède pas de bio" }}
+        <div>
+            {{ profil.bio|default:"Cette utilisateur ne possède pas de bio" }}
+        </div>
+
+        <div>
+            Other stuff
+        </div>
+
+        <br/>
+        <div>
+            Stations:
+            <br>
+            <br>
+            {% for station in profil.stations.all %}
+                <span>
+                    - {{ station.name }}{% if not forloop.last %},<br> {% endif %} 
+                </span>
+                {% endfor %}
+        </div>
+    </div>
+        {% else %}
+
+    <div id="noProfilePage" style="padding-top: 20vh;"> 
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-auto mx-auto"><p class="lead" style="text-align: center; font-size: x-large;">
+                    Vous n'avez pas encore créé de profil à votre compte utilisateur.
+                    <br>
+                    <br>
+                    Rendez-vous dans l'administration afin d'en créer un, ou contacter un administrateur.
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div>
-        Other stuff
-    </div>
-
-    <br/>
-    <div>
-        Stations:
-        <br>
-        <br>
-        {% for station in profil.stations.all %}
-            <span>
-                - {{ station.name }}{% if not forloop.last %},<br> {% endif %} 
-            </span>
-            {% endfor %}
-    </div>
         {% endif %}
+
     {% endwith %}
     {% url 'admin:index' as admin_url%}
-    <a href="{{ admin_url }}"><h5 style="text-align:right; padding-bottom: 6rem; margin-right: 5%;">Administration</h5></a>
+    <a class="btn btn-sm btn-outline-secondary float-right" href="{{ admin_url }}" style="margin-right: 5%; margin-top: 15vh;"><h5>Administration</h5></a>
 
 
 {% endblock %}
