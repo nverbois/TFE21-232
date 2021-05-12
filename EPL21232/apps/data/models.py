@@ -288,9 +288,6 @@ class Intensity(models.Model):
 
                     print(actual_duration)
 
-                    FlagStart = True
-
-                    #creation of var4
                     periodStart = datetime(2000, 1, 1, 
                                                 hour=0,
                                                 minute=0,
@@ -299,22 +296,12 @@ class Intensity(models.Model):
                     periodEnd = periodStart + timedelta(minutes=(actual_duration-1))
 
                     while periodStart.day < 2 :
-                        
 
-                        
-                        #creation of var4
-                        start = datetime(2000, 1, 1, 
-                                                hour=var3.first().heure.hour,
-                                                minute=var3.first().heure.minute,
-                                                second=var3.first().heure.second)
+                        if(periodEnd.day == 2):
+                            periodEnd = datetime(2000, 1, 1, hour= 23, minute= 59, second=0)
+                            periodStart = periodEnd - timedelta(minutes=(actual_duration-1))
 
-                        end = start + timedelta(minutes=(actual_duration - 1))
-
-                        if(end.day == 2):
-                            end = datetime(2000, 1, 1, hour= 23, minute= 59, second=0)
-                            start = end - timedelta(minutes=(actual_duration-1))
-
-                        time_span = [start, end]
+                        time_span = [periodStart, periodEnd]
 
                         var4 = var3.filter(heure__range=time_span)
 
@@ -325,23 +312,8 @@ class Intensity(models.Model):
                         #keep the biggest sum calculated
                         if sum_mm > max_mm:
                             max_mm = sum_mm
-                            max_start = start
-                            max_end = end
-                        
-                        
-
-                        start_bis = datetime(2000, 1, 1, 
-                                        hour=start.hour,
-                                        minute=start.minute,
-                                        second=start.second)
-
-                        new_start = start_bis + timedelta(minutes=actual_duration)
-                        var3_time_span = [new_start, last_time_registered]
-                        var3 = var3.filter(heure__range=var3_time_span)
-                        
-
-                        if new_start.hour == 0 and new_start.minute == 0 and new_start.second == 0:
-                            FlagStart = False
+                            max_start = periodStart
+                            max_end = periodEnd
 
                         periodEnd = periodEnd + timedelta(minutes=(actual_duration))
                         periodStart = periodStart + timedelta(minutes=(actual_duration))
