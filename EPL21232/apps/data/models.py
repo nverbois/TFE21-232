@@ -269,22 +269,29 @@ class Intensity(models.Model):
             oldest_date = var1.last().date
             newest_date = var1.first().date
             for single_date in daterange(oldest_date, newest_date):
+
+                print(single_date)
                 var2 = var1.filter(date=single_date)
-                print(var2)
-                print(var2.last())
                 if var2.last() is None: 
                     print("skipped")
                     continue
 
+
+
                 
                 for actual_duration in [5,10,15,20,30,40,50,60,90,120,180]:
 
-                    max_mm = 0
-                    max_start = 0
-                    max_end = 0
 
                     var3 = var2.order_by('heure')
-                    last_time_registered = var3.last().heure
+
+                    day_max = 0
+                    min_time = var2.first().heure
+                    max_time = var2.last().heure
+                    intensity_value = 0
+
+                    max_mm = 0
+                    max_start = min_time
+                    max_end = max_time
 
                     print(actual_duration)
 
@@ -351,6 +358,13 @@ class Intensity(models.Model):
                     intensity_object.start_interval = min_time
                     intensity_object.end_interval = max_time
                     intensity_object.intensity = intensity_value
+
+                    print('info Intensity')
+                    print(day_max)
+                    print(min_time)
+                    print(max_time)
+                    print(intensity_value)
+
                     intensity_object.save()
         return "ok"
     
