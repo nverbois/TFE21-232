@@ -50,6 +50,7 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
 
     dataDic = {}
     timeCounter = datetime(2000, 1, 1, hour= 0, minute= 0, second=0)
+    while(timeCounter.day == 1):
         dataDic[timeCounter.strftime("%H:%M:%S")] = 0
         timeCounter = timeCounter + timedelta(minutes= 1)
                 
