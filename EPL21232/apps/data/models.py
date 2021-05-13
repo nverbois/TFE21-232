@@ -276,6 +276,13 @@ class Intensity(models.Model):
                     print("skipped")
                     continue
 
+                day_max = 0
+                min_time = var2.first().heure
+                max_time = var2.last().heure
+                intensity_value = 0
+                max_mm = 0
+                sum_mm = 0
+                
 
 
                 
@@ -292,6 +299,8 @@ class Intensity(models.Model):
                     max_mm = 0
                     max_start = min_time
                     max_end = max_time
+
+                    sum_mm = 0
 
                     print(actual_duration)
 
