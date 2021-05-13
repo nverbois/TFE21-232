@@ -27,6 +27,7 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     precipitation = []
     precipitationDate = []
     precipitationTime = []
+    precipitation = []
     
     for elem in intensitytable:
         intensityData.append(float(elem.intensity))
@@ -46,10 +47,20 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
 
 
     lastday = data[len(data)-1].date
+
+    dataDic = {}
+    timeCounter = datetime(2000, 1, 1, hour= 0, minute= 0, second=0)
+        dataDic[timeCounter.strftime("%H:%M:%S")] = 0
+        timeCounter = timeCounter + timedelta(minutes= 1)
+                
     for elem in data:
         if elem.date == lastday:
-            precipitationTime.append(elem.heure.strftime("%H:%M:%S"))
-            precipitation.append(float(elem.mesure))
+            dataDic[str(elem.heure)] = float(elem.mesure)
+
+    for key in dataDic:
+        precipitationTime.append(key)
+        precipitation.append(dataDic[key])
+
 
 
     shorterintensityData = intensityData[-11:]
@@ -88,13 +99,29 @@ def data(request: HttpRequest) -> HttpResponse:
 def addDailyData(request,my_id):
     station = Station.objects.get(id=my_id)
     dataTable = Data.objects.order_by('-date').filter(station=station)[::-1]
+    
+    
     dataDic = {}
-
     for elem in dataTable:
         if str(elem.date) not in dataDic:
-            dataDic[str(elem.date)] = [str(elem.mesure)]
-        else:
-            dataDic[str(elem.date)].append(str(elem.mesure))
+            dataDic[str(elem.date)] = {}
+            timeCounter = datetime(2000, 1, 1, hour= 0, minute= 0, second=0)
+            while(timeCounter.day == 1):
+                dataDic[str(elem.date)][timeCounter.strftime("%H:%M:%S")] = 0
+                timeCounter = timeCounter + timedelta(minutes= 1)
+                
+                
+
+    for elem in dataTable:
+        dataDic[str(elem.date)][str(elem.heure)] = str(elem.mesure)
+
+    for dic in dataDic:
+        newList = []
+        for key in dataDic[dic]:
+            newList.append(dataDic[dic][key])
+            
+        dataDic[dic] = newList
+
         
 
     return JsonResponse(dataDic, safe = False)
