@@ -289,7 +289,7 @@ class Intensity(models.Model):
                 for actual_duration in [5,10,15,20,30,40,50,60,90,120,180]:
 
 
-                    var3 = var2.order_by('heure')
+                    var3 = var2.order_by('heure') 
 
                     day_max = 0
                     min_time = var2.first().heure

@@ -20,6 +20,8 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     intensityDuration = []
     meandayData = []
     meandayDate = []
+    maxdayData = []
+    mindayData = []
     meanweekData = []
     meanweekDate = []
     meanyearData = []
@@ -36,6 +38,8 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     for elem in meandaytable:
         meandayData.append(float(elem.mean_per_day))
         meandayDate.append(str(elem.mean_day))
+        mindayData.append(float(elem.min_per_day))
+        maxdayData.append(float(elem.max_per_day))
 
     for elem in meanweektable:
         meanweekData.append(float(elem.mean_per_week))
@@ -67,6 +71,11 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     shorterintensityData = intensityData[-11:]
     shorterintensityDuration = intensityDuration[-11:]
 
+    maxdayDataShort = maxdayData[-7:]
+    mindayDataShort = mindayData[-7:]
+    meandayDataShort = meandayData[-7:]
+    meandayDateShort = meandayDate[-7:]
+
 
     lastDay = [str(lastday)]
 
@@ -80,8 +89,10 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         "station": station,
         "intensityData": shorterintensityData,
         "intensityDuration":shorterintensityDuration,
-        "meandayData": meandayData,
-        "meandayDate": meandayDate,
+        "meandayData": meandayDataShort,
+        "meandayDate": meandayDateShort,
+        "maxdayData" : maxdayDataShort,
+        "mindayData" : mindayDataShort,
         "meanweekData": meanweekData,
         "meanweekDate": meanweekDate,
         "meanyearData": meanyearData,

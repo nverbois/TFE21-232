@@ -506,10 +506,28 @@
 						borderColor: window.chartColors.red,
 						data: {{meandayData}},
 						fill: false,
+						lineTension: 0,
+					},
+					{
+						label: 'Valeurs maximales journalières',
+						backgroundColor: window.chartColors.blue,
+						borderColor: window.chartColors.blue,
+						data: {{maxdayData}},
+						fill: false,
+						lineTension: 0,
+					},
+					{
+						label: 'Valeurs minimales journalières',
+						backgroundColor: window.chartColors.green,
+						borderColor: window.chartColors.green,
+						data: {{mindayData}},
+						fill: false,
+						lineTension: 0,
 					}]
 				},
 				options: {
 					responsive: true,
+					bezierCurve: false,
 					title: {
 						display: true,
 						text: 'Courbe des moyennes pluviométriques'
@@ -565,7 +583,8 @@
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
-					fill: false
+					fill: false,
+					lineTension: 0,
 				};
 				config2.data.datasets.push(newDataset);
 
@@ -578,7 +597,8 @@
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
-					fill: false
+					fill: false,
+					lineTension: 0
 				};
 				config2.data.datasets.push(newDataset);
 
@@ -591,9 +611,70 @@
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
-					fill: false
+					fill: false,
+					lineTension: 0
 				};
 				config2.data.datasets.push(newDataset);
+
+
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/addMeanDayData",
+					
+					success:  function (result) {
+
+						count=Object.keys(result).length;
+						for(var key in result) {
+							var value = result[key];
+							count--;
+							if(count < 7){
+								config2.data.datasets[0].data.push(parseFloat(value));
+								config2.data.labels.push(key);
+							}
+						}
+						myNewChart2.update();
+					}
+				});
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/getMaxDayData",
+					
+					success:  function (result) {
+
+						count=Object.keys(result).length;
+						for(var key in result) {
+							var value = result[key];
+							count--;
+							if(count < 7){
+								config2.data.datasets[1].data.push(parseFloat(value));
+							}
+						}
+				
+						myNewChart2.update();
+
+					}
+				});
+
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/getMinDayData",
+					
+					success:  function (result) {
+
+						count=Object.keys(result).length;
+						for(var key in result) {
+							var value = result[key];
+							count--;
+							if(count < 7){
+								config2.data.datasets[2].data.push(parseFloat(value));
+							}
+						}
+				
+						myNewChart2.update();
+
+					}
+				});
+
 				
 
 				myNewChart2.update();
