@@ -31,10 +31,6 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
     precipitationTime = []
     precipitation = []
     
-    for elem in intensitytable:
-        intensityData.append(float(elem.intensity))
-        intensityDuration.append(float(elem.duration))
-
     for elem in meandaytable:
         meandayData.append(float(elem.mean_per_day))
         meandayDate.append(str(elem.mean_day))
@@ -51,6 +47,23 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
 
 
     lastday = data[len(data)-1].date
+    intensityDic = {}
+
+
+    for elem in intensitytable:
+            if(elem.intensity_day == lastday):
+                intensityDic[int(elem.duration)] = float(elem.intensity)
+
+    newKeys = sorted(intensityDic)
+    for key in newKeys:
+        intensityData.append(intensityDic[key])
+
+
+
+
+
+
+
 
     dataDic = {}
     timeCounter = datetime(2000, 1, 1, hour= 0, minute= 0, second=0)
@@ -67,10 +80,6 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         precipitation.append(dataDic[key])
 
 
-
-    shorterintensityData = intensityData[-11:]
-    shorterintensityDuration = intensityDuration[-11:]
-
     maxdayDataShort = maxdayData[-7:]
     mindayDataShort = mindayData[-7:]
     meandayDataShort = meandayData[-7:]
@@ -78,6 +87,8 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
 
 
     lastDay = [str(lastday)]
+
+    print(intensityData)
 
     context = {
         'id': my_id,
@@ -87,8 +98,8 @@ def dynamic_lookup_view(request: HttpRequest, my_id) -> HttpResponse:
         "meanyeartable": meanyeartable,
         "intensitytable": intensitytable,
         "station": station,
-        "intensityData": shorterintensityData,
-        "intensityDuration":shorterintensityDuration,
+        "intensityData": intensityData,
+        "intensityDuration":intensityDuration,
         "meandayData": meandayDataShort,
         "meandayDate": meandayDateShort,
         "maxdayData" : maxdayDataShort,

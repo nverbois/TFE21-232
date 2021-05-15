@@ -405,13 +405,14 @@
 				type: 'line',
 				data: {
 					labels: labelsIntensity ,
-					// datasets: [{
-					// 	label: {{lastDayRegistered|safe}},
-					// 	backgroundColor: window.chartColors.red,
-					// 	borderColor: window.chartColors.red,
-					// 	data: {{intensityData}},
-					// 	fill: false,
-					// }]
+					 datasets: [{
+					 	label: {{lastDayRegistered|safe}},
+					 	backgroundColor: window.chartColors.red,
+					 	borderColor: window.chartColors.red,
+					 	data: {{intensityData}},
+					 	fill: false,
+						lineTension : 0
+					 }]
 				},
 				options: {
 					responsive: true,
@@ -482,6 +483,7 @@
 							borderColor: newColor,
 							data: result[dateToAdd],
 							fill: false,
+							lineTension: 0
 						}	
 						config3.data.datasets.push(newdataset);
 
