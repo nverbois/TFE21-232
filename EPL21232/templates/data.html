@@ -795,7 +795,8 @@
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
-					fill: false
+					fill: false,
+					lineTension: 0
 				};
 				config2.data.datasets.push(newDataset);
 
@@ -808,7 +809,8 @@
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
-					fill: false
+					fill: false,
+					lineTension: 0
 				};
 				config2.data.datasets.push(newDataset);
 
@@ -821,9 +823,67 @@
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
-					fill: false
+					fill: false,
+					lineTension: 0
 				};
 				config2.data.datasets.push(newDataset);
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/addMeanWeekData",
+					
+					success:  function (result) {
+
+						count=Object.keys(result).length;
+						for(var key in result) {
+							var value = result[key];
+							count--;
+							if(count < 7){
+								config2.data.datasets[0].data.push(parseFloat(value));
+								config2.data.labels.push(key);
+							}
+						}
+						myNewChart2.update();
+					}
+				});
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/getMaxWeekData",
+					
+					success:  function (result) {
+
+						count=Object.keys(result).length;
+						for(var key in result) {
+							var value = result[key];
+							count--;
+							if(count < 7){
+								config2.data.datasets[1].data.push(parseFloat(value));
+							}
+						}
+				
+						myNewChart2.update();
+
+					}
+				});
+
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/getMinWeekData",
+					
+					success:  function (result) {
+
+						count=Object.keys(result).length;
+						for(var key in result) {
+							var value = result[key];
+							count--;
+							if(count < 7){
+								config2.data.datasets[2].data.push(parseFloat(value));
+							}
+						}
+				
+						myNewChart2.update();
+
+					}
+				});
 				
 
 				myNewChart2.update();
@@ -942,7 +1002,8 @@
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
-					fill: false
+					fill: false,
+					lineTension: 0
 				};
 				config2.data.datasets.push(newDataset);
 
@@ -955,7 +1016,8 @@
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
-					fill: false
+					fill: false,
+					lineTension: 0
 				};
 				config2.data.datasets.push(newDataset);
 
@@ -968,9 +1030,68 @@
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
-					fill: false
+					fill: false,
+					lineTension: 0
 				};
 				config2.data.datasets.push(newDataset);
+
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/addMeanYearData",
+					
+					success:  function (result) {
+
+						count=Object.keys(result).length;
+						for(var key in result) {
+							var value = result[key];
+							count--;
+							if(count < 7){
+								config2.data.datasets[0].data.push(parseFloat(value));
+								config2.data.labels.push(key);
+							}
+						}
+						myNewChart2.update();
+					}
+				});
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/getMaxYearData",
+					
+					success:  function (result) {
+
+						count=Object.keys(result).length;
+						for(var key in result) {
+							var value = result[key];
+							count--;
+							if(count < 7){
+								config2.data.datasets[1].data.push(parseFloat(value));
+							}
+						}
+				
+						myNewChart2.update();
+
+					}
+				});
+
+
+				$.ajax({
+					url:"/data/"+ {{station.id}}+ "/getMinYearData",
+					
+					success:  function (result) {
+
+						count=Object.keys(result).length;
+						for(var key in result) {
+							var value = result[key];
+							count--;
+							if(count < 7){
+								config2.data.datasets[2].data.push(parseFloat(value));
+							}
+						}
+				
+						myNewChart2.update();
+
+					}
+				});
 				
 
 				myNewChart2.update();
