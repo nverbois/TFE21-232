@@ -2,67 +2,89 @@
 
 {% block title %}Profil{% endblock %}
 
+
+
 {% block content %}
 
-    {% with profil=user.profil %}
-        {% if profil %}
+{% with profil=user.profil %}
+{% if profil %}
 
-    <div id="profilePage">
-        <h1 style="padding-top: 5vh;">
-            {{ profil.name}}
-        </h1>
-
-        <br/>
-
-        <h5>
-            {{user.get_full_name}}
-        </h5>
-        <h5>
-            {{ profil.role|default:"Aucun rôle spécifique sur la plateforme" }}
-        </h5>
-
-        <br/>
-
-        <div>
-            {{ profil.bio|default:"Cette utilisateur ne possède pas de bio" }}
-        </div>
-
-        <div>
-            Other stuff
-        </div>
-
-        <br/>
-        <div>
-            Stations:
-            <br>
-            <br>
-            {% for station in profil.stations.all %}
-                <span>
-                    - {{ station.name }}{% if not forloop.last %},<br> {% endif %} 
-                </span>
-                {% endfor %}
-        </div>
-    </div>
-        {% else %}
-
-    <div id="noProfilePage" style="padding-top: 20vh;"> 
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-auto mx-auto"><p class="lead" style="text-align: center; font-size: x-large;">
-                    Vous n'avez pas encore créé de profil à votre compte utilisateur.
-                    <br>
-                    <br>
-                    Rendez-vous dans l'administration afin d'en créer un, ou contacter un administrateur.
+<div class="profile-page">
+    <div class="page-header header-filter"></div>
+    <div class="main main-raised">
+        <div class="profile-content" style="padding-top: 2vh;">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-md-6 ml-auto mr-auto">
+                        <div class="profile">
+                            <!-- Avatar avec TinyGraphs -->
+                            <div class="avatar">
+                                <div class="box-1-1">
+                                    <div class="profile-img-container img-raised img-fluid rounded-circle">
+                                        <img src="http://tinygraphs.com/labs/isogrids/hexa/{{user.get_full_name}}?theme=seascape&numcolors=4&size=260">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Nom du profil -->
+                            <div class="name">
+                                <h1 class="title" style="padding-top: 2vh;">{{profil.name}}</h1>
+                            </div>
+                            <!-- Informations du profil -->
+                            <div class="name">
+                                <h3 class="title" style="padding-top: 2vh;">{{user.get_full_name}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center" style="padding-top: 5vh;">
+                    <div class="col-md-6 ml-auto mr-auto">
+                        <h5>Rôle sur la plateforme : </h5>
+                            {{ profil.role|default:"Aucun rôle spécifique sur la plateforme" }}
+                        
+                        <h5 style="padding-top: 3vh;">Votre description : </h5>
+                            {{ profil.bio|default:"Cette utilisateur ne possède pas de bio" }}
+                    </div>
+                    <div class="col-md-6 ml-auto mr-auto">
+                        <div>
+                            <h5>Stations sous votre gestion :</h5>
+                            <br>
+                            <br>
+                            {% for station in profil.stations.all %}
+                                <span>
+                                    - {{ station.name }}{% if not forloop.last %},<br> {% endif %}
+                                </span>
+                                {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-        {% endif %}
+{% else %}
 
-    {% endwith %}
-    {% url 'admin:index' as admin_url%}
-    <a class="btn btn-sm btn-outline-secondary float-right" href="{{ admin_url }}" style="margin-right: 5%; margin-top: 15vh;"><h5>Administration</h5></a>
+<div id="noProfilePage" style="padding-top: 20vh;"> 
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-auto mx-auto"><p class="lead" style="text-align: center; font-size: x-large;">
+                Vous n'avez pas encore créé de profil à votre compte utilisateur.
+                <br>
+                <br>
+                Rendez-vous dans l'administration afin d'en créer un, ou contacter un administrateur.
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+
+
+{% endwith %}
+
+{% url 'admin:index' as admin_url%}
+<a class="btn btn-sm btn-outline-secondary float-right" href="{{ admin_url }}" style="margin-right: 5%; margin-top: 5vh;"><h5>Administration</h5></a>
 
 
 {% endblock %}
