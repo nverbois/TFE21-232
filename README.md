@@ -39,3 +39,6 @@ Utilisation de django jet afin de rendre la page d'administration du site web pl
 - To completely clear the database :
 docker volume ls : list all the docker volumes or databases
 docker volume rm "name of the database" : removes the specified DB ( in our case, tfe21-232_db-data ) 
+
+- To realise test:
+  make compose-manage-py cmd="test EPL21232.apps.data.tests"

@@ -193,6 +193,8 @@ class MeanYear(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['station', 'mean_year'], name='unique mean for a year')
         ]
+
+
         
     @property
     def calculate_mean_per_year(self):
@@ -254,7 +256,6 @@ class Intensity(models.Model):
 
     @property
     def calculate_intensity(self):
-        print("go")
         #initialisation de variables
         max_mm = 0
         max_start = 0
@@ -368,11 +369,6 @@ class Intensity(models.Model):
                     intensity_object.end_interval = max_time
                     intensity_object.intensity = intensity_value
 
-                    print('info Intensity')
-                    print(day_max)
-                    print(min_time)
-                    print(max_time)
-                    print(intensity_value)
 
                     intensity_object.save()
         return "ok"
