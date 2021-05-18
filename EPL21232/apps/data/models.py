@@ -32,7 +32,7 @@ def weekrange(start_week, end_week):
 class Station(models.Model):
     # Default location of a station is Haiti center
     name = models.CharField(max_length=64, unique=True, verbose_name="Nom")
-    normalized_name = models.CharField(max_length=64, unique=True)
+    # normalized_name = models.CharField(max_length=64, unique=True)
     description = models.CharField(max_length=128, blank=True)
     longitude = models.DecimalField(max_digits=13,decimal_places=8, default=-72.285215)
     latitude = models.DecimalField(max_digits=13,decimal_places=8, default=18.971187)
