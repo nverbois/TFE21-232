@@ -6,7 +6,7 @@ from . import views
 app_name="data"
 urlpatterns = [
     path("", views.data, name="data"),
-    path("<int:my_id>", views.dynamic_lookup_view, name="station_data"),
+    path("<int:my_id>", views.dynamic_lookup_view, name='station_data'),
     path("<int:my_id>/getMeanDayData", views.getMeanDayData, name="getMeanDayData"),
     path("<int:my_id>/addMeanDayData", views.addMeanDayData, name="addMeanDayData"),
     path("<int:my_id>/getMeanWeekData", views.getMeanWeekData, name="getMeanWeekData"),
