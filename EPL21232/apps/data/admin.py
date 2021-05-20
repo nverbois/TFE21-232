@@ -13,6 +13,7 @@ from import_export.signals import post_import
 class StationAdmin(admin.ModelAdmin):
     # a list of displayed columns name.
     list_display = ("name","longitude","latitude")
+    search_fields = ('name',)
 
 
 # class MeanDayInline(admin.StackedInline):
@@ -26,12 +27,12 @@ class DataAdmin(ImportMixin, admin.ModelAdmin):
     import_template_name = 'admin/import_export/import.html'
     list_display = ("station", "date", "heure", "mesure")
     # readonly_fields=("valuetest",)
-
     def get_import_form(self):
         # Uncomment only if data is stored already in the database
         # MeanDay().calculate_mean_per_day # Test to see if average works
         # MeanYear().calculate_mean_per_year
         return CustomImportForm
+    search_fields = ('station__name', 'date',)
     
 #     def get_confirm_import_form(self):
 #         return CustomConfirmImportForm
@@ -58,17 +59,21 @@ def _post_import(model, **kwargs):
 
 class MeanDayAdmin(admin.ModelAdmin):
     list_display = ("station", "mean_day", "min_per_day","max_per_day", "mean_per_day")
+    search_fields = ('station__name', 'mean_day',)
 
 
 class MeanWeekAdmin(admin.ModelAdmin):
     list_display = ("station", "mean_week", "min_per_week","max_per_week", "mean_per_week")
+    search_fields = ('station__name', 'mean_week',)
 
 
 class MeanYearAdmin(admin.ModelAdmin):
     list_display = ("station", "mean_year", "min_per_year","max_per_year", "mean_per_year")
+    search_fields = ('station__name', 'mean_year',)
 
 class IntensityAdmin(admin.ModelAdmin):
     list_display = ("station", "intensity_day", "duration","max_amount", "start_interval","end_interval","intensity")
+    search_fields = ('station__name', 'intensity_day', 'duration',)
 
 
 admin.site.register(Station, StationAdmin)
