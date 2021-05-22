@@ -76,9 +76,9 @@ class MeanDay(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
 
     mean_day = models.DateField(verbose_name="Jour")
-    mean_per_day =  models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Moyenne journalière")
-    max_per_day = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Maximum journalier")
-    min_per_day = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Minimum journalier")
+    mean_per_day =  models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Moyenne journalière [mm]")
+    max_per_day = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Maximum journalier [mm]")
+    min_per_day = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Minimum journalier [mm]")
 
     
     class Meta:
@@ -126,9 +126,9 @@ class MeanWeek(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # Date du jour du début de la semaine de la moyenne
     mean_week = models.DateField(verbose_name="Semaine")
-    mean_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Moyenne hebdomadaire")
-    max_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Maximum hebdomadaire")
-    min_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Minimum hebdomadaire")
+    mean_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Moyenne hebdomadaire [mm]")
+    max_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Maximum hebdomadaire [mm]")
+    min_per_week = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Minimum hebdomadaire [mm]")
 
     class Meta:
         ordering = ['mean_week']
@@ -182,9 +182,9 @@ class MeanYear(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     # Année de la moyenne
     mean_year = models.IntegerField(verbose_name="Année")
-    mean_per_year = models.DecimalField(max_digits=10,decimal_places=6,default=0,verbose_name="Moyenne annuelle")
-    max_per_year = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Maximum annuel")
-    min_per_year = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Minimum annuel")
+    mean_per_year = models.DecimalField(max_digits=10,decimal_places=6,default=0,verbose_name="Moyenne annuelle [mm]")
+    max_per_year = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Maximum annuel [mm]")
+    min_per_year = models.DecimalField(max_digits=10,decimal_places=6,default = 0,verbose_name="Minimum annuel [mm]")
 
     class Meta:
         ordering = ['mean_year']
@@ -238,13 +238,13 @@ class MeanYear(models.Model):
 class Intensity(models.Model):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
 
-    intensity_day = models.DateField()
-    duration = models.DecimalField(max_digits=10,decimal_places=0,default = 1)
+    intensity_day = models.DateField(verbose_name="Jour")
+    duration = models.DecimalField(max_digits=10,decimal_places=0,default = 1, verbose_name="Durée [min]")
     # Nous allons utilisés des nombres décimaux à 10 chiffes maximum et une presicion de 3 après la virgule du nombre.
-    max_amount = models.DecimalField(max_digits=10,decimal_places=3,default = 0)
-    start_interval = models.TimeField(verbose_name="Start Interval", default='00:00')
-    end_interval = models.TimeField(verbose_name="End Interval", default='23:59')
-    intensity = models.DecimalField(max_digits=10,decimal_places=3,default = 0)
+    max_amount = models.DecimalField(max_digits=10,decimal_places=3,default = 0, verbose_name="Maximum mesuré [mm]")
+    start_interval = models.TimeField(default='00:00', verbose_name="Début de l'intervalle")
+    end_interval = models.TimeField(default='23:59', verbose_name="Fin de l'intervalle")
+    intensity = models.DecimalField(max_digits=10,decimal_places=3,default = 0, verbose_name="Valeur d'intensité [mm]")
 
     class Meta:
         verbose_name = 'Intensité pluviométrique'

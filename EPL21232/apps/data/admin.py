@@ -58,21 +58,21 @@ def _post_import(model, **kwargs):
     Intensity().calculate_intensity
 
 class MeanDayAdmin(admin.ModelAdmin):
-    list_display = ("station", "mean_day", "min_per_day","max_per_day", "mean_per_day")
+    list_display = ("station", "mean_day", "mean_per_day", "min_per_day","max_per_day",)
     search_fields = ('station__name', 'mean_day',)
 
 
 class MeanWeekAdmin(admin.ModelAdmin):
-    list_display = ("station", "mean_week", "min_per_week","max_per_week", "mean_per_week")
+    list_display = ("station", "mean_week", "mean_per_week", "min_per_week","max_per_week",)
     search_fields = ('station__name', 'mean_week',)
 
 
 class MeanYearAdmin(admin.ModelAdmin):
-    list_display = ("station", "mean_year", "min_per_year","max_per_year", "mean_per_year")
+    list_display = ("station", "mean_year", "mean_per_year", "min_per_year","max_per_year",)
     search_fields = ('station__name', 'mean_year',)
 
 class IntensityAdmin(admin.ModelAdmin):
-    list_display = ("station", "intensity_day", "duration","max_amount", "start_interval","end_interval","intensity")
+    list_display = ("station", "intensity_day", "duration", "intensity", "max_amount", "start_interval","end_interval",)
     search_fields = ('station__name', 'intensity_day', 'duration',)
 
 

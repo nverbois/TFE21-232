@@ -121,8 +121,8 @@ class User(AbstractBaseUser):
 # Users also have a persona ( technician, system administrators, ... )
 # They will be website generated, the system administrator will generate them, none of the users will be able to 
 class UserRole(models.Model):
-    name = models.CharField(max_length=64, unique=True)
-    narmalized_name = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=64, unique=True, verbose_name='Nom du rôle')
+    narmalized_name = models.CharField(max_length=64, unique=True, verbose_name='Nom normalisé (ex: admin_réseau)')
     description = models.CharField(max_length=200)
 
     def __str__(self):
@@ -138,11 +138,11 @@ class UserProfile(models.Model):
 
     # Foreign key, I want the user profile to reference a particular user
     # When we have our user reference from request.user, we can reference the profile of the user using request.user.profile
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profil")
-    firstname = models.CharField(max_length=64, blank=True)
-    lastname = models.CharField(max_length=64, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profil",  verbose_name='Utilisateur')
+    firstname = models.CharField(max_length=64, blank=True,  verbose_name='Prénom')
+    lastname = models.CharField(max_length=64, blank=True, verbose_name='Nom')
 
-    def name(self):
+    def nom(self):
         ret = self.firstname + ' ' + self.lastname
         return ret
 
@@ -150,12 +150,12 @@ class UserProfile(models.Model):
     is_full_name_displayed = models.BooleanField(default=True)
 
     # Details. A user posses a bio and 
-    bio = models.CharField(max_length=500, blank=True)
+    bio = models.CharField(max_length=500, blank=True, verbose_name='Description')
 
     # Our user profile can point at a User Persona, but they can't modify this.
     # Multiple user profile can point at the same user persona
-    role = models.ForeignKey(UserRole, on_delete=models.SET_NULL, blank=True, null=True)
-    stations = models.ManyToManyField(Station, blank=True)
+    role = models.ForeignKey(UserRole, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Rôle sur la plateforme')
+    stations = models.ManyToManyField(Station, blank=True, verbose_name='Stations sous gestion de l\'utilisateur')
 
     class Meta:
         verbose_name = 'Profil utilisateur'

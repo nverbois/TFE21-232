@@ -23,7 +23,7 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('email', 'admin', 'active', 'staff')
+    list_display = ('email', 'active', 'staff', 'admin')
     list_filter = ('admin',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
@@ -52,7 +52,8 @@ admin.site.unregister(Group)
 
 class ProfileAdmin(admin.ModelAdmin):
     # a list of displayed columns name.
-    list_display = ['name']
+    list_display = ['nom', 'user', 'role']
+    search_fields = ('firstname', 'lastname')
     form = ProfileForm
    
 
