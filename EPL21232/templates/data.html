@@ -65,6 +65,7 @@
 		<script>
 			$(document).ready( function () {
 				$.noConflict();
+				$.fn.DataTable.moment('MM-DD-YYYY');
 				$('#table_data').DataTable();
 				$('#table_mean_day').DataTable();
 				$('#table_mean_week').DataTable();
