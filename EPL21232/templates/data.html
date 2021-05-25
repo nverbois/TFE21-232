@@ -50,7 +50,7 @@
 				<tbody>
 					{% for elem in data %}
 					<tr>
-						<td>{{elem.date}}</td>
+						<td>{{elem.date|date:"d-m-Y"}}</td>
 						<td>{{elem.heure}}</td>
 						<td>{{elem.mesure}}</td>
 					</tr>
@@ -95,7 +95,7 @@
 			<tbody>
 				{% for elem in meandaytable %}
 				<tr>
-					<td>{{elem.mean_day}}</td>
+					<td>{{elem.mean_day|date:"d-m-Y"}}</td>
 					<td>{{elem.mean_per_day}}</td>
 					<td>{{elem.max_per_day}}</td>
 					<td>{{elem.min_per_day}}</td>
@@ -201,7 +201,7 @@
 			<tbody>
 				{% for elem in intensitytable %}
 				<tr>
-					<td>{{elem.intensity_day}}</td>
+					<td>{{elem.intensity_day|date:"d-m-Y"}}</td>
 					<td>{{elem.duration}}</td>
 					<td>{{elem.max_amount}}</td>
 					<td>{{elem.intensity}}</td>
