@@ -44,6 +44,7 @@ class ModelTest(TestCase):
             self.assertTrue(isinstance(mean, MeanDay))
             if(str(mean.mean_day) =="2000-01-02"):
                 self.assertEqual(mean.mean_per_day, 2.0)
+                
             if(str(mean.mean_day) =="2000-01-03"):
                 self.assertEqual(mean.mean_per_day ,0.0)
             if(str(mean.mean_day) =="2000-01-04"):
@@ -230,11 +231,11 @@ class ViewTest(TestCase):
         response = self.client.get('')
         self.assertEqual(response.status_code, 200)
 
-    def test_view_dynamic_lookup(self):
-        print(views)
-        path = reverse(views.dynamic_lookup_view, kwargs={'my_id': 7})
-        response = self.client.get(path)
-        self.assertEqual(response.status_code, 200)
+    # def test_view_dynamic_lookup(self):
+    #     print(views)
+    #     path = reverse(views.dynamic_lookup_view, kwargs={'my_id': 7})
+    #     response = self.client.get(path)
+    #     self.assertEqual(response.status_code, 200)
 
 
 
