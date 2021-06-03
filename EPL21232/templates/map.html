@@ -47,11 +47,13 @@
                 
                 var feature_list=[];
                 {% for elem in stations %}
+                     {% for value in data %}
 
                     feature_list.push(new ol.Feature({
-                                    geometry: new ol.geom.Point(ol.proj.fromLonLat([{{elem.longitude | js}}, {{elem.latitude | js}}])),
-                                    description: '<p><a href="/data/{{elem.id}}">{{elem.name}}</a></p>'
-                                }));
+                                        geometry: new ol.geom.Point(ol.proj.fromLonLat([{{elem.longitude | js}}, {{elem.latitude | js}}])),
+                                        description: '<p><a href="/data/{{elem.id}}">{{elem.name}}</a></p>'
+                                    }));
+
                 {% endfor %}
 
                 var layer = new ol.layer.Vector({

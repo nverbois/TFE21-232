@@ -309,3 +309,11 @@ def addDailyIntensity(request,my_id):
         
 
     return JsonResponse(intensityDic, safe = False)
+
+def isEmpty(request,my_id):
+    station = Station.objects.get(id=my_id)
+    data = Data.objects.order_by('-date','-heure').filter(station=station)[:10000][::-1]
+    if len(data) == 0:
+         return JsonResponse(True, safe = False)
+    else:
+        return JsonResponse(False, safe = False)

@@ -21,4 +21,5 @@ urlpatterns = [
     path("<int:my_id>/addDailyIntensity", views.addDailyIntensity, name="addDailyIntensity"),
     path("<int:my_id>/addMeanWeekData", views.addMeanWeekData, name="addMeanWeekData"),
     path("<int:my_id>/addMeanYearData", views.addMeanYearData, name="addMeanYearData"),
+    path("<int:my_id>/isEmpty", views.isEmpty, name="isEmpty"),
 ]
