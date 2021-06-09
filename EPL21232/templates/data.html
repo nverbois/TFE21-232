@@ -17,7 +17,6 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/1.10.24/sorting/datetime-moment.js"></script>
-
     
 
 	<style>
@@ -219,11 +218,31 @@
 		$(document).ready( function () {
 			$.noConflict();
 			$.fn.dataTable.moment('DD-MM-YYYY');
-			$('#table_data').DataTable();
-			$('#table_mean_day').DataTable();
-			$('#table_mean_week').DataTable();
-			$('#table_mean_year').DataTable();
-			$('#table_intensity').DataTable();
+			$('#table_data').DataTable({
+				"language": {
+					"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+				}
+			});
+			$('#table_mean_day').DataTable({
+				"language": {
+					"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+				}
+			});
+			$('#table_mean_week').DataTable({
+				"language": {
+					"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+				}
+			});
+			$('#table_mean_year').DataTable({
+				"language": {
+					"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+				}
+			});
+			$('#table_intensity').DataTable({
+				"language": {
+					"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+				}
+			});
 		} );
 	</script>
 
@@ -234,7 +253,7 @@
 	</p>
 
 
-	<a class="btn btn-sm btn-outline-secondary active" id="showDataGraph" style="margin-left: 3%;">Graphes des mesures simples</a>
+	<a class="btn btn-sm btn-outline-secondary active" id="showDataGraph" style="margin-left: 3%;">Graphes des mesures</a>
 	<a class="btn btn-sm btn-outline-secondary" id="showMeanGraph" style="margin-left: 1%; margin-right: 1%;">Graphes des moyennes</a>
 	<a class="btn btn-sm btn-outline-secondary" id="showIntensityGraph">Graphes des intensités</a>
 
@@ -289,29 +308,29 @@
 					<a class="btn btn-sm btn-outline-secondary active" style="margin-left: -3vh;" id="meanDayButton">Afficher moyennes journalières</a><br>
 					<br>
 					<p class="lead" style="font-size: medium;" id="meanDayDesc">
-						Entrez une date dans le champ ci-dessous, au format indiqué, et appuyez ensuite
-						sur le bouton pour enlever une courbe du graphe.
+						Entrez une date dans un des champs ci-dessous, au format indiqué, et appuyez ensuite
+						sur le bouton pour effectuer l'action de votre choix.
 					</p>
 					<br>
 					<a class="btn btn-sm btn-outline-secondary" id="addMeanDayButton">Ajouter une journée </a>
 					<input type="text" id="addMeanDay" name="addMeanDay" placeholder = "2021-03-12" size="10" style="padding-bottom: 0.75vh; margin-left: 0.3vw;">
 					<br>
 					<a class="btn btn-sm btn-outline-secondary" style="padding-right: 0.85vw;" id="removeMeanDayDatasetButton">Retirer une journée</a>
-					<input type="text" id="removeMeanDayDataset" name="removeMeanDayDataset" placeholder = "2021-03-13"  size="10" style="padding-bottom: 0.75vh; margin-left: 0.3vw; margin-bottom: 5vh;">
+					<input type="text" id="removeMeanDayDataset" name="removeMeanDayDataset" placeholder = "2021-03-13"  size="10" style="padding-bottom: 0.75vh; margin-left: 0.3vw; ">
 
 					<br>
 					<a class="btn btn-sm btn-outline-secondary" id="meanWeekButton" style="margin-top: 5%; margin-left: -3vh;">Afficher moyennes hebdomadaires</a><br>
 					<br>
 					<p class="lead" style="font-size: medium; margin-top: 5vh; display: none;" id="meanWeekDesc">
-						Entrez une date dans le champ ci-dessous, au format indiqué, et appuyez ensuite
-						sur le bouton pour enlever une courbe du graphe.
+						Entrez une date dans un des champs ci-dessous, au format indiqué, et appuyez ensuite
+						sur le bouton pour effectuer l'action de votre choix.
 					</p>
 					<br>
 					<a class="btn btn-sm btn-outline-secondary" id="addMeanWeekButton" style="display: none;">Ajouter une semaine</a>
 					<input type="text" id="addMeanWeek" name="addMeanWeek" placeholder = "2021-03-13" style="display: none;" size="10" style="padding-bottom: 0.75vh; margin-left: 0.3vw;">
 					<br>
 					<a class="btn btn-sm btn-outline-secondary"  id="removeMeanWeekDatasetButton" style="padding-right: 0.55vw; display: none;">Retirer une semaine</a>
-					<input type="text" id="removeMeanWeekDataset" name="removeMeanWeekDataset" placeholder = "2021-03-13" style="padding-bottom: 0.75vh; margin-left: 0.3vw; margin-bottom: 5vh; display: none;" size="10">
+					<input type="text" id="removeMeanWeekDataset" name="removeMeanWeekDataset" placeholder = "2021-03-13" style="padding-bottom: 0.75vh; margin-left: 0.3vw; display: none;" size="10">
 
 					<br>
 					<a class="btn btn-sm btn-outline-secondary" id="meanYearButton" style="margin-top: 5%; margin-left: -3vh;">Afficher moyennes annuelles</a><br>
@@ -325,7 +344,7 @@
 					<input type="text" id="addMeanYear" name="addMeanYear" placeholder = "2021" style="display: none;" size="10" style="padding-bottom: 0.75vh; margin-left: 0.3vw;">
 					<br>
 					<a class="btn btn-sm btn-outline-secondary" id="removeMeanYearDatasetButton" style="padding-right: 0.55vw; display: none;">Retirer une année</a>
-					<input type="text" id="removeMeanYearDataset" name="removeMeanYearDataset" placeholder = "2021" style="padding-bottom: 0.75vh; margin-left: 0.3vw; margin-bottom: 5vh; display: none;" size="10">
+					<input type="text" id="removeMeanYearDataset" name="removeMeanYearDataset" placeholder = "2021" style="padding-bottom: 0.75vh; margin-left: 0.3vw; display: none;" size="10">
 					
 				</div>
 			</div>
@@ -427,7 +446,7 @@
 					responsive: true,
 					title: {
 						display: true,
-						text: 'Courbes d\'intensitées jour'
+						text: 'Courbes d\'intensités pluviométriques journalières'
 					},
 					tooltips: {
 						mode: 'index',
@@ -442,14 +461,14 @@
 							display: true,
 							scaleLabel: {
 								display: true,
-								labelString: 'Durée'
+								labelString: 'Durée [min]'
 							}
 						}],
 						yAxes: [{
 							display: true,
 							scaleLabel: {
 								display: true,
-								labelString: 'Valeur'
+								labelString: 'Valeur [mm]'
 							}
 						}]
 					}
@@ -541,7 +560,7 @@
 					bezierCurve: false,
 					title: {
 						display: true,
-						text: 'Courbe des moyennes pluviométriques'
+						text: 'Courbes des moyennes pluviométriques'
 					},
 					tooltips: {
 						mode: 'index',
@@ -604,7 +623,7 @@
 				var b = Math.floor(Math.random() * 255);
 				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
 				var newDataset = {
-					label: 'Valeurs maximale journalières',
+					label: 'Valeurs maximales journalières',
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
@@ -618,7 +637,7 @@
 				var b = Math.floor(Math.random() * 255);
 				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
 				var newDataset = {
-					label: 'Valeurs minimale journalières',
+					label: 'Valeurs minimales journalières',
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
@@ -797,7 +816,7 @@
 				var b = Math.floor(Math.random() * 255);
 				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
 				var newDataset = {
-					label: 'Valeurs moyennes hebdommadaires',
+					label: 'Valeurs moyennes hebdomadaires',
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
@@ -811,7 +830,7 @@
 				var b = Math.floor(Math.random() * 255);
 				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
 				var newDataset = {
-					label: 'Valeurs maximale hebdommadaires',
+					label: 'Valeurs maximales hebdomadaires',
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
@@ -825,7 +844,7 @@
 				var b = Math.floor(Math.random() * 255);
 				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
 				var newDataset = {
-					label: 'Valeurs minimale hebdommadaires',
+					label: 'Valeurs minimales hebdomadaires',
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
@@ -999,7 +1018,7 @@
 				var b = Math.floor(Math.random() * 255);
 				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
 				var newDataset = {
-					label: 'Valeurs moyennes annuelle',
+					label: 'Valeurs moyennes annuelles',
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
@@ -1013,7 +1032,7 @@
 				var b = Math.floor(Math.random() * 255);
 				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
 				var newDataset = {
-					label: 'Valeurs maximale annuelle',
+					label: 'Valeurs maximales annuelles',
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
@@ -1027,7 +1046,7 @@
 				var b = Math.floor(Math.random() * 255);
 				var newColor =  "rgb(" + r + "," + g + "," + b + ")";
 				var newDataset = {
-					label: 'Valeurs minimale annuelle',
+					label: 'Valeurs minimales annuelles',
 					backgroundColor: newColor,
 					borderColor: newColor,
 					data: [],
@@ -1221,14 +1240,14 @@
 							display: true,
 							scaleLabel: {
 								display: true,
-								labelString: 'Heures'
+								labelString: 'Heure'
 							}
 						}],
 						yAxes: [{
 							display: true,
 							scaleLabel: {
 								display: true,
-								labelString: 'Valeur'
+								labelString: 'Valeur [mm]'
 							}
 						}]
 					}
