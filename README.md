@@ -17,7 +17,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li><a href="#usage">Utilisation</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgements">Acknowledgements</a></li>
@@ -27,120 +27,139 @@
 <!-- ABOUT THE PROJECT -->
 ## A propos
 
+Cette application a été concue par deux étudiants ingénieurs belges dans le cadre de leur mémoire. Ce travail a été le fruit d'un partenariat entre l'Université de Louvain-La-Neuve et l'Université d'état d'Haïti. Ce projet a pour mission d'aider la population haïtienne à accéder aux données pluviométriques à l'aide d'une carte interactive du pays affichant les différentes stations pluviométriques. 
+
+Vous trouverez premièrement une carte interactive d'Haïti sur laquelle vous distinguerez les différentes stations répertoriées. Vous aurez aussi l'opportunité de comparer les différentes données présentes sur notre site web et de réaliser des statistiques au travers de tableaux comparatifs et de graphiques qui seront à votre disposition.
+
 ### Développé avec
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+* [Django](https://www.djangoproject.com)
 * [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
-* [Laravel](https://laravel.com)
+* [PostGreSQL](https://www.postgresql.org)
+
 
 <!-- GETTING STARTED -->
-## Getting Started
+## Guide démarrage
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Les prérequis pour cette application sont légers et se limitent à avoir Make et Docker ( Engine + Compose ) installés au préalable. 
 
 ### Prérequis
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+#### Make
+
+* make ( sous MacOS ou Linux)
   ```sh
-  npm install npm@latest -g
+  brew install make
   ```
+* make ( sous Windows)
+  ```sh
+  scoop install make
+  ```
+  
+#### Docker Engine
+Rendez-vous sur le site officiel de Docker Engine, à l'adresse: https://docs.docker.com/engine/install/. Pour Windows/MacOS, vous pourrez simplement installer l'application Docker desktop, tandis que pour Linux, différents fichiers d'installation (.deb ou .rpm) sont disponibles à l'adresse précédente. 
+
+#### Docker Compose
+
+Enfin, il vous suffira de finir par installer Docker Compose, dont les détails selon les systèmes d'exploitation sont disponibles à l'adresse: https://docs.docker.com/compose/install/. Il s’agit de l’adresse officielle du guide d’installation de Docker Compose.
+Un autre lien utile de Compose propre au framework que nous utilisons, Django, est: https://docs.docker.com/compose/django/
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Obtenez une clef d'API gratuite aurpès de [SendGrid](https://sendgrid.com/docs/ui/account-and-settings/api-keys/)
+2. Clonez le répertoire
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/nverbois/TFE21-232.git
    ```
-3. Install NPM packages
+3. Construisez l'application
    ```sh
-   npm install
+   Make build
    ```
-4. Enter your API in `config.js`
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
+4. Entrez votre clef d'API dans `EPL21232/settings.py`
+   ```py
+   SENDGRID_API_KEY = 'ENTREZ VOTRE CLEF API';
    ```
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Utilisation
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+* Construire l'application (la première fois)
+  ```sh
+  make build
+  ```
+  
+* Lancer l'application 
+  ```sh
+  make compose-start
+  ```
+  
+* Arrêter l'application 
+  ```sh
+  make compose-stop
+  ```
+  
+* Créer un super-utilisateur 
+  ```sh
+  make compose-manage-py cmd="createsuperuser"
+  ```
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+* Créer les migrations de la base de données 
+  ```sh
+  make compose-manage-py cmd="makemigrations"
+  ```
+  
+* Appliquer les migrations
+  ```sh
+  make compose-manage-py cmd="migrate"
+  ```
+  
+* Ouvrir le Shell de PostGreSQL
+  ```sh
+  docker-compose exec postgres psql -U postgres
+  ```
+* Lister les volumes de Docker
+  ```sh
+  docker volume ls
+  ```
+* Remettre à zéro la base de données
+  ```sh
+  docker volume rm tfe21-232_db-data
+  ```
+* Lancer les tests unitaires
+  ```sh
+  make compose-manage-py cmd="test EPL21232.apps.data.tests"
+  ```
+  
+  
 
 <!-- LICENSE -->
-## License
+## Licence
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Ce projet est distribué sous licence MIT. Consultez la section `LICENSE` pour plus d'informations.
 
 
 
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Nicolas Verbois - nicolasverbois@student.uclouvain.be
+
+Florian Duprez - florianduprez@student.uclouvain.be
 
 Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
 
 
 
 <!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Pages](https://pages.github.com)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)
+## Remerciements
+* [Start BootStrap](https://startbootstrap.com/previews/freelancer)
+* [Chart.JS](https://www.chartjs.org)
+* [OpenLayers](https://openlayers.org)
+* [DataTables](https://datatables.net/manual/api)
+* [Django Import/Export](https://django-import-export.readthedocs.io/en/latest/)
+* [Django Jet](http://jet.geex-arts.com)
+* [TinyGraphs](https://www.tinygraphs.com/)
 
-Développement d'une application Web pour la gestion des donnéess pluviométriques.
-Le site web sera développé autour du Framework Django, et utilisera PostGres pour la base de données.
 
-Nous allons créer des instances de Docker Compose afin de faciliter le déploiement de l'application:  
-https://docs.docker.com/compose/django/
 
-Docker Engine
-Docker Compose
 
-Pour démarrer le site web : 
-
-- make build ( la première fois )
-- make compose-start
-- make compose-stop ( quand vous voulez terminer les containers docker qui tournent en fond )
-- make compose-manage-py cmd="createsuperuser" pour créer un super-utilisateur
-- make compose-manage-py cmd="makemigrations" pour créer les migrations
-- make compose-manage-py cmd="migrate" pour appliquer les migrations
-
-FrontEnd : bootstrap with https://startbootstrap.com/previews/freelancer
-
-Utilisation de Chart.js pour les graphes en utilisant un CDN 
-
-Utilisation de MapBox et OpenStreetView pour la varte interactive au travers d'un CDN
-
-Utilisation de DataTables, un plug-in pour la bibliothèque jQuery Javascript. Ajoute toutes sortes de fonctionnalités avancées à n'importe quel tableau HTML.
-https://datatables.net/manual/api
-
-Utilisation de django-import-export afin de facilement importer des données pluviométriques aux formats csv, xsl, ... ( https://django-import-export.readthedocs.io/en/latest/installation.html#settings )
-
-https://www.tinygraphs.com/ pour des images de profil générées aléatoirement
-
-Utilisation de django jet afin de rendre la page d'administration du site web plus jolie : https://pypi.org/project/django-3-jet/
-  => fix django-import-export compatibility with https://github.com/django-import-export/django-import-export/issues/618
-
-- To lauch the DB Shell :
-  sudo docker-compose exec postgres psql -U postgres
-
-- To completely clear the database :
-docker volume ls : list all the docker volumes or databases
-docker volume rm "name of the database" : removes the specified DB ( in our case, tfe21-232_db-data ) 
-
-- To realise test:
-  make compose-manage-py cmd="test EPL21232.apps.data.tests"
