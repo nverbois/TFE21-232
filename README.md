@@ -159,7 +159,10 @@ Project Link: [https://github.com/nverbois/TFE21-232](https://github.com/nverboi
 * [Django Import/Export](https://django-import-export.readthedocs.io/en/latest/)
 * [Django Jet](http://jet.geex-arts.com)
 * [TinyGraphs](https://www.tinygraphs.com/)
+* [Split Date and Time in Excel](https://www.excel-exercise.com/split-date-and-time/)
+* [How to quickly convert time to text in Excel](https://www.extendoffice.com/documents/excel/5399-excel-convert-time-to-text-or-number-of-hours-minutes-seconds.html)
 * [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+
 
 
 
