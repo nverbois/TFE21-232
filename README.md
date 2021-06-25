@@ -18,9 +18,9 @@
       </ul>
     </li>
     <li><a href="#usage">Utilisation</a></li>
-    <li><a href="#license">License</a></li>
+    <li><a href="#license">Licence</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
+    <li><a href="#acknowledgements">Remerciements</a></li>
   </ol>
 </details>
 
