@@ -39,7 +39,7 @@ Vous trouverez premièrement une carte interactive d'Haïti sur laquelle vous di
 
 
 <!-- GETTING STARTED -->
-## Guide démarrage
+## Guide de démarrage
 
 Les prérequis pour cette application sont légers et se limitent à avoir Make et Docker ( Engine + Compose ) installés au préalable. 
 
