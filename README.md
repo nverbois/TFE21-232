@@ -5,22 +5,22 @@
   <summary>Table des matières</summary>
   <ol>
     <li>
-      <a href="#about-the-project">A propos</a>
+      <a href="#a-propos">A propos</a>
       <ul>
-        <li><a href="#built-with">Développé avec</a></li>
+        <li><a href="#développé-avec">Développé avec</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Guide de démarrage</a>
+      <a href="#guide-de-démarrage">Guide de démarrage</a>
       <ul>
-        <li><a href="#prerequisites">Prérequis</a></li>
+        <li><a href="#prérequis">Prérequis</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Utilisation</a></li>
-    <li><a href="#license">Licence</a></li>
+    <li><a href="#utilisation">Utilisation</a></li>
+    <li><a href="#licence">Licence</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Remerciements</a></li>
+    <li><a href="#remerciements">Remerciements</a></li>
   </ol>
 </details>
 
